@@ -474,6 +474,7 @@ Minimum safe lab flow нека буде:
 - `../infra/aws/odoo-dev-ec2-compose/RUNBOOK.md`
 - `../infra/aws/odoo-prod-ec2-compose/README.md`
 - `../infra/aws/odoo-prod-ec2-compose/RUNBOOK.md`
+------------------------------------------------------------------------------------------------------------------
 
 ## 99) Задатак на komiti_academy пројекту за кандидата
 
@@ -485,6 +486,7 @@ Minimum safe lab flow нека буде:
 Референца: Ово је објашњено у поглављима `## 3) Docker и container основе које мораш знати`, `## 12) Како се AWS, Docker и Terraform вежу у један flow` и `## 17) Minimal safe workflow у KomITi-ју`.
 4. Осмисли и локално опиши Terraform lab у свом репоу `komiti_academy_ime_polaznika` који преко Docker Desktop-а подиже Postgres и Odoo stack за локални `dev` runtime, са јасном структуром фајлова, variables, outputs и јасним редослиједом рада.
 Референца: Ово је објашњено у поглављима `## 8) Variables и \`terraform.tfvars\``, `## 9) Структура директоријума: општа и KomITi конкретна`, `## 10) Plan није формалност`, `## 17) Minimal safe workflow у KomITi-ју` и `## 20) Local Terraform + Docker Desktop lab за кандидата`.
+------------------------------------------------------------------------------------------------------------------
 
 ## 99) Рјешења
 

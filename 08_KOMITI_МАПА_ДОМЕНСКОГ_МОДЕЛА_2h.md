@@ -1,6 +1,7 @@
 # KomITi Domain Model Map
 
 Овај документ објашњава систем не као збир фајлова, него као domain map. Циљ је да нови инжењер разумије гдје су главни пословни токови и који custom модули носе ту логику.
+------------------------------------------------------------------------------------------------------------------
 
 ## 1) Велика слика
 
@@ -10,6 +11,7 @@ KomITi систем у овом репоу се може читати кроз 5
 - dispatching и resource allocation,
 - website / lead capture,
 - internal ops / AI / administration.
+------------------------------------------------------------------------------------------------------------------
 
 ## 2) Projects и tasks
 
@@ -28,6 +30,7 @@ KomITi custom layer:
 - custom fields по пројекту/таску,
 - project members,
 - task value extension patterns.
+------------------------------------------------------------------------------------------------------------------
 
 ## 3) Timesheets и costing
 
@@ -48,6 +51,7 @@ KomITi custom layer:
 - employee hourly rate logic,
 - timesheet day wizard,
 - додатне validation/business rule слојеве.
+------------------------------------------------------------------------------------------------------------------
 
 ## 4) Dispatching и resource allocation
 
@@ -66,6 +70,7 @@ Modules:
 - везивање људи/ресурса за dispatch order,
 - приказ и манипулација временским оквирима,
 - search/filtering по operational стањима.
+------------------------------------------------------------------------------------------------------------------
 
 ## 5) Website и lead capture
 
@@ -79,6 +84,7 @@ Modules:
 - content sections,
 - website form behaviour који води у CRM,
 - asset/runtime difference између source и rendered HTML/CSS-а.
+------------------------------------------------------------------------------------------------------------------
 
 ## 6) Internal ops
 
@@ -91,6 +97,7 @@ Modules:
 - Odoo може бити UI за operations, не само ERP screens,
 - `ir.config_parameter` и settings pattern су реалан KomITi use-case,
 - runtime safety и permissions су critical.
+------------------------------------------------------------------------------------------------------------------
 
 ## 7) AI / automation слој
 
@@ -105,6 +112,7 @@ Module:
 - config settings,
 - rule engine thinking,
 - external service orchestration.
+------------------------------------------------------------------------------------------------------------------
 
 ## 8) Employees и fleet
 
@@ -113,6 +121,7 @@ Supporting modules:
 - `komiti_fleet`
 
 Ови модули су корисни да видиш како се domain data и seed/import patterns интегришу у шири систем.
+------------------------------------------------------------------------------------------------------------------
 
 ## 9) Како domain zone-ови комуницирају
 
@@ -131,6 +140,7 @@ Website capture може бити upstream за customer/contact/project-related
 ### Ops <-> Runtime
 
 Ops modules не мијењају само data; они утичу на инфраструктурни и runtime behaviour.
+------------------------------------------------------------------------------------------------------------------
 
 ## 10) Шта нови инжењер мора знати напамет
 
@@ -140,6 +150,7 @@ Ops modules не мијењају само data; они утичу на инфр
 - `komiti_gantt` је advanced custom UI extension.
 - `komiti_web` и `komiti_website_crm` су website/runtime learning layer.
 - `komiti_dev_ops` и `komiti_claw` показују да KomITi Odoo није “само ERP custom field repo”.
+------------------------------------------------------------------------------------------------------------------
 
 ## 11) Шта читаш даље
 
