@@ -1,0 +1,190 @@
+# Developer Quickstart
+
+Ово је први документ који нови члан тима чита прије озбиљнијег рада у репоу `odoo4komiti`.
+
+Циљ: да за 60–90 минута разумијеш гдје си дошао, шта покрећеш локално, шта су главни KomITi модули и како изгледа први сигуран задатак.
+------------------------------------------------------------------------------------------------------------------
+
+## 1) Шта је овај репо
+
+Ово је KomITi Odoo 19 репо са custom модулима који покривају реалне интерне и customer-facing use-case-ове:
+- `komiti_timesheet`: timesheet UX, lock date, hourly cost, wizard-и,
+- `komiti_project`: numbering, custom fields, project/task domain logic,
+- `komiti_dispatching`: dispatch order и assignment flow,
+- `komiti_gantt`: custom Odoo view type за dispatching,
+- `komiti_web`: website content/layout naming agreement,
+- `komiti_website_crm`: website form behaviour према CRM lead flow-у,
+- `komiti_dev_ops`: DEV EC2 control из Odoo UI,
+- `komiti_claw`: AI/assistant integration слој,
+- `komiti_employees`, `komiti_fleet`, `komiti_infra_switch`: domain-specific допуне.
+------------------------------------------------------------------------------------------------------------------
+
+## 2) Шта прво мораш разумјети
+
+Прочитај овим редом:
+
+1. `../ENGINEERING_CODEX.md`
+2. `../custom-addons/CODEX_ODOO.md`
+3. `../SESSION_NOTES.md`
+4. `00_END2END_ONBOARDING_LEARNING_PATH_39-52w.md`
+
+Без ова 4 документа не почињеш озбиљан coding task.
+------------------------------------------------------------------------------------------------------------------
+
+## 3) Локални runtime
+
+Стандардни локални stack је Docker Compose:
+
+Ово није само orientation; исти овај локални runtime ћеш морати сам подићи и провјерити кад будеш радио task-ове на `komiti_academy`.
+
+Основне команде:
+```powershell
+docker compose ps
+docker compose up -d
+docker compose restart odoo-web
+```
+- `docker compose ps`: прикаже који су compose сервиси покренути и у каквом су статусу.
+- `docker compose up -d`: подигне сервисе из compose конфигурације; `-d` значи `detached`, тј. да контейнери наставе радити у позадини.
+- `docker compose restart odoo-web`: рестартује само сервис `odoo-web`, без дирања `db` сервиса.
+
+Health check:
+```powershell
+try { (Invoke-WebRequest -UseBasicParsing http://localhost:8069/web/health).StatusCode } catch { $_.Exception.Message }
+```
+- `Invoke-WebRequest`: пошаље HTTP захтјев на Odoo health endpoint.
+- `-UseBasicParsing`: тражи једноставан parsing одговора, без browser engine логике.
+- `.StatusCode`: врати HTTP статус, нпр. `200` ако endpoint ради.
+- `try { ... } catch { ... }`: ако health endpoint не ради, умјесто traceback-а испише кратку поруку грешке.
+
+## 3.1) `rg` као основни алат за претрагу
+
+`rg` је скраћеница за `ripgrep`.
+
+То је брз CLI алат за претрагу текста кроз фајлове у репоу. Користан је зато што не отвараш ручно десетине фајлова него брзо пронађеш:
+- гдје се неки model помиње,
+- гдје се користи неко поље,
+- гдје постоји одређена порука, label или XPath,
+- гдје је већ имплементиран сличан pattern.
+
+Примјери:
+```powershell
+rg "komiti_academy" learning
+rg "_inherit = \"project.task\"" custom-addons
+rg "lock date" .
+```
+- `rg "komiti_academy" learning`: претражи ријеч `komiti_academy` само у директоријуму `learning`.
+- `rg "_inherit = \"project.task\"" custom-addons`: тражи гдје custom addon-и насљеђују `project.task`; наводници држе цијели израз као један pattern.
+- `rg "lock date" .`: претражи израз `lock date` у тренутном директоријуму и свему испод њега; `.` значи „овдје, односно current directory“.
+
+Практично правило: кад не знаш у ком фајлу нешто живи, прво пробај `rg`, па тек онда отварај код ручно.
+------------------------------------------------------------------------------------------------------------------
+
+## 4) Најсигурнији први task
+
+Нови члан не почиње complex Python refactor-ом. Први сигурни task је један од ових:
+- docs-only измјена,
+- label промјена у постојећем view-у,
+- додавање help текста,
+- мала XML inheritance измјена на постојећем form/tree view-у,
+- мали smoke test записник за постојећи flow.
+------------------------------------------------------------------------------------------------------------------
+
+## 5) Први Odoo workflow који мораш знати
+
+Кад мијењаш Odoo модул локално:
+
+```powershell
+docker compose run --rm -T odoo-web odoo -c /etc/odoo/odoo.conf -d komiti_odoo_prod_01 -u <module> --stop-after-init
+docker compose restart odoo-web
+```
+- `docker compose run --rm -T odoo-web ...`: покрене једнократну Odoo команду у сервису `odoo-web`, умјесто да улазиш ручно у container.
+- `--rm`: обрише тај једнократни container послије завршетка команде.
+- `-T`: искључи pseudo-TTY; корисно за стабилан non-interactive рад у скриптама и терминалу.
+- `-c /etc/odoo/odoo.conf`: каже Odoo-у који config фајл да користи.
+- `-d komiti_odoo_prod_01`: каже над којом базом радиш upgrade.
+- `-u <module>`: каже Odoo-у који модул upgrade-ујеш.
+- `--stop-after-init`: након upgrade-а Odoo процес стане, умјесто да остане подигнут као дуготрајан процес.
+- `docker compose restart odoo-web`: послије upgrade-а рестартује runtime сервис `odoo-web` да учита свјеже стање кода и registry-ја.
+
+Онда:
+- hard refresh у browser-у,
+- провјера захваћеног UI flow-а,
+- ако је frontend/website у питању, по потреби asset reset дисциплина из `../custom-addons/CODEX_ODOO.md`.
+
+Овај исти workflow ћеш касније морати сам пустити и за `komiti_academy`, не само разумјети га теоријски.
+------------------------------------------------------------------------------------------------------------------
+
+## 6) Како изгледа професионално понашање већ првог дана
+
+- Не нагађаш; прво читаш постојећи код и docs.
+- Не мијењаш више ствари одједном без разлога.
+- Не сматраш да је task готов кад код “изгледа добро”; мораш верификовати runtime.
+- Не пушташ измјену без delta documentation-а кад измјена стварно мијења понашање.
+------------------------------------------------------------------------------------------------------------------
+
+## 7) Прва три модула која треба да упознаш
+
+### `komiti_timesheet`
+Најбољи почетни модул за учење Odoo inheritance-а, onchange-а, Settings/Company поља и write discipline.
+
+### `komiti_project`
+Добар за учење project/task data model-а и customization-а изнад стандардног Odoo `project` модула.
+
+### `komiti_dispatching`
+Добар за учење custom domain model-а који није чиста Odoo vanilla структура.
+------------------------------------------------------------------------------------------------------------------
+
+## 8) Шта да урадиш првог дана
+
+1. Подигни localhost.
+2. Потврди `/web/health`.
+3. Отвори `komiti_timesheet` код.
+4. Пронађи `__manifest__.py`, `models/`, `views/`.
+5. Прочитај `../custom-addons/komiti_timesheet/CODEX_ODOO_KOMITI_TIMESHEET.md`.
+6. Објасни ментору шта модул ради и које фајлове би прво провјеравао ако “From/To не ажурира Hours”.
+------------------------------------------------------------------------------------------------------------------
+
+## 9) Шта никако не радиш као нови члан
+
+- Не комитуј тајне, backup dump-ове или локалне runtime артефакте.
+- Не пуштај risky refactor без јасног verification plana.
+- Не третирај `prod` као playground.
+- Не претпостављај да су localhost и remote исти ако ниси провјерио runtime слој.
+------------------------------------------------------------------------------------------------------------------
+
+## 10) Шта читаш даље
+
+- `03_GIT_VSCODE_FOUNDATIONS_2h.md`
+- `04_INFRA_TERRAFORM_DOCKER_AWS_FOUNDATIONS_4h.md`
+- `05_ODOO_FOUNDATIONS_4h.md`
+- `06_ANATOMY_OF_A_GOOD_ODOO_MODULE_2h.md`
+
+## 99) Task на komiti_academy пројекту за кандидата
+
+1. Ако не постоји, направи локални директоријум `local-notes/project/` у root-у свог издвојеног `komiti_academy` workspace-а, па онда у њему напиши кратку почетну биљешку у Markdown фајл `local-notes/project/komiti_academy_start_note.md`: који ће бити први model-и, који постојећи addon-и су ти reference и шта прво мораш провјерити на localhost-у прије почетка рада.
+Референца: Ово је објашњено у поглављима `## 7) Прва три модула која треба да упознаш` и `## 8) Шта да урадиш првог дана`.
+2. За `komiti_academy` именуј један постојећи model pattern, један view pattern и један inheritance pattern из репоа које ћеш користити као оријентир током имплементације.
+Референца: Ово је објашњено у поглављу `## 3.1) rg као основни алат за претрагу`.
+3. Попиши свој минимални локални preflight checklist за `komiti_academy`: runtime, health check, search strategy и module upgrade flow.
+Референца: Ово је објашњено у поглављима `## 3) Локални runtime`, `## 3.1) rg као основни алат за претрагу` и `## 5) Први Odoo workflow који мораш знати`.
+
+## 99) Solutions
+
+1. За почетну биљешку уради ово редом:
+	1. У root-у свог издвојеног `komiti_academy` workspace-а провјери да ли постоји локални директоријум `local-notes/project/`; ако не постоји, направи га прије свега осталог.
+	2. У том директоријуму направи или допуни локални Markdown фајл `local-notes/project/komiti_academy_start_note.md`; ако ти је academy workspace, на примјер, `odoo4komiti4academy`, онда је пуна локална путања `odoo4komiti4academy/local-notes/project/komiti_academy_start_note.md`.
+	3. У `## 7) Прва три модула која треба да упознаш` изабери који ти је модул најближи будућем `komiti_academy` model-у.
+	4. У `## 8) Шта да урадиш првог дана` препиши логику тог првог дана на `komiti_academy` контекст.
+	5. Запиши 3 кратке ставке: први model-и које очекујеш, постојећи addon-и које ћеш користити као reference и шта прво провјераваш на localhost-у.
+	6. Формат биљешке нека буде кратак: `Model-и`, `Reference addon-и`, `Прва локална провјера`.
+2. За pattern reference уради ово редом:
+	1. У `## 3.1) \`rg\` као основни алат за претрагу` погледај примјере претраге које ћеш користити као полазиште.
+	2. Пусти једну претрагу за model или inheritance pattern у `custom-addons` куцајући у терминалу `rg "_inherit = \"project.task\"" custom-addons`; као резултат треба да добијеш више погодaка, нпр. `custom-addons/komiti_timesheet/models/project_task.py`, `custom-addons/komiti_project/models/project_task.py` и `custom-addons/komiti_dispatching/models/project_task.py`.
+	3. Пусти једну претрагу за XML/view pattern који личи на оно што ће ти требати у `komiti_academy` куцајући у терминалу `rg "<form|xpath expr=" custom-addons --glob "*.xml"`; као резултат треба да добијеш више XML погодака, нпр. `custom-addons/komiti_dispatching/views/dispatch_order_views.xml`, `custom-addons/komiti_dev_ops/views/komiti_dev_ops_views.xml` и `custom-addons/komiti_website_crm/views/website_footer_crm_form.xml`.
+	4. Запиши тачно 3 reference: један model pattern, један view pattern и један inheritance pattern, са именом модула или фајла у ком су пронађени.
+3. За preflight checklist уради ово редом:
+	1. За runtime провјеру укуцај у терминалу `docker compose ps`; као резултат треба да видиш compose сервисе и њихов статус, а ако `odoo-web` и `db` нису подигнути онда одмах куцај `docker compose up -d` да их подигнеш.
+	2. За health check укуцај у терминалу `try { (Invoke-WebRequest -UseBasicParsing http://localhost:8069/web/health).StatusCode } catch { $_.Exception.Message }`; као резултат треба да добијеш `200`, а ако не добијеш `200` онда runtime још није спреман за рад.
+	3. За search ставку у checklist-у запиши да прије измјене куцаш бар једну `rg` претрагу, нпр. `rg "_inherit = \"project.task\"" custom-addons`, и да као резултат добијеш постојеће pattern-е које можеш користити као оријентир.
+	4. За module upgrade flow укуцај у терминалу `docker compose run --rm -T odoo-web odoo -c /etc/odoo/odoo.conf -d komiti_odoo_prod_01 -u komiti_timesheet --stop-after-init`; као резултат треба да upgrade прође без traceback-а, а затим укуцај `docker compose restart odoo-web` да runtime учита свјеже стање.
+	5. На крају сложи checklist у 4 ставке: `runtime`, `health`, `search`, `upgrade`.

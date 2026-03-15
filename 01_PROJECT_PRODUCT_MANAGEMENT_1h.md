@@ -1,0 +1,266 @@
+# Project And Product Management Roles
+
+Овај документ укратко објашњава које су кључне улоге око пројекта и производа, шта им је одговорност и како се те улоге везују за конкретне артефакте у learning library.
+
+Сврха није да кандидат постане project manager или product manager, него да разумије:
+- ко доноси коју врсту одлуке,
+- ко дефинише problem и scope,
+- ко води испоруку,
+- ко је owner operational stability-а и service governance-а,
+- коме developer поставља коју врсту питања.
+------------------------------------------------------------------------------------------------------------------
+
+## 1) Зашто су ове role битне
+
+Junior developer често помијеша:
+- ко одлучује шта производ треба да ради,
+- ко одлучује када и како нешто иде у испоруку,
+- ко је одговоран за business value,
+- ко је одговоран за planning и coordination,
+- ко је одговоран да систем стварно ради у production/service контексту.
+
+Зато је важно рано разликовати бар ове четири role:
+- Product Manager,
+- Business Owner,
+- Project Manager,
+- Service Owner.
+
+Важно: за ове role не постоји један јединствени, универзални свјетски стандард који сви користе исто.
+
+Постоје:
+- formalni standards,
+- body-of-knowledge извори,
+- широко прихваћени framework-и,
+- индустријске школе праксе.
+
+Зато је исправније рећи:
+- за Project Manager role постоје најјачи formalni стандарди,
+- за Product Manager role више постоје framework-и и индустријска пракса него један формални стандард,
+- за Business Owner role најчешће постоји организациона, governance и delivery пракса, а не један канонски глобални стандард,
+- за Service Owner role најјачи референтни оквир је service management дисциплина, посебно `ITIL`.
+------------------------------------------------------------------------------------------------------------------
+
+## 2) Product Manager
+
+Product Manager је owner product shape-а.
+
+Он/она типично дефинише:
+- који problem производ рјешава,
+- ко су корисници,
+- који је scope прве верзије,
+- шта је in-scope, а шта out-of-scope,
+- који acceptance criteria има feature или модул.
+
+Product Manager не мора бити особа која зна техничке детаље имплементације, али мора знати:
+- шта производ треба да ради,
+- за кога се ради,
+- како изгледа успјех из корисничке и функционалне перспективе.
+
+Најважнији референтни извори су:
+- `Scrum Guide` — али он формално дефинише `Product Owner`, не `Product Manager`,
+- `SAFe` — дефинише role као што су `Product Manager` и `Product Owner` у scaling контексту,
+- `AIPMM` body of knowledge / certification model,
+- `Pragmatic Institute` и сличне product школе,
+- `SVPG` (`Silicon Valley Product Group`) као јак industry reference, мада није formalni standard.
+
+Практично:
+- ако тражиш formalni agile референтни текст, гледаш `Scrum Guide`,
+- ако тражиш enterprise/framework дефиницију Product Manager role, гледаш `SAFe`,
+- ако тражиш ширу product management праксу, гледаш `AIPMM`, `Pragmatic`, `SVPG`.
+
+Питања на која одговор даје Product Manager:
+- „Да ли овај flow уопште треба да постоји?"
+- „Да ли attendee треба да види X или је то само за manager-а?"
+- „Да ли је calendar view must-have или nice-to-have?"
+------------------------------------------------------------------------------------------------------------------
+
+## 3) Business Owner
+
+Business Owner је owner business смисла и business приоритета.
+
+Он/она типично зна:
+- зашто је овај модул важан за организацију,
+- који је стварни operational/business problem,
+- шта је business risk ако нешто не ради,
+- које правило је стварна business obaveza, а шта је само техничка идеја.
+
+Business Owner не мора писати ticket-е или product spec лично, али је често кључан за:
+- потврду да problem стварно постоји,
+- потврду да је рјешење business-smisleno,
+- постављање приоритета.
+
+Најближи релевантни извори су:
+- `SAFe` — има експлицитну `Business Owner` role,
+- `BABOK` (`Business Analysis Body of Knowledge`) — не дефинише баш `Business Owner` као исту role, али јако добро описује stakeholder/business responsibility perspective,
+- governance и operating model праксе у enterprise delivery окружењима,
+- понекад `ITIL` / service governance контекст, кад је ријеч о ownership-у business service-а.
+
+Практично:
+- ако неко тражи гдје је `Business Owner` role најексплицитније именована, добар одговор је `SAFe`,
+- ако тражи шири business/stakeholder responsibility контекст, онда су `BABOK` и governance праксе ближи извор.
+
+Питања на која одговор даје Business Owner:
+- „Да ли instructor стварно смије бити attendee?"
+- „Да ли state `cancelled` мора постојати?"
+- „Да ли је overbooking забрањен у свим случајевима или постоје изузеци?"
+------------------------------------------------------------------------------------------------------------------
+
+## 4) Project Manager
+
+Project Manager је owner delivery coordination-а.
+
+Он/она типично води:
+- planning,
+- sequence рада,
+- dependency management,
+- ко шта ради и кад,
+- communication и handoff,
+- rollout/promotion coordination кад је потребно.
+
+Project Manager не дефинише нужно сам business rules, али брине да испорука има:
+- реалан scope,
+- договорен редослијед,
+- status visibility,
+- јасан handoff.
+
+Најпознатији извори су:
+- `PMBOK` (`Project Management Body of Knowledge`) од `PMI`-ја,
+- `PRINCE2`,
+- `ISO 21502` за project, programme and portfolio management guidance.
+
+Ови извори типично јасно описују:
+- planning, scope, risk, stakeholder, schedule и governance одговорности,
+- како се води испорука кроз формални project management језик.
+
+Практично:
+- ако неко тражи најближи свјетски стандард за `Project Manager` role, то су најјачи одговори.
+
+Питања на која одговор даје Project Manager:
+- „Шта иде у ову фазу, а шта остављамо за phase 2?"
+- „Да ли ово мора у исти release?"
+- „Који је наредни checkpoint?"
+- „Кад је очекиван demo / verification / promotion?"
+------------------------------------------------------------------------------------------------------------------
+
+## 5) Service Owner
+
+Service Owner је owner operational service-а након што је софтвер већ у употреби.
+
+Он/она типично води:
+- service ownership у production-у,
+- coordination са 3rd party vendor-ом или internal support тимом,
+- SLA / OLA праћење,
+- incident, problem и request coordination,
+- да ticket-и буду сакупљени, тријажирани и праћени,
+- да service ради у складу са ITIL/service management правилима.
+
+Service Owner не дефинише product shape као Product Manager, нити delivery план као Project Manager.
+Али је кључан кад систем већ живи и кад је битно:
+- да support model постоји,
+- да vendor испуњава уговорне обавезе,
+- да ескалације имају owner-а,
+- да availability, support response и operational quality не буду препуштени случају.
+
+Најбитније референтне тачке су:
+- `ITIL` service management practice model,
+- `ISO/IEC 20000` као formalni service management standard,
+- `COBIT` за IT governance, controls и management objectives,
+- `SIAM` (`Service Integration and Management`) за multi-vendor service coordination,
+- enterprise vendor/SLA governance праксе,
+- incident, problem, change, service level и supplier management discipline,
+- `SRE` и `DevOps` праксе као јак operational model reference, иако нису исти тип стандарда као `ITIL`.
+
+Практично:
+- ако неко тражи најпознатији framework за ову role, први одговор је `ITIL`,
+- ако тражи formalni standard за service management систем, онда је то `ISO/IEC 20000`,
+- ако тражи governance/control lens, онда је битан `COBIT`,
+- ако тражи operating model за више external vendor-а, онда је веома битан `SIAM`,
+- ако тражи modern operational reliability practice, онда су релевантни `SRE` и `DevOps`.
+
+Питања на која одговор даје Service Owner:
+- „Ко прати да external vendor стварно испуњава SLA?"
+- „Ко owner-ује incident coordination кад production падне?"
+- „Ко води service review и recurring operational проблеме?"
+- „Ко скупља ticket-е и брине да support process стварно ради?"
+------------------------------------------------------------------------------------------------------------------
+
+## 6) Како се ове role виде на `komiti_academy` примјеру
+
+На `komiti_academy` модулу то отприлике изгледа овако:
+
+- Product Manager дефинише да модул треба да покрије course + session flow, manager/instructor/attendee actors и basic search/filter.
+- Business Owner потврђује да су seats, overbooking, instructor/attendee separation и session lifecycle стварно важна business правила.
+- Project Manager води да се прво уради skeleton, па MVP, па business rules, па verification/documentation, умјесто да све иде хаотично одједном.
+- Service Owner би, кад модул уђе у production usage, owner-овао support model, ticket intake, vendor/SLA coordination и operational review.
+------------------------------------------------------------------------------------------------------------------
+
+## 7) Како се role везују за документе
+
+Ово је минимални mapping кроз learning артефакте:
+
+### `00_PROJECT_PRODUCT_DESCRIPTION_2h.md`
+- Document Owner: Product Manager
+- Accountable for business correctness: Business Owner
+- Consulted for delivery sequencing: Project Manager
+
+Зашто:
+- то је документ који описује шта је производ, ко га користи и који problem рјешава.
+
+### `16_CAPSTONE_BUILD_YOUR_OWN_ODOO_MODULE_16h.md`
+- Document Owner: Project Manager
+- Consulted: Product Manager
+- Business validation input: Business Owner
+
+Зашто:
+- то је execution/checkpoint документ, више delivery него чист product shape.
+
+### maintenance / support operating model
+- Typical Owner: Service Owner
+- Consulted: Business Owner
+- Consulted when roadmap/scope is affected: Product Manager
+
+Зашто:
+- ту су главна питања SLA, vendor coordination, incident/process ownership и operational accountability, што је ближе service management-у него feature delivery-у.
+------------------------------------------------------------------------------------------------------------------
+
+## 8) Шта developer треба да научи из овога
+
+Developer не треба сва питања да шаље истој особи.
+
+Добро размишљање изгледа овако:
+- product/scope питање -> Product Manager,
+- business rule / real-world constraint -> Business Owner,
+- planning / phase / sequencing / rollout -> Project Manager,
+- production support / SLA / vendor / incident ownership -> Service Owner.
+
+То не значи да су у сваком тиму те role 4 различите особе.
+Некад једна особа носи више role одједном.
+
+Битно је да кандидат разумије function role, чак и кад их носи исти човјек.
+------------------------------------------------------------------------------------------------------------------
+
+## 9) Role у каснијем одржавању
+
+Ове role нису битне само кад се модул први пут прави, него и касније.
+
+Зашто?
+- зато што софтвер нема само build фазу него и run фазу,
+- зато што production support, ticket flow, SLA и vendor accountability не рјешавају Product Manager или Project Manager сами,
+- зато што у enterprise окружењу неко мора owner-овати service као service, не само feature као feature.
+
+У maintenance фази:
+- Product Manager одлучује да ли нови feature уопште припада производу,
+- Business Owner каже да ли bug стварно боли business,
+- Project Manager одлучује како то улази у backlog/release sequence.
+- Service Owner owner-ује support process, SLA follow-up, vendor coordination, incident/service review и operational stability.
+
+Зато је важно да кандидат не мисли да су ове role само "за почетак пројекта".
+Ако кандидат ради у enterprise окружењу као што је OMV IT, онда је `Service Owner` често једна од најважнијих role послије initial delivery-а.
+------------------------------------------------------------------------------------------------------------------
+
+## 10) Кратка верзија у једној реченици
+
+- Product Manager: шта производ треба да ради.
+- Business Owner: зашто је то важно и шта је стварно business правило.
+- Project Manager: како то улази у план, фазе и испоруку.
+- Service Owner: како систем остаје operationalno стабилан и support-ован у production-у.

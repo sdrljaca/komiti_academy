@@ -1,0 +1,114 @@
+# Task Breakdown and Rollout Thinking
+
+Ово је документ који учи како се размишља прије кода. Професионалац не види task као “само промијени фајл”, него као промјену која има scope, risk, verification и rollout.
+
+## 1) Прво разбиј task
+
+За сваки task себи одговори:
+- који је problem,
+- који module/flow је захваћен,
+- да ли је problem model, view, security, data, frontend или ops,
+- шта је најмања сигурна измјена.
+
+## 2) Раздвоји слојеве измјене
+
+Task често има више слојева:
+- source code,
+- upgrade/runtime,
+- manual verification,
+- documentation,
+- promotion/deploy.
+
+Ако заборавиш један од њих, task често није стварно завршен.
+
+## 3) Risk questions
+
+- Да ли change дира existing data?
+- Да ли change дира security?
+- Да ли change дира website/assets?
+- Да ли change дира више модула?
+- Да ли change тражи role-based testing?
+
+## 4) Rollout thinking
+
+Питај се:
+- шта мора бити локално verified,
+- шта је minimum safe path до `dev`,
+- шта је minimum safe path до `prod`,
+- шта је rollback boundary ако нешто падне.
+
+## 5) KomITi examples
+
+### `komiti_timesheet` view tweak
+
+Source change је мали, али rollout и даље укључује:
+- module upgrade,
+- UI verification,
+- role sanity ако је lock/business rule близу тога.
+
+### `komiti_gantt` JS change
+
+Овдје task никад није само JS diff. Мораш мислити и на:
+- assets,
+- hard refresh,
+- search/filter behaviour,
+- manual interaction scenario.
+
+### website fix
+
+Task није готов кад CSS diff изгледа “тачно”. Мораш гледати rendered page и asset/runtime state.
+
+## 6) Anti-patterns
+
+- прво кодираш, па тек онда мислиш шта треба тестирати,
+- мијешаш више неповезаних fix-ева,
+- немаш rollback reasoning,
+- не мислиш о promotion/deploy слоју.
+
+## 7) Mini planning template
+
+Прије рада запиши:
+- problem:
+- affected modules:
+- affected layers:
+- intended fix:
+- verification:
+- documentation delta:
+- rollout / promotion note:
+
+Овај template ћеш касније морати стварно попунити и за `komiti_academy`, не само разумјети концептуално.
+
+## 8) Кад размишљаш као професионалац
+
+Професионалац може прије кода објаснити:
+- шта ће мијењати,
+- зашто баш то,
+- шта може поћи наопако,
+- како ће знати да је стварно готово.
+
+## 99) Task на komiti_academy пројекту за кандидата
+
+1. Разбиј рад на `komiti_academy` на мање испоручиве цјелине.
+Референца: Ово је објашњено у поглављима `## 1) Прво разбиј task` и `## 2) Раздвоји слојеве измјене`.
+2. За сваку цјелину попуни plan: affected layers, intended fix, verification и rollout note.
+Референца: Ово је објашњено у поглављима `## 2) Раздвоји слојеве измјене` и `## 7) Mini planning template`.
+3. Именуј бар два конкретна ризика прије промоције.
+Референца: Ово је објашњено у поглављима `## 3) Risk questions`, `## 6) Rollout thinking` и `## 8) Кад размишљаш као професионалац`.
+
+## 99) Solutions
+
+1. За breakdown рада уради ово редом:
+	1. У `## 1) Прво разбиј task` узми правило како раздвајаш рад на мање цјелине.
+	2. Подијели `komiti_academy` бар на одвојиве цјелине као што су models, views, security, verification и documentation.
+	3. Провјери преко `## 2) Раздвоји слојеве измјене` да свака цјелина стварно има јасан scope.
+	4. Запиши коначну листу испоручивих цјелина редом којим желиш да их радиш, нпр. `1. model-и`, `2. view-ови`, `3. security`, `4. verification`, `5. docs`.
+2. За plan по цјелини уради ово редом:
+	1. У `## 7) Mini planning template` узми форму plana.
+	2. За сваку цјелину попуни `affected layers`, нпр. `Python + XML` или `security + data`.
+	3. Затим попуни `intended fix`, `verification` и `rollout note`, тако да свака ставка има једну јасну реченицу.
+	4. Провјери преко `## 2) Раздвоји слојеве измјене` да ништа важно ниси изоставио.
+3. За ризике прије промоције уради ово редом:
+	1. У `## 3) Risk questions` прођи питања једно по једно.
+	2. Из `## 6) Rollout thinking` издвоји шта може поћи погрешно након промоције.
+	3. Запиши бар два конкретна ризика за `komiti_academy`, не опште фразе, нпр. `security rule блокира manager edit` или `view inheritance пуца на upgrade-у`.
+	4. На крају преко `## 8) Кад размишљаш као професионалац` провјери да ли су ризици стварно operationalno корисни.

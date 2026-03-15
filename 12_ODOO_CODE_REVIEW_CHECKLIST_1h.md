@@ -1,0 +1,97 @@
+# Odoo Code Review Checklist
+
+Ово је checklist који учи како senior гледа Odoo PR у KomITi-ју.
+
+## 1) Scope и intent
+
+- Да ли је problem statement јасан?
+- Да ли commit / PR ради једну логичку цјелину?
+- Да ли solution адресира root cause?
+
+## 2) Manifest и module structure
+
+- Да ли су dependencies исправне?
+- Да ли је data loading order логичан?
+- Да ли је модул и даље читљив после измјене?
+
+## 3) Python logic
+
+- Да ли логика ради server-side, не само у UI-ју?
+- Да ли је recordset-safe?
+- Да ли helper методе имају јасан смисао?
+- Да ли је batch/role/runtime impact промишљен?
+
+## 4) XML / view review
+
+- Да ли је xpath стабилан?
+- Да ли inheritance дира најмањи могући surface?
+- Да ли постоји ризик да upstream промјена разбије anchor?
+
+## 5) Security review
+
+- Да ли ACL/rule/group прича има смисла?
+- Да ли readonly/hide у view-у лажно прикрива server truth problem?
+- Да ли су tested relevant roles?
+
+## 6) Frontend / website review
+
+- Да ли asset/runtime verification постоји?
+- Да ли rendered result одговара тврдњи у PR-у?
+- Да ли су theme/website side effects узети у обзир?
+
+## 7) Upgrade и migration review
+
+- Да ли модул захтијева upgrade?
+- Да ли постоји data impact?
+- Да ли је risky change пропраћен migration reasoning-ом?
+
+## 8) Testing review
+
+- Да ли verification одговара типу измјене?
+- Да ли постоји role-aware testing?
+- Да ли runtime proof постоји, не само code diff?
+
+## 9) Documentation review
+
+- Да ли је ажуриран релевантан codex ако треба?
+- Да ли `SESSION_NOTES.md` има delta ако се мијења behaviour/process?
+- Да ли је learning value за сљедећег инжењера сачуван?
+
+## 10) Review outcome categories
+
+- approve: risk разумљив, verification довољан,
+- request changes: logic/risk/verif/documentation gap,
+- block: production/data/security risk није адекватно addressed.
+
+## 11) Шта junior мора научити из review-а
+
+Code review није policing; то је систематско учење шта све може поћи наопако и како professional standard изгледа у пракси.
+
+То значи да и свој `komiti_academy` модул мораш проћи оваквим review размишљањем прије него што га сматраш стварно готовим.
+
+## 99) Task на komiti_academy пројекту за кандидата
+
+1. Прођи свој `komiti_academy` модул кроз self-review прије промоције.
+Референца: Ово је објашњено у поглављима `## 1) Scope и intent` до `## 9) Documentation review`.
+2. Напиши кратку self-review биљешку: шта је добро, шта је risk, шта још треба поправити.
+Референца: Ово је објашњено у поглављима `## 10) Review outcome categories` и `## 11) Шта junior мора научити из review-а`.
+3. Именуј бар једну ставку коју би reviewer оправдано вратио на дораду.
+Референца: Ово је објашњено у поглављима `## 1) Scope и intent` до `## 10) Review outcome categories`.
+
+## 99) Solutions
+
+1. За self-review уради ово редом:
+	1. У checklist-у од `## 1) Scope и intent` до `## 9) Documentation review` прођи секције редом.
+	2. Прођи `komiti_academy` секцију по секцију без прескакања.
+	3. За сваку ставку упиши кратак статус: `pass`, `risk` или `fix needed`, нпр. `Security: risk`, `Documentation: fix needed`.
+	4. На крају издвоји секције у којима модул није прошао clean review.
+2. За self-review биљешку уради ово редом:
+	1. Из резултата review-а издвоји шта је добро у модулу.
+	2. Затим издвоји стварне ризике и ствари које још треба поправити.
+	3. У `## 10) Review outcome categories` одреди у коју категорију тренутно спада стање модула.
+	4. Напиши кратку биљешку у 3 реда: `добро`, `risk`, `fix next`, нпр. `добро: model scope је јасан`, `risk: security није до краја провјерен`, `fix next: допунити access rules`.
+3. За ставку коју би reviewer вратио на дораду уради ово редом:
+	1. Врати се на review ставке које су означене као `risk` или `fix needed`.
+	2. Изабери једну која би оправдано могла бити blocker или request changes.
+	3. Користи `## 10) Review outcome categories` да објасниш зашто је то проблем.
+	4. Из `## 11) Шта junior мора научити из review-а` извучи једну лекцију коју одмах примјењујеш на `komiti_academy`.

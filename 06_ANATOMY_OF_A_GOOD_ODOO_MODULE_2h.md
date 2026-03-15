@@ -1,0 +1,151 @@
+# Anatomy of a Good Odoo Module
+
+Овај документ описује како изгледа добар KomITi Odoo модул. Није довољно да модул “ради”; мора бити читљив, upgrade-safe и разумљив следећем инжењеру.
+
+## 1) Типична структура
+
+Добар модул обично има:
+- `__manifest__.py`
+- `__init__.py`
+- `models/`
+- `views/`
+- `security/`
+- `data/`
+- `static/` ако има frontend слој
+- `controllers/` ако излази на HTTP/website/API
+
+## 2) Шта гледаш у `__manifest__.py`
+
+Manifest ти одмах говори:
+- dependencies,
+- data loading order,
+- да ли модул има security/data/views,
+- да ли је модул природан extension или покушава да ради превише ствари.
+
+KomITi examples:
+- `komiti_timesheet`: extension изнад `hr_timesheet`
+- `komiti_gantt`: custom view extension изнад dispatching flow-а
+- `komiti_dev_ops`: operational feature изнутра Odoo UI-а
+
+## 3) Добар Python слој
+
+Добар Python модул:
+- држи business logic у јасним helper методама,
+- нема непотребно дуплирану логику,
+- разликује UI convenience од server truth-а,
+- не крије risky side effects,
+- не прави magic behaviour без документације.
+
+## 4) Добар XML слој
+
+Добар XML:
+- насљеђује стабилне parent view-ове,
+- користи xpath anchor-е који имају semantički смисао,
+- не покушава да brute-force-ом препакује цио view ако је довољна мала inheritance измјена,
+- остаје читљив и после треће измјене.
+
+## 5) Добар security слој
+
+Добар модул има јасно:
+- ко сме шта да види,
+- ко сме шта да мијења,
+- који user roles морају бити ручно провјерени,
+- да ли постоји admin bypass и зашто.
+
+`komiti_timesheet` lock-date scenario је добар примјер гдје security/business rule reasoning мора бити јасан и за normal user и за admin case.
+
+## 6) Добар data слој
+
+Ако модул уноси data records, мора бити јасно:
+- који XML ID-еви су канонски,
+- да ли су data записи seed, config или demo,
+- шта смије бити overwritten, а шта мора бити стабилно.
+
+## 7) Добар frontend слој
+
+Ако модул има JS/QWeb/SCSS:
+- мора бити јасно који је entry point,
+- како се asset укључује,
+- који је runtime verification,
+- како се ради hard refresh / asset reset discipline.
+
+`komiti_gantt` и `komiti_website_crm` су важни KomITi примјери за ову тему.
+
+## 8) Добар модул је operationally explainable
+
+Други инжењер мора моћи да каже:
+- шта овај модул ради,
+- које моделе дира,
+- који UI flow мијења,
+- како се upgrade-ује,
+- шта морам ручно да провјерим,
+- шта може да се поквари.
+
+## 9) Red flags лошег модула
+
+- manifest не показује јасно dependencies,
+- model, security и XML су збијени без јасне структуре,
+- xpath је fragilan,
+- business rule постоји само у onchange-у,
+- логика ради само за један ручни UI path,
+- нема јасног verification plana,
+- нико не може објаснити module impact без отварања 20 фајлова.
+
+## 10) KomITi standard
+
+Добар KomITi модул мора бити:
+- читљив,
+- upgrade-safe,
+- documentation-friendly,
+- runtime-verifiable,
+- довољно једноставан да нови инжењер може наставити рад без поновног откривања система.
+
+## 11) Како ово примјењујеш на свој capstone
+
+Овај документ не читаш пасивно. Одмах га примјењујеш на свој модул:
+- `komiti_academy`
+
+Оно што је овдје описано касније не треба да остане само checklist, него да стварно постане завршни task на твом `komiti_academy` модулу.
+
+Контролна листа за полазника:
+- да ли manifest јасно показује dependency и data loading order,
+- да ли су model-и раздвојени по фајловима који имају смисла,
+- да ли су view фајлови довољно мали и читљиви,
+- да ли security слој постоји од почетка, а не као накнадни patch,
+- да ли нека business rule логика погрешно живи само у UI слоју,
+- да ли други инжењер може за 5 минута објаснити шта модул ради.
+
+Ако је одговор `не`, модул још није добро структуриран чак и ако „ради“.
+
+## 12) Шта читаш даље
+
+- `07_HOW_TO_READ_AN_ODOO_MODULE_3h.md`
+- `../custom-addons/komiti_timesheet/CODEX_ODOO_KOMITI_TIMESHEET.md`
+- `16_CAPSTONE_BUILD_YOUR_OWN_ODOO_MODULE_16h.md`
+
+## 99) Task на komiti_academy пројекту за кандидата
+
+1. Структуриши `komiti_academy` тако да manifest, model-и, view-ови и security слој буду јасно раздвојени.
+Референца: Ово је објашњено у поглављима `## 1) Типична структура`, `## 4) Добар XML слој` и `## 5) Добар security слој`.
+2. Провјери да ли data loading order и dependency-ји имају смисла.
+Референца: Ово је објашњено у поглављима `## 2) Шта гледаш у \`__manifest__.py\`` и `## 3) Добар Python слој`.
+3. Провјери да ли је модул довољно читљив да га други инжењер може брзо наставити.
+Референца: Ово је објашњено у поглављима `## 1) Типична структура`, `## 6) Добар документациони слој` и `## 11) Како ово примјењујеш на свој capstone`.
+
+## 99) Solutions
+
+1. За структуру модула уради ово редом:
+	1. У `## 1) Типична структура` узми циљни skeleton.
+	2. Провјери да model-и, view-ови и security фајлови нису помијешани.
+	3. Из `## 4) Добар XML слој` и `## 5) Добар security слој` провјери да сваки слој живи на очекиваном мјесту, нпр. `models/*.py` у `models/`, XML view-ови у `views/`, access rules у `security/`.
+	4. Ако нешто није јасно раздвојено, запиши шта треба премјестити или преименовати, нпр. `views.xml` у `views/academy_course_views.xml`.
+2. За dependency и loading order уради ово редом:
+	1. У `## 2) Шта гледаш у \`__manifest__.py\`` провјери кључеве које manifest мора имати.
+	2. Провјери да dependency листа покрива све што `komiti_academy` стварно користи.
+	3. Провјери да је data loading order логичан и да XML/security/data улазе у исправном реду, нпр. security прије menu/action записа који се на њу ослањају.
+	4. Ако нађеш ризик, запиши га као конкретну manifest исправку.
+3. За читљивост модула уради ово редом:
+	1. Прођи `komiti_academy` очима новог инжењера који га није писао.
+	2. Из `## 6) Добар документациони слој` провјери шта недостаје да би структура била брзо разумљива.
+	3. У `## 11) Како ово примјењујеш на свој capstone` прођи ставке једну по једну и означи шта је већ добро, а шта још није читљиво.
+	4. На крају запиши кратак одговор: шта је јасно, шта није и шта треба дорадити да модул буде лак за наставак рада.

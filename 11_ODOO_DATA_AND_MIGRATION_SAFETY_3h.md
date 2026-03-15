@@ -1,0 +1,97 @@
+# Odoo Data and Migration Safety
+
+Ово је документ који учи како се мијења Odoo систем који већ има податке. То је тачка у којој junior најчешће прави production-grade грешке ако нема discipline.
+
+## 1) Основно правило
+
+Module upgrade није исто што и data migration safety.
+
+## 2) Шта је risky change
+
+Risky су посебно:
+- додавање новог required поља,
+- промјена semantics постојећег поља,
+- related/compute refactor,
+- промјена business rule-а у `write/create`,
+- XML ID rename/delete,
+- changes које утичу на постојеће records, не само на будуће.
+
+## 3) Шта питаш прије измјене
+
+- који records већ постоје,
+- шта ће се десити existing data-у,
+- да ли ће upgrade проћи без runtime error-а,
+- да ли ново правило ломи стари data shape,
+- како ћу rollback-овати ако нешто крене лоше.
+
+## 4) New field није увијек безопасно
+
+Чак и кад само “додаш поље”, мораш мислити:
+- да ли existing records треба default,
+- да ли UI очекује то поље одмах,
+- да ли search/filter/report logic зависи од тога,
+- да ли треба backfill.
+
+## 5) Required field changes
+
+Ово је један од најризичнијих потеза. Мораш знати:
+- шта је са старим записима,
+- ко све create-ује те записе,
+- да ли import/API/wizard path и даље раде,
+- да ли је потребна migration/backfill логика.
+
+## 6) XML ID discipline
+
+XML ID је identity contract.
+
+Не мијењаш га неопрезно јер можеш сломити:
+- data updates,
+- references,
+- security records,
+- inherited views,
+- action/menu wiring.
+
+## 7) КомИТi примјери за размишљање
+
+### `komiti_timesheet`
+
+Ако мијењаш lock date behaviour, не размишљаш само о новим timesheet линијама, него и о постојећим line edit path-овима.
+
+### `komiti_project`
+
+Ако мијењаш numbering/custom field semantics, impact је и на existing project/task records.
+
+### `komiti_dispatching`
+
+Ако мијењаш planning fields, можеш утицати на већ постојеће assignment/order records и њихов UI приказ.
+
+## 8) Safe pattern
+
+Прије risky измјене:
+
+1. разуми existing data,
+2. разуми runtime paths,
+3. дефиниши verification,
+4. дефиниши rollback boundary,
+5. тек онда кодирај.
+
+## 9) Anti-patterns
+
+- “upgrade је прошао, значи све је добро”,
+- “нико не користи те старе records” без доказа,
+- брисање/rename XML ID-ева без impact check-а,
+- required change без data plan-а,
+- script-like fix без documentation delta-e.
+
+## 10) Шта мораш знати као професионалац
+
+Кад мијењаш data-affecting behaviour, мораш моћи објаснити:
+- који records су погођени,
+- шта је expected migration shape,
+- како знаш да је post-upgrade state исправан,
+- шта је rollback plan ако verification падне.
+
+## 11) Шта читаш даље
+
+- `13_TASK_BREAKDOWN_AND_ROLLOUT_THINKING_2h.md`
+- `12_ODOO_CODE_REVIEW_CHECKLIST_1h.md`

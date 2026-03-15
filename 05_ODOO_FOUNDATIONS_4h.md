@@ -1,0 +1,269 @@
+# Odoo Foundations
+
+Ово је foundation документ за кандидата и сваког новог KomITi инжењера који учи Odoo од нуле, али кроз реалан KomITi код, не кроз апстрактне toy примјере.
+------------------------------------------------------------------------------------------------------------------
+
+## 1) Odoo mental model
+
+Odoo је framework у коме се већина посла врти око ових слојева:
+- model,
+- fields,
+- view,
+- action/menu,
+- security,
+- data,
+- runtime upgrade.
+
+У KomITi контексту то значи:
+- `komiti_timesheet` проширује постојећи Odoo `account.analytic.line`,
+- `komiti_project` проширује `project.project` и `project.task`,
+- `komiti_dispatching` уводи своје моделе као `komiti.dispatch.order`,
+- `komiti_gantt` додаје custom view type изнад dispatching flow-а,
+- `komiti_web` и `komiti_website_crm` мијењају website behaviour и content structure.
+-----------------------------------------------------------------------------------------------------------------
+
+## 2) Шта је model
+
+Model је Python класа која описује business object.
+
+Примјери из овог репоа:
+- `project.task`
+- `project.project`
+- `account.analytic.line`
+- `komiti.dispatch.order`
+- `komiti.dispatch.assignment`
+- `komiti.employee.hourly.rate`
+
+Има два основна pattern-а:
+- нови model: `_name = "komiti.dispatch.order"`
+- inheritance existing model-а: `_inherit = "project.task"`
+
+Практично искуство за model слој кандидат стиче читајући `06_ANATOMY_OF_A_GOOD_ODOO_MODULE_2h.md` и `07_HOW_TO_READ_AN_ODOO_MODULE_3h.md`, а прво властито model искуство стиче радећи `16_CAPSTONE_BUILD_YOUR_OWN_ODOO_MODULE_16h.md` кроз `academy.course` и `academy.session`.
+-----------------------------------------------------------------------------------------------------------------
+
+## 3) Шта је recordset
+
+У Odoo-у `self` скоро никад не значи “само један објекат”; често значи recordset.
+
+Зато је нормално писати:
+- `for record in self:`
+- `self.filtered(...)`
+- `self.mapped(...)`
+
+Ово мораш усвојити рано, иначе ћеш правити багове у `write`, `compute` и helper методама.
+
+Практичан recordset reasoning кандидат најбрже увјежбава у `07_HOW_TO_READ_AN_ODOO_MODULE_3h.md` док чита KomITi module flow-ове, а затим у `16_CAPSTONE_BUILD_YOUR_OWN_ODOO_MODULE_16h.md` кад почне писати властите compute и helper методе.
+-----------------------------------------------------------------------------------------------------------------
+
+## 4) Шта су: `env`, `domain`, `context`
+
+`env` је runtime приступ бази, user-у, context-у и registry-ју.
+
+Кроз `env` радиш ствари као:
+- `self.env["project.task"]`
+- `self.env.user`
+- `self.env.company`
+
+`domain` је filter логика за search.
+
+Примјер размишљања:
+- “дај ми све dispatch order-е у стању published”
+- “дај ми timesheet линије за једног employee-а у датом датумском распону”
+
+`context` је runtime meta-информација.
+
+Користи се за:
+- default вриједности,
+- search default filter-е,
+- behaviour toggles,
+- locale/timezone-like behaviour.
+
+У KomITi-ју је битан нпр. search default pattern у dispatching action-има.
+
+Практично искуство за `env`, `domain` и `context` кандидат стиче читајући `07_HOW_TO_READ_AN_ODOO_MODULE_3h.md`, а конкретне search/action pattern-е касније увјежбава у `08_KOMITI_DOMAIN_MODEL_MAP_2h.md` и у свом capstone модулу из `16_CAPSTONE_BUILD_YOUR_OWN_ODOO_MODULE_16h.md`.
+-----------------------------------------------------------------------------------------------------------------
+
+## 5) Fields
+
+Најважнији типови које мораш одмах разумијети:
+- `Char`, `Text`, `Boolean`, `Integer`, `Float`, `Date`, `Datetime`
+- `Many2one`, `One2many`, `Many2many`
+- `Selection`
+
+`related` field није “нова истина”; он изводи вриједност из другог поља.
+
+`compute` field се рачуна из других вриједности. Пази на dependency reasoning.
+
+KomITi примјер: У `komiti_timesheet` Hours се рачуна из From/To UX-а, али професионално размишљање тражи да разликујеш:
+- шта је input,
+- шта је derived value,
+- шта иде у onchange,
+- шта мора бити server-side validated.
+
+Практичан рад са field-овима кандидат стиче читајући `06_ANATOMY_OF_A_GOOD_ODOO_MODULE_2h.md` и `07_HOW_TO_READ_AN_ODOO_MODULE_3h.md`, а затим у `16_CAPSTONE_BUILD_YOUR_OWN_ODOO_MODULE_16h.md` кад мора сам дефинисати relation, selection и computed field-ове.
+-----------------------------------------------------------------------------------------------------------------
+
+## 6) Шта су: `onchange`, `constrains`, `create`, `write`, `unlink`
+
+`@api.onchange`: UI helper. Добар за form UX, али није довољан као једини business guarantee.
+
+`@api.constrains`: Server-side validation pattern. Користи се кад нешто мора важити и изван једног form workflow-а.
+
+`create`, `write`, `unlink`: Ово су главне lifecycle тачке. Ту professional developer мора мислити:
+- ко све може позвати ову логику,
+- шта се дешава у batch-у,
+- да ли постоје permission/data side effects,
+- да ли је потребан rollback-safe pattern.
+
+У `komiti_timesheet` lock date логика је добар study case за ову тему.
+
+Практично искуство за `onchange`, `constrains` и lifecycle методе кандидат стиче прво кроз analysis/read path у `07_HOW_TO_READ_AN_ODOO_MODULE_3h.md`, а онда кроз властита правила у `16_CAPSTONE_BUILD_YOUR_OWN_ODOO_MODULE_16h.md`; касније их провјерава у `09_ODOO_DEBUGGING_PLAYBOOK_3h.md` и `10_ODOO_TESTING_AND_VERIFICATION_HANDBOOK_3h.md`.
+-----------------------------------------------------------------------------------------------------------------
+
+## 7) Views
+
+Odoo UI углавном долази из XML view-ова:
+- form,
+- tree/list,
+- search,
+- kanban,
+- calendar,
+- activity,
+- custom view types као `komiti_gantt`.
+
+У KomITi-ју врло често не правимо све from scratch, него насљеђујемо постојећи view inheritance-ом.
+
+Ово је један од слојева који ћеш касније морати сам да направиш на `komiti_academy`, не само да га препознаш у туђем модулу.
+
+Практично искуство прављења и мијењања view-ова кандидат стиче читајући `06_ANATOMY_OF_A_GOOD_ODOO_MODULE_2h.md` и `07_HOW_TO_READ_AN_ODOO_MODULE_3h.md`, а затим радећи `16_CAPSTONE_BUILD_YOUR_OWN_ODOO_MODULE_16h.md` гдје мора направити `course` и `session` tree/form/search view-ове.
+-----------------------------------------------------------------------------------------------------------------
+
+## 8) View inheritance
+
+Кључно правило: користити стабилне anchor-е:
+- Добро: `//field[@name='unit_amount']`
+- Лоше: fragilan xpath који зависи од layout детаља без стабилне semantics.
+
+Ово је један од најчешћих junior failure mode-ова.
+
+Практично искуство за view inheritance кандидат стиче највише у `07_HOW_TO_READ_AN_ODOO_MODULE_3h.md` док прати existing KomITi view измјене, а затим у стварним промјенама и провјерама из `16_CAPSTONE_BUILD_YOUR_OWN_ODOO_MODULE_16h.md`.
+-----------------------------------------------------------------------------------------------------------------
+
+## 9) Action и menu слој
+
+Да би user видио нешто у UI-ју, није довољан model или view. Често су потребни:
+- action,
+- menu binding,
+- search view,
+- view mode wiring.
+
+`komiti_gantt` је добар KomITi примјер јер показује да “view постоји у коду” није исто што и “view је доступан у Odoo switcher-у”.
+
+Практично искуство за action/menu wiring кандидат стиче читајући `07_HOW_TO_READ_AN_ODOO_MODULE_3h.md`, а затим у `16_CAPSTONE_BUILD_YOUR_OWN_ODOO_MODULE_16h.md` кад мора повезати menu, action и search/view mode за `komiti_academy`.
+-----------------------------------------------------------------------------------------------------------------
+
+## 10) Security basics
+
+Мораш разликовати:
+- group,
+- access control list,
+- record rule,
+- server-side checks у Python-у.
+
+Практично искуство за security слој кандидат стиче у `06_ANATOMY_OF_A_GOOD_ODOO_MODULE_2h.md` и `07_HOW_TO_READ_AN_ODOO_MODULE_3h.md`, а затим га стварно гради у `16_CAPSTONE_BUILD_YOUR_OWN_ODOO_MODULE_16h.md` кроз access CSV, role reasoning и basic permission separation.
+-----------------------------------------------------------------------------------------------------------------
+
+## 11) Module upgrade није опционо
+
+У овом репоу важи професионално правило:
+- ако мијењаш Odoo модул, upgrade је нормалан дио измјене,
+- без upgrade-а не можеш тврditi да си провјерио понашање.
+
+Практичну upgrade дисциплину кандидат стиче најјасније у `16_CAPSTONE_BUILD_YOUR_OWN_ODOO_MODULE_16h.md`, а troubleshooting послије upgrade-а увјежбава у `09_ODOO_DEBUGGING_PLAYBOOK_3h.md`.
+-----------------------------------------------------------------------------------------------------------------
+
+## 12) Runtime truth > source code truth
+
+У KomITi начину рада није довољно да код “изгледа добро”. Мораш провјерити:
+- да ли је модул upgrade-ован,
+- да ли је `odoo-web` учитао нови код,
+- да ли assets стварно служе ново стање,
+- да ли конкретан user flow ради.
+
+Практично runtime verification искуство кандидат стиче у `10_ODOO_TESTING_AND_VERIFICATION_HANDBOOK_3h.md`, а затим га мора показати и на свом модулу кроз `16_CAPSTONE_BUILD_YOUR_OWN_ODOO_MODULE_16h.md`.
+-----------------------------------------------------------------------------------------------------------------
+
+## 13) KomITi foundations checklist
+
+Кад завршиш овај документ, мораш моћи објаснити:
+- разлику између `_name` и `_inherit`,
+- шта је recordset,
+- шта је `env`,
+- када користиш `onchange`, а када server-side validation,
+- зашто XML view промјена без upgrade-а није довољна,
+- зашто runtime verification има предност над “видим код у фајлу”.
+-----------------------------------------------------------------------------------------------------------------
+
+## 14) Foundations capstone задатак
+
+Док читаш foundations, не остајеш само на теорији. Од овог тренутка почињеш свој модул:
+- `komiti_academy`
+
+До краја овог foundation слоја мораш имати:
+- нови addon folder,
+- `__manifest__.py`,
+- `__init__.py`,
+- `models/__init__.py`,
+- скицу model-а `academy.course`,
+- скицу model-а `academy.session`,
+- списак поља која ћеш правити,
+- кратко објашњење шта је input, шта derived, а шта business rule.
+
+Минимална самопровјера:
+- да ли јасно знаш зашто су ти потребна два model-а,
+- да ли знаш који field је `Many2one`, који `One2many`, који `Many2many`,
+- да ли знаш која правила иду у `constrains`, а која могу у `onchange`,
+- да ли знаш који ће view-ови постојати.
+
+Ако на ово не можеш одговорити, још ниси стварно усвојио foundations.
+-----------------------------------------------------------------------------------------------------------------
+
+## 15) Шта читаш даље
+
+- `06_ANATOMY_OF_A_GOOD_ODOO_MODULE_2h.md`
+- `07_HOW_TO_READ_AN_ODOO_MODULE_3h.md`
+- `16_CAPSTONE_BUILD_YOUR_OWN_ODOO_MODULE_16h.md`
+
+## 99) Task на komiti_academy пројекту за кандидата
+
+1. Направи skeleton модула `komiti_academy` са почетним Odoo фајловима.
+Референца: Ово је објашњено у поглављима `## 2) Шта је model`, `## 7) Views`, `## 9) Action и menu слој` и `## 14) Foundations capstone задатак`.
+2. Дефиниши скицу `academy.course` и `academy.session` model-а и попиши њихова почетна поља.
+Референца: Ово је објашњено у поглављима `## 2) Шта је model`, `## 4) Шта су: \`env\`, \`domain\`, \`context\`` и `## 5) Fields`.
+3. Одреди шта је input, шта derived, а шта business rule у првој верзији модула.
+Референца: Ово је објашњено у поглављима `## 5) Fields`, `## 6) Шта су: \`onchange\`, \`constrains\`, \`create\`, \`write\`, \`unlink\`` и `## 14) Foundations capstone задатак`.
+4. Именуј минимални UI који модул мора имати: tree, form и search слој.
+Референца: Ово је објашњено у поглављима `## 7) Views`, `## 8) View inheritance`, `## 9) Action и menu слој` и `## 14) Foundations capstone задатак`.
+
+## 99) Solutions
+
+1. За skeleton модула уради ово редом:
+	1. У `## 14) Foundations capstone задатак` узми основни образац за почетак.
+	2. Запиши који су минимални почетни Odoo фајлови потребни да модул има јасан skeleton, нпр. `__manifest__.py`, `__init__.py`, `models/__init__.py`, `models/academy_course.py`, `models/academy_session.py`, `views/academy_course_views.xml`, `security/ir.model.access.csv`.
+	3. Из `## 7) Views` и `## 9) Action и menu слој` провјери да у skeleton-у не заборавиш UI улазе у модул.
+	4. Направи кратку листу фајлова и сврхе сваког од њих.
+2. За `academy.course` и `academy.session` уради ово редом:
+	1. У `## 2) Шта је model` одреди шта је посебан model, а шта само поље постојећег model-а.
+	2. Из `## 5) Fields` попиши почетна поља за оба model-а, нпр. за `academy.course` бар `name` и једно статусно или описно поље, а за `academy.session` бар везу према курсу и једно временско поље.
+	3. Из `## 4) Шта су: \`env\`, \`domain\`, \`context\`` провјери које relation везе и филтери очекујеш.
+	4. Запиши коначну скицу оба model-а у краткој табеларној или листној форми.
+3. За input, derived и business rule уради ово редом:
+	1. Прођи пољa која си дефинисао и раздвоји која уноси корисник, а која настају из других података.
+	2. Из `## 6) Шта су: \`onchange\`, \`constrains\`, \`create\`, \`write\`, \`unlink\`` одреди гдје иде business правило, а гдје derived логика.
+	3. Сваки елемент сврстај у једну од 3 групе: `input`, `derived`, `business rule`.
+	4. Провјери да ли је ова подјела у складу са очекивањем из `## 14) Foundations capstone задатак`.
+4. За минимални UI уради ово редом:
+	1. Из `## 7) Views` запиши која поља морају бити видљива у tree и form погледу.
+	2. Из `## 8) View inheritance` одлучи да ли ти треба нови view или насљеђивање постојећег.
+	3. Из `## 9) Action и menu слој` додај како корисник уопште улази у тај UI.
+	4. На крају запиши минимални UI scope: `tree`, `form`, `search`, `action`, `menu`, уз кратак примјер шта у сваком од њих корисник мора видјети.

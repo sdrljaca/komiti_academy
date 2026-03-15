@@ -1,0 +1,522 @@
+# Dictionary Of Terms And Acronyms
+
+Ово је appendix документ за learning библиотеку.
+Сврха му није да замијени главне learning документе, него да служи као брзи индекс појмова, скраћеница и термина који се понављају кроз KomITi onboarding.
+Правило читања је једноставно:
+- овдје прво провјераваш кратко значење термина,
+- а онда идеш у наведене канонске документе ако ти треба дубље објашњење или практичан задатак.
+`Гдје се помиње` не значи „сваки могући фајл у репоу“, него главне learning/codex документе у којима је појам најбитнији.
+------------------------------------------------------------------------------------------------------------------
+
+## A
+
+`ACL` значи `Access Control List`.
+У Odoo контексту то је табела/правило које дефинише ко може `read`, `write`, `create` и `unlink` над одређеним model-ом.
+Гдје се помиње:
+- `05_ODOO_FOUNDATIONS_4h.md`
+- `16_CAPSTONE_BUILD_YOUR_OWN_ODOO_MODULE_16h.md`
+
+`Action` је Odoo UI wiring слој који повезује model, view и menu тако да корисник стварно може отворити неки flow.
+Гдје се помиње:
+- `05_ODOO_FOUNDATIONS_4h.md`
+- `07_HOW_TO_READ_AN_ODOO_MODULE_3h.md`
+- `16_CAPSTONE_BUILD_YOUR_OWN_ODOO_MODULE_16h.md`
+
+`Addon` је Odoo модулски пакет у репоу.
+У KomITi контексту то су нпр. `komiti_timesheet`, `komiti_project`, `komiti_dispatching`, `komiti_gantt` и `komiti_academy`.
+Гдје се помиње:
+- `02_DEVELOPER_QUICKSTART_1h.md`
+- `06_ANATOMY_OF_A_GOOD_ODOO_MODULE_2h.md`
+- `16_CAPSTONE_BUILD_YOUR_OWN_ODOO_MODULE_16h.md`
+
+`Apply` је Terraform терминалска команда која примјењује промјене из плана на стварну инфраструктуру.
+Гдје се помиње:
+- `04_INFRA_TERRAFORM_DOCKER_AWS_FOUNDATIONS_4h.md`
+- `../infra/aws/CODEX_TERRAFORM.md`
+
+`Asset reset` је дисциплина освјежавања frontend/website asset-а кад старо runtime стање и даље служи стари JS/CSS/QWeb.
+Гдје се помиње:
+- `02_DEVELOPER_QUICKSTART_1h.md`
+- `12_ODOO_CODE_REVIEW_CHECKLIST_1h.md`
+- `14_ODOO_WEBSITE_AND_FRONTEND_2h.md`
+
+`AWS` је `Amazon Web Services`.
+У овој библиотеци означава cloud слој на којем живе KomITi DEV/PROD runtime-и.
+Гдје се помиње:
+- `00_END2END_ONBOARDING_LEARNING_PATH_39-52w.md`
+- `04_INFRA_TERRAFORM_DOCKER_AWS_FOUNDATIONS_4h.md`
+- `../infra/aws/CODEX_TERRAFORM.md`
+------------------------------------------------------------------------------------------------------------------
+
+## B
+
+`Branch` је Git линија развоја.
+У KomITi workflow-у је битно разликовати feature, `dev` и `prod` гране и промоцију између њих.
+Гдје се помиње:
+- `00_END2END_ONBOARDING_LEARNING_PATH_39-52w.md`
+- `03_GIT_VSCODE_FOUNDATIONS_2h.md`
+- `13_TASK_BREAKDOWN_AND_ROLLOUT_THINKING_2h.md`
+------------------------------------------------------------------------------------------------------------------
+
+## C
+
+`Capstone` је централни практични пројекат који кандидат гради кроз onboarding.
+У овој библиотеци то је модул `komiti_academy`.
+Гдје се помиње:
+- `00_END2END_ONBOARDING_LEARNING_PATH_39-52w.md`
+- `00_PROJECT_PRODUCT_DESCRIPTION_2h.md`
+- `16_CAPSTONE_BUILD_YOUR_OWN_ODOO_MODULE_16h.md`
+
+`Caddy` је reverse proxy/web server слој који се појављује у infra/runtime контексту.
+Гдје се помиње:
+- `04_INFRA_TERRAFORM_DOCKER_AWS_FOUNDATIONS_4h.md`
+- infra runbook документи под `../infra/`
+
+`CLI` значи `Command-Line Interface`.
+То је рад из терминала кроз команде као `docker compose`, `git`, `rg` и `terraform`.
+Гдје се помиње:
+- `02_DEVELOPER_QUICKSTART_1h.md`
+- `03_GIT_VSCODE_FOUNDATIONS_2h.md`
+- `04_INFRA_TERRAFORM_DOCKER_AWS_FOUNDATIONS_4h.md`
+
+`CODEX` је KomITi назив за канонски policy/discipline документ за одређени слој или домен.
+Примјери су `ENGINEERING_CODEX.md`, `custom-addons/CODEX_ODOO.md` и `infra/aws/CODEX_TERRAFORM.md`.
+Гдје се помиње:
+- `00_END2END_ONBOARDING_LEARNING_PATH_39-52w.md`
+- `02_DEVELOPER_QUICKSTART_1h.md`
+- `../ENGINEERING_CODEX.md`
+
+`Commit` је Git snapshot промјена са јасном поруком која објашњава шта је урађено.
+Гдје се помиње:
+- `03_GIT_VSCODE_FOUNDATIONS_2h.md`
+- `13_TASK_BREAKDOWN_AND_ROLLOUT_THINKING_2h.md`
+
+`Compute field` је Odoo поље чија се вриједност рачуна из других поља или стања.
+Гдје се помиње:
+- `05_ODOO_FOUNDATIONS_4h.md`
+- `16_CAPSTONE_BUILD_YOUR_OWN_ODOO_MODULE_16h.md`
+
+`Compose` у овој библиотеци најчешће значи терминалску команду `docker compose` и compose YAML који описује више сервиса.
+Гдје се помиње:
+- `02_DEVELOPER_QUICKSTART_1h.md`
+- `04_INFRA_TERRAFORM_DOCKER_AWS_FOUNDATIONS_4h.md`
+
+`Constraint` у Odoo контексту најчешће значи server-side правило, често преко `@api.constrains`.
+Гдје се помиње:
+- `05_ODOO_FOUNDATIONS_4h.md`
+- `10_ODOO_TESTING_AND_VERIFICATION_HANDBOOK_3h.md`
+- `16_CAPSTONE_BUILD_YOUR_OWN_ODOO_MODULE_16h.md`
+
+`Container` је running instance Docker image-е.
+Гдје се помиње:
+- `02_DEVELOPER_QUICKSTART_1h.md`
+- `04_INFRA_TERRAFORM_DOCKER_AWS_FOUNDATIONS_4h.md`
+
+`Context` је Odoo runtime meta-слој за default-е, toggle-ове и помоћне behavioural сигнале.
+Гдје се помиње:
+- `05_ODOO_FOUNDATIONS_4h.md`
+- `08_KOMITI_DOMAIN_MODEL_MAP_2h.md`
+
+`CSV` значи `Comma-Separated Values`.
+У Odoo learning контексту се често јавља као `ir.model.access.csv` фајл за access права.
+Гдје се помиње:
+- `06_ANATOMY_OF_A_GOOD_ODOO_MODULE_2h.md`
+- `16_CAPSTONE_BUILD_YOUR_OWN_ODOO_MODULE_16h.md`
+
+`Custom addon` је Odoo модул који није upstream/core Odoo, него KomITi или project-specific надоградња.
+Гдје се помиње:
+- `02_DEVELOPER_QUICKSTART_1h.md`
+- `08_KOMITI_DOMAIN_MODEL_MAP_2h.md`
+------------------------------------------------------------------------------------------------------------------
+
+## D
+
+`Data source` је Terraform конструкција за читање постојећег ресурса без ownership-а над њим.
+Гдје се помиње:
+- `04_INFRA_TERRAFORM_DOCKER_AWS_FOUNDATIONS_4h.md`
+
+`DB` је скраћеница за database, овдје најчешће PostgreSQL база коју Odoo користи.
+Гдје се помиње:
+- `02_DEVELOPER_QUICKSTART_1h.md`
+- `11_ODOO_DATA_AND_MIGRATION_SAFETY_3h.md`
+
+`Debugging` је процес проналаска root-cause-а проблема, а не само симптома.
+Гдје се помиње:
+- `00_END2END_ONBOARDING_LEARNING_PATH_39-52w.md`
+- `09_ODOO_DEBUGGING_PLAYBOOK_3h.md`
+
+`Deploy` је пуштање промјене у одређено runtime окружење.
+Гдје се помиње:
+- `13_TASK_BREAKDOWN_AND_ROLLOUT_THINKING_2h.md`
+- `../ENGINEERING_CODEX.md`
+
+`DNS` значи `Domain Name System`.
+То је слој који повезује име домена са правим host/IP endpoint-ом.
+Гдје се помиње:
+- `04_INFRA_TERRAFORM_DOCKER_AWS_FOUNDATIONS_4h.md`
+
+`Docker` је container runtime и packaging слој.
+Гдје се помиње:
+- `00_END2END_ONBOARDING_LEARNING_PATH_39-52w.md`
+- `02_DEVELOPER_QUICKSTART_1h.md`
+- `04_INFRA_TERRAFORM_DOCKER_AWS_FOUNDATIONS_4h.md`
+
+`Domain` у Odoo контексту значи search/filter логику над recordset-ом.
+У ширем KomITi контексту може значити и пословни домен, па значење увијек читаш из контекста.
+Гдје се помиње:
+- `05_ODOO_FOUNDATIONS_4h.md`
+- `08_KOMITI_DOMAIN_MODEL_MAP_2h.md`
+
+`Drift` је разлика између онога што Terraform state очекује и онога што стварно постоји у cloud runtime-у.
+Гдје се помиње:
+- `04_INFRA_TERRAFORM_DOCKER_AWS_FOUNDATIONS_4h.md`
+------------------------------------------------------------------------------------------------------------------
+
+## E
+
+`EC2` значи `Elastic Compute Cloud`.
+У пракси је то AWS виртуелна машина на којој runtime живи.
+Гдје се помиње:
+- `00_END2END_ONBOARDING_LEARNING_PATH_39-52w.md`
+- `04_INFRA_TERRAFORM_DOCKER_AWS_FOUNDATIONS_4h.md`
+
+`EIP` значи `Elastic IP`.
+То је стабилна јавна IP адреса у AWS-у.
+Гдје се помиње:
+- `00_END2END_ONBOARDING_LEARNING_PATH_39-52w.md`
+- `04_INFRA_TERRAFORM_DOCKER_AWS_FOUNDATIONS_4h.md`
+
+`End2End` у KomITi learning naming-у значи да кандидат пролази цијели пут од foundations до самосталне испоруке.
+Гдје се помиње:
+- `00_END2END_ONBOARDING_LEARNING_PATH_39-52w.md`
+- `13_TASK_BREAKDOWN_AND_ROLLOUT_THINKING_2h.md`
+
+`env` је Odoo runtime приступ моделима, кориснику, company-ју и context-у.
+Гдје се помиње:
+- `05_ODOO_FOUNDATIONS_4h.md`
+
+`Engineering Codex` је канонски repo-level policy документ за начин рада, verification и delivery дисциплину.
+Гдје се помиње:
+- `00_END2END_ONBOARDING_LEARNING_PATH_39-52w.md`
+- `02_DEVELOPER_QUICKSTART_1h.md`
+- `../ENGINEERING_CODEX.md`
+------------------------------------------------------------------------------------------------------------------
+
+## F
+
+`Feature branch` је радна Git грана на којој се прави конкретан batch измјена прије промоције у `dev` и `prod`.
+Гдје се помиње:
+- `03_GIT_VSCODE_FOUNDATIONS_2h.md`
+- `13_TASK_BREAKDOWN_AND_ROLLOUT_THINKING_2h.md`
+
+`Field` је Odoo атрибут модела, нпр. `Char`, `Many2one`, `Selection` или `Datetime`.
+Гдје се помиње:
+- `05_ODOO_FOUNDATIONS_4h.md`
+- `16_CAPSTONE_BUILD_YOUR_OWN_ODOO_MODULE_16h.md`
+
+`Form view` је Odoo приказ за отварање и уређивање једног записа.
+Гдје се помиње:
+- `05_ODOO_FOUNDATIONS_4h.md`
+- `16_CAPSTONE_BUILD_YOUR_OWN_ODOO_MODULE_16h.md`
+------------------------------------------------------------------------------------------------------------------
+
+## G
+
+`Git` је version control систем који користимо за branch, commit, merge и promotion flow.
+Гдје се помиње:
+- `00_END2END_ONBOARDING_LEARNING_PATH_39-52w.md`
+- `03_GIT_VSCODE_FOUNDATIONS_2h.md`
+
+`Group` је Odoo security concept за role/permission segmentation корисника.
+Гдје се помиње:
+- `05_ODOO_FOUNDATIONS_4h.md`
+- `16_CAPSTONE_BUILD_YOUR_OWN_ODOO_MODULE_16h.md`
+------------------------------------------------------------------------------------------------------------------
+
+## H
+
+`Health check` је кратка провјера да ли сервис стварно ради, нпр. `http://localhost:8069/web/health`.
+Гдје се помиње:
+- `02_DEVELOPER_QUICKSTART_1h.md`
+
+`Hotfix` је ограничена и брза исправка за конкретан production/runtime проблем.
+Гдје се помиње:
+- `00_END2END_ONBOARDING_LEARNING_PATH_39-52w.md`
+- `13_TASK_BREAKDOWN_AND_ROLLOUT_THINKING_2h.md`
+------------------------------------------------------------------------------------------------------------------
+
+## I
+
+`Image` је Docker template од којег се прави container.
+Гдје се помиње:
+- `04_INFRA_TERRAFORM_DOCKER_AWS_FOUNDATIONS_4h.md`
+
+`Inheritance` у Odoo контексту значи проширивање постојећег модела или постојећег XML view-а умјесто прављења свега од нуле.
+Гдје се помиње:
+- `05_ODOO_FOUNDATIONS_4h.md`
+- `07_HOW_TO_READ_AN_ODOO_MODULE_3h.md`
+------------------------------------------------------------------------------------------------------------------
+
+## J
+
+`JS` значи JavaScript.
+У Odoo/KomITi контексту се јавља у custom frontend/view слоју као што је `komiti_gantt`.
+Гдје се помиње:
+- `07_HOW_TO_READ_AN_ODOO_MODULE_3h.md`
+- `14_ODOO_WEBSITE_AND_FRONTEND_2h.md`
+------------------------------------------------------------------------------------------------------------------
+
+## K
+
+`Kanban` је један Odoo view тип.
+Гдје се помиње:
+- `05_ODOO_FOUNDATIONS_4h.md`
+- `16_CAPSTONE_BUILD_YOUR_OWN_ODOO_MODULE_16h.md`
+
+`KomITi` је организациони и пројектни контекст овог репоа, workflow-а и learning библиотеке.
+Гдје се помиње:
+- практично сви learning документи
+------------------------------------------------------------------------------------------------------------------
+
+## L
+
+`Localhost` је локално развојно runtime окружење на developer машини.
+Гдје се помиње:
+- `02_DEVELOPER_QUICKSTART_1h.md`
+- `10_ODOO_TESTING_AND_VERIFICATION_HANDBOOK_3h.md`
+- `../ENGINEERING_CODEX.md`
+
+`Lock date` је KomITi/Odoo study case који се често користи да објасни business rule, settings и write discipline.
+Гдје се помиње:
+- `02_DEVELOPER_QUICKSTART_1h.md`
+- `05_ODOO_FOUNDATIONS_4h.md`
+- `07_HOW_TO_READ_AN_ODOO_MODULE_3h.md`
+------------------------------------------------------------------------------------------------------------------
+
+## M
+
+`Manifest` је Odoo фајл `__manifest__.py` који описује dependency-је, data loading и основни идентитет модула.
+Гдје се помиње:
+- `06_ANATOMY_OF_A_GOOD_ODOO_MODULE_2h.md`
+- `07_HOW_TO_READ_AN_ODOO_MODULE_3h.md`
+- `16_CAPSTONE_BUILD_YOUR_OWN_ODOO_MODULE_16h.md`
+
+`Merge` је Git операција спајања историје и промјена из једне гране у другу.
+Гдје се помиње:
+- `03_GIT_VSCODE_FOUNDATIONS_2h.md`
+- `13_TASK_BREAKDOWN_AND_ROLLOUT_THINKING_2h.md`
+
+`Model` је Odoo Python класа која описује business object.
+Гдје се помиње:
+- `05_ODOO_FOUNDATIONS_4h.md`
+- `06_ANATOMY_OF_A_GOOD_ODOO_MODULE_2h.md`
+- `16_CAPSTONE_BUILD_YOUR_OWN_ODOO_MODULE_16h.md`
+
+`Module upgrade` је Odoo терминалска команда и operational корак којим runtime учитава промјене модула у базу и registry.
+Гдје се помиње:
+- `02_DEVELOPER_QUICKSTART_1h.md`
+- `05_ODOO_FOUNDATIONS_4h.md`
+- `10_ODOO_TESTING_AND_VERIFICATION_HANDBOOK_3h.md`
+------------------------------------------------------------------------------------------------------------------
+
+## O
+
+`Odoo` је framework и ERP платформа на којој је овај репо заснован.
+Гдје се помиње:
+- практично сви learning документи
+
+`Onchange` је Odoo UI helper pattern који мијења форму у току уноса, али сам по себи није довољан као једина business гаранција.
+Гдје се помиње:
+- `05_ODOO_FOUNDATIONS_4h.md`
+- `16_CAPSTONE_BUILD_YOUR_OWN_ODOO_MODULE_16h.md`
+
+`Output` је Terraform излазна вриједност коју stack приказује послије `apply`.
+Гдје се помиње:
+- `04_INFRA_TERRAFORM_DOCKER_AWS_FOUNDATIONS_4h.md`
+------------------------------------------------------------------------------------------------------------------
+
+## P
+
+`Plan` је Terraform терминалска команда и резултат анализе који показује шта ће се промијенити ако урадиш `apply`.
+Гдје се помиње:
+- `04_INFRA_TERRAFORM_DOCKER_AWS_FOUNDATIONS_4h.md`
+- `../infra/aws/CODEX_TERRAFORM.md`
+
+`PR` значи `Pull Request`.
+То је review јединица у којој се промјена представља, објашњава и провјерава прије merge-а.
+Гдје се помиње:
+- `00_END2END_ONBOARDING_LEARNING_PATH_39-52w.md`
+- `03_GIT_VSCODE_FOUNDATIONS_2h.md`
+
+`Provider` је Terraform plugin који Terraform-у даје vocabulary и API bridge према конкретном систему, нпр. AWS-у.
+Гдје се помиње:
+- `04_INFRA_TERRAFORM_DOCKER_AWS_FOUNDATIONS_4h.md`
+------------------------------------------------------------------------------------------------------------------
+
+## R
+
+`Record rule` је Odoo security механизам који ограничава које конкретне записе корисник може видјети или мијењати.
+Гдје се помиње:
+- `05_ODOO_FOUNDATIONS_4h.md`
+- `16_CAPSTONE_BUILD_YOUR_OWN_ODOO_MODULE_16h.md`
+
+`Recordset` је Odoo колекција једног или више записа над којом методе раде.
+Гдје се помиње:
+- `05_ODOO_FOUNDATIONS_4h.md`
+- `07_HOW_TO_READ_AN_ODOO_MODULE_3h.md`
+
+`Resource` је Terraform објекат којим Terraform управља током животног циклуса инфраструктуре.
+Гдје се помиње:
+- `04_INFRA_TERRAFORM_DOCKER_AWS_FOUNDATIONS_4h.md`
+
+`Reverse proxy` је сервис који прима HTTP/HTTPS саобраћај и просљеђује га правом backend runtime-у.
+Гдје се помиње:
+- `04_INFRA_TERRAFORM_DOCKER_AWS_FOUNDATIONS_4h.md`
+- infra compose/runbook документи под `../infra/`
+
+`Rollout` је планирано пуштање измјене у runtime, са impact thinking-ом и verification корацима.
+Гдје се помиње:
+- `13_TASK_BREAKDOWN_AND_ROLLOUT_THINKING_2h.md`
+
+`Root cause` је стварни узрок проблема, не његов површински симптом.
+Гдје се помиње:
+- `00_END2END_ONBOARDING_LEARNING_PATH_39-52w.md`
+- `09_ODOO_DEBUGGING_PLAYBOOK_3h.md`
+
+`Runbook` је operational документ који описује day-2 ops кораке, верификацију, recovery и рутинске процедуре.
+Гдје се помиње:
+- `04_INFRA_TERRAFORM_DOCKER_AWS_FOUNDATIONS_4h.md`
+- infra runbook документи под `../infra/`
+
+`Runtime` је стварно покренуто, живо стање система: процеси, контејнери, база, учитани код и понашање које стварно ради.
+Гдје се помиње:
+- `02_DEVELOPER_QUICKSTART_1h.md`
+- `04_INFRA_TERRAFORM_DOCKER_AWS_FOUNDATIONS_4h.md`
+- `05_ODOO_FOUNDATIONS_4h.md`
+------------------------------------------------------------------------------------------------------------------
+
+## S
+
+`Search view` је Odoo view за filter и search controls у UI-ју.
+Гдје се помиње:
+- `05_ODOO_FOUNDATIONS_4h.md`
+- `16_CAPSTONE_BUILD_YOUR_OWN_ODOO_MODULE_16h.md`
+
+`Security group` је AWS мрежни firewall boundary за inbound/outbound правила.
+Гдје се помиње:
+- `00_END2END_ONBOARDING_LEARNING_PATH_39-52w.md`
+- `04_INFRA_TERRAFORM_DOCKER_AWS_FOUNDATIONS_4h.md`
+
+`Server-side validation` је правило које важи без обзира на конкретни UI path и зато не смије живјети само у `onchange` слоју.
+Гдје се помиње:
+- `05_ODOO_FOUNDATIONS_4h.md`
+- `10_ODOO_TESTING_AND_VERIFICATION_HANDBOOK_3h.md`
+
+`Smoke test` је кратка оперативна провјера да критични flow ради послије измјене, upgrade-а или deploy-а.
+Гдје се помиње:
+- `00_END2END_ONBOARDING_LEARNING_PATH_39-52w.md`
+- `02_DEVELOPER_QUICKSTART_1h.md`
+- `10_ODOO_TESTING_AND_VERIFICATION_HANDBOOK_3h.md`
+
+`Stack` је скуп техничких компоненти које заједно чине један систем или окружење.
+У локалном quickstart контексту то су нпр. `odoo-web` и `db`; у ширем infra контексту то су AWS, Docker, Terraform и application workload.
+Гдје се помиње:
+- `02_DEVELOPER_QUICKSTART_1h.md`
+- `04_INFRA_TERRAFORM_DOCKER_AWS_FOUNDATIONS_4h.md`
+
+`State` у Terraform контексту значи Terraform runtime истину о ресурсима којима управља.
+Гдје се помиње:
+- `04_INFRA_TERRAFORM_DOCKER_AWS_FOUNDATIONS_4h.md`
+- `../infra/aws/CODEX_TERRAFORM.md`
+------------------------------------------------------------------------------------------------------------------
+
+## T
+
+`Terraform` је infrastructure-as-code алат којим описујемо, планирамо и примјењујемо промјене над AWS ресурсима.
+Гдје се помиње:
+- `00_END2END_ONBOARDING_LEARNING_PATH_39-52w.md`
+- `04_INFRA_TERRAFORM_DOCKER_AWS_FOUNDATIONS_4h.md`
+- `../infra/aws/CODEX_TERRAFORM.md`
+
+`tfvars` је уобичајен Terraform назив за фајл са вриједностима variables, најчешће `terraform.tfvars`.
+Гдје се помиње:
+- `04_INFRA_TERRAFORM_DOCKER_AWS_FOUNDATIONS_4h.md`
+- `../infra/aws/CODEX_TERRAFORM.md`
+
+`Tree view` или list view је Odoo табеларни приказ више записа.
+Гдје се помиње:
+- `05_ODOO_FOUNDATIONS_4h.md`
+- `16_CAPSTONE_BUILD_YOUR_OWN_ODOO_MODULE_16h.md`
+------------------------------------------------------------------------------------------------------------------
+
+## U
+
+`UI` значи `User Interface`.
+У Odoo контексту то су form/list/search/kanban/calendar и други interaction слојеви које корисник стварно види.
+Гдје се помиње:
+- `02_DEVELOPER_QUICKSTART_1h.md`
+- `05_ODOO_FOUNDATIONS_4h.md`
+
+`Upstream` у Odoo контексту означава постојећи core или већ постојећи parent слој који custom addon насљеђује или проширује.
+Гдје се помиње:
+- `06_ANATOMY_OF_A_GOOD_ODOO_MODULE_2h.md`
+- `07_HOW_TO_READ_AN_ODOO_MODULE_3h.md`
+------------------------------------------------------------------------------------------------------------------
+
+## V
+
+`Verification` је доказивање да промјена стварно ради у runtime-у, а не само да код изгледа исправно.
+Гдје се помиње:
+- `10_ODOO_TESTING_AND_VERIFICATION_HANDBOOK_3h.md`
+- `../ENGINEERING_CODEX.md`
+
+`View` је Odoo XML/UI слој којим се модел приказује и користи у интерфејсу.
+Гдје се помиње:
+- `05_ODOO_FOUNDATIONS_4h.md`
+- `07_HOW_TO_READ_AN_ODOO_MODULE_3h.md`
+- `16_CAPSTONE_BUILD_YOUR_OWN_ODOO_MODULE_16h.md`
+
+`VPC` значи `Virtual Private Cloud`.
+То је AWS мрежни простор унутар којег живе subnet-и, routing и други network boundary слојеви.
+Гдје се помиње:
+- `00_END2END_ONBOARDING_LEARNING_PATH_39-52w.md`
+- `04_INFRA_TERRAFORM_DOCKER_AWS_FOUNDATIONS_4h.md`
+
+`Volume` је Docker persistent storage слој који преживљава recreate/restart циклусе контејнера.
+Гдје се помиње:
+- `04_INFRA_TERRAFORM_DOCKER_AWS_FOUNDATIONS_4h.md`
+------------------------------------------------------------------------------------------------------------------
+
+## W
+
+`Workflow` је низ корака кроз који систем, корисник или измјена пролази.
+Гдје се помиње:
+- `02_DEVELOPER_QUICKSTART_1h.md`
+- `13_TASK_BREAKDOWN_AND_ROLLOUT_THINKING_2h.md`
+
+`Write` је Odoo lifecycle метода за измјену постојећих записа.
+Гдје се помиње:
+- `05_ODOO_FOUNDATIONS_4h.md`
+- `07_HOW_TO_READ_AN_ODOO_MODULE_3h.md`
+------------------------------------------------------------------------------------------------------------------
+
+## X
+
+`XPath` је syntax за адресирање XML чворова, често коришћен у Odoo view inheritance-у.
+Гдје се помиње:
+- `02_DEVELOPER_QUICKSTART_1h.md`
+- `05_ODOO_FOUNDATIONS_4h.md`
+- `06_ANATOMY_OF_A_GOOD_ODOO_MODULE_2h.md`
+
+`XML` је markup формат који Odoo интензивно користи за view-ове, data записе и UI wiring.
+Гдје се помиње:
+- `02_DEVELOPER_QUICKSTART_1h.md`
+- `05_ODOO_FOUNDATIONS_4h.md`
+- `06_ANATOMY_OF_A_GOOD_ODOO_MODULE_2h.md`
+------------------------------------------------------------------------------------------------------------------
+
+## 0-9
+
+`0 -> Professional` је shorthand за цијели KomITi onboarding пут од потпуног почетника до самосталног инжењера.
+Гдје се помиње:
+- `00_END2END_ONBOARDING_LEARNING_PATH_39-52w.md`

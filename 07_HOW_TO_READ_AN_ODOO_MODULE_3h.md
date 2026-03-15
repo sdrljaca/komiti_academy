@@ -1,0 +1,180 @@
+# How to Read an Odoo Module
+
+Ово је једна од најважнијих practical skills у KomITi-ју. Професионалац не почиње од random фајла, него чита модул систематски.
+
+## 1) Прави редослијед читања
+
+Кад први пут уђеш у модул, иди овим редом:
+
+1. `__manifest__.py`
+2. module codex / README ако постоји
+3. `models/`
+4. `security/`
+5. `views/`
+6. `data/`
+7. `static/` / `controllers/` ако постоје
+
+## 2) Шта желиш знати после 5 минута
+
+Мораш себи одговорити:
+- да ли модул уводи нови model или насљеђује постојећи,
+- који business problem рјешава,
+- које view-ове мијења,
+- да ли има frontend слој,
+- шта би морао upgrade-овати и ручно тестирати.
+
+## 3) Како читати `komiti_timesheet`
+
+### Питање
+
+“Гдје живи логика From/To и lock date?”
+
+### Читање
+
+1. module codex
+2. `models/account_analytic_line.py`
+3. `models/res_company.py`
+4. `models/res_config_settings.py`
+5. `views/account_analytic_line_views.xml`
+6. settings/company view XML
+
+### Зашто је ово добар training case
+
+Зато што модул има:
+- inheritance над постојећим model-ом,
+- UI helper behaviour,
+- server-side business rule,
+- settings/config surface,
+- више role scenario-а.
+
+## 4) Како читати `komiti_gantt`
+
+### Питање
+
+“Зашто Gantt view није видљив или не ради како треба?”
+
+### Читање
+
+1. module codex
+2. `models/ir_ui_view.py`
+3. `models/ir_action.py`
+4. `views/komiti_gantt_views.xml`
+5. `static/src/js/komiti_gantt_action.js`
+6. `static/src/xml/komiti_gantt_templates.xml`
+7. `static/src/scss/komiti_gantt.scss`
+
+### Шта учиш
+
+- custom view registration,
+- action/view wiring,
+- OWL/QWeb/SCSS relationship,
+- разлику између source code-а и стварно rendered UI-а.
+
+## 5) Како читати bug report
+
+Кад ти неко каже:
+- “не ради lock date”
+- “не видим Gantt”
+- “website header изгледа broken”
+- “permission није добар”
+
+не скачи одмах у код. Прво класификуј проблем:
+- model,
+- view,
+- security,
+- action/menu,
+- frontend/assets,
+- data/runtime.
+
+## 6) Од UI-а до кода
+
+Добар инжењер уме да крене од behaviour-а и иде уназад:
+
+1. који menu/action је отворио овај flow,
+2. који model/view стоји иза тога,
+3. који модул насљеђује тај model/view,
+4. да ли је проблем у data/runtime слоју или у source коду.
+
+## 7) Од кода до impact-а
+
+Кад читаш неки фајл, не питај само “шта ово ради”, него и:
+- шта би се покварило ако ово промијеним,
+- који flow-ови зависе од овога,
+- да ли је потребан upgrade,
+- коју улогу морам ручно тестирати,
+- да ли је ово localhost-only истина или runtime truth.
+
+## 8) Common junior mistakes
+
+- чита XML прије него што разумије model,
+- гледа само један фајл и мисли да је видио цијели flow,
+- не провјери security/data слој,
+- замијени source code presence са runtime effect-ом,
+- заборави да custom addon често само насљеђује upstream Odoo behaviour.
+
+## 9) KomITi reading drills
+
+После овог документа мораш знати да самостално одговориш:
+
+1. Који фајлови чине `komiti_timesheet` lock-date flow?
+2. Који фајлови чине `komiti_gantt` view registration?
+3. Који модул мијења website form behaviour према CRM lead-у?
+4. Где би прво гледао ако се `project.task` понаша другачије него што очекујеш?
+
+## 10) Како читаш свој capstone модул
+
+Паралелно са читањем KomITi модула, мораш научити да читаш и свој модул:
+- `komiti_academy`
+
+Редослијед је исти као и за сваки професионалан Odoo модул:
+
+1. `__manifest__.py`
+2. `models/course.py`
+3. `models/session.py`
+4. `security/ir.model.access.csv`
+5. `views/academy_course_views.xml`
+6. `views/academy_session_views.xml`
+7. `data/` ако га уведеш
+
+Контролна питања:
+- Да ли могу објаснити шта је primary model, а шта supporting model?
+- Да ли знам гдје живи relation logic?
+- Да ли знам гдје живе business rules?
+- Да ли знам које flow-ове морам ручно тестирати послије upgrade-а?
+
+Ако не можеш систематски читати свој модул, онда га још не разумијеш довољно да га испоручиш.
+
+Ово ћеш касније морати стварно урадити над `komiti_academy`, не само прочитати као савјет.
+
+## 11) Шта читаш даље
+
+- `08_KOMITI_DOMAIN_MODEL_MAP_2h.md`
+- `09_ODOO_DEBUGGING_PLAYBOOK_3h.md`
+- `16_CAPSTONE_BUILD_YOUR_OWN_ODOO_MODULE_16h.md`
+
+## 99) Task на komiti_academy пројекту за кандидата
+
+1. Прођи кроз `komiti_academy` истим редослиједом као професионалан Odoo модул: manifest, model-и, security, view-ови, data.
+Референца: Ово је објашњено у поглављима `## 1) Прави редослијед читања` и `## 10) Како читаш свој capstone модул`.
+2. Напиши кратко гдје у твом модулу живе relation logic, business rules и UI flow-ови.
+Референца: Ово је објашњено у поглављима `## 2) Шта желиш знати после 5 минута`, `## 6) Од UI-а до кода` и `## 7) Од кода до impact-а`.
+3. Именуј које flow-ове у `komiti_academy` мораш ручно тестирати послије module upgrade-а.
+Референца: Ово је објашњено у поглављима `## 7) Од кода до impact-а`, `## 9) KomITi reading drills` и `## 10) Како читаш свој capstone модул`.
+
+## 99) Solutions
+
+1. За редослијед читања уради ово редом:
+	1. У `## 1) Прави редослијед читања` узми редослијед којим гледаш модул.
+	2. Направи себи листу фајлова `komiti_academy` по том истом редослиједу, нпр. `__manifest__.py`, `models/academy_course.py`, `models/academy_session.py`, `security/ir.model.access.csv`, `views/academy_course_views.xml`.
+	3. Прођи те фајлове тим редом, без прескакања на случајне дијелове модула.
+	4. Кратко запиши шта си сазнао из сваког слоја.
+2. За relation logic, business rules и UI flow-ове уради ово редом:
+	1. Из `## 2) Шта желиш знати после 5 минута` узми питања која модул мора одмах да одговори.
+	2. Из `## 6) Од UI-а до кода` пронађи одакле кориснички flow улази у код.
+	3. Из `## 7) Од кода до impact-а` запиши гдје се у модулу налазе relation logic и business rules.
+	4. Сложи кратку биљешку у 3 реда: `relation logic`, `business rules`, `UI flow`.
+3. За ручно тестирање flow-ова уради ово редом:
+	1. У `## 10) Како читаш свој capstone модул` издвоји критичне корисничке путеве.
+	2. Из `## 9) KomITi reading drills` узми образац питања који открива impact измјене.
+	3. Именуј који flow-ови морају бити ручно тестирани након module upgrade-а, нпр. `креирање course-а`, `везивање session-а на course`, `отварање form view-а`.
+	4. За сваки flow запиши зашто је ризичан и шта конкретно провјераваш, нпр. `да ли се record сачувао`, `да ли се relation приказује`, `да ли UI баца грешку`.
