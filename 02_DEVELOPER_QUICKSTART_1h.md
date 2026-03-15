@@ -68,11 +68,11 @@ try { (Invoke-WebRequest -UseBasicParsing http://localhost:8069/web/health).Stat
 
 Примјери:
 ```powershell
-rg "komiti_academy" learning
+rg "komiti_academy" .
 rg "_inherit = \"project.task\"" custom-addons
 rg "lock date" .
 ```
-- `rg "komiti_academy" learning`: претражи ријеч `komiti_academy` само у директоријуму `learning`.
+- `rg "komiti_academy" .`: претражи ријеч `komiti_academy` у тренутном директоријуму и свему испод њега; `.` значи „овдје, односно current directory“.
 - `rg "_inherit = \"project.task\"" custom-addons`: тражи гдје custom addon-и насљеђују `project.task`; наводници држе цијели израз као један pattern.
 - `rg "lock date" .`: претражи израз `lock date` у тренутном директоријуму и свему испод њега; `.` значи „овдје, односно current directory“.
 

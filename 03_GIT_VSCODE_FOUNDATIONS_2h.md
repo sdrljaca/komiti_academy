@@ -11,8 +11,8 @@
 - Ако не видиш Explorer, обично га вратиш преко прве иконице у лијевом sidebar-у.
 
 ### Фајл, директоријум и workspace нису исто
-- `фајл` је један конкретан документ, нпр. `learning/02_DEVELOPER_QUICKSTART_1h.md`.
-- `директоријум` је један фолдер, нпр. `custom-addons/` или `learning/`.
+- `фајл` је један конкретан документ, нпр. `02_DEVELOPER_QUICKSTART_1h.md`.
+- `директоријум` је један фолдер, нпр. `custom-addons/` или `local-notes/`.
 - `workspace` је VS Code контекст у ком радиш; он може садржати један фолдер или више фолдера.
 
 ### Open Folder и workspace нису исто, иако често личе
@@ -205,23 +205,23 @@ git push -u origin 2026-03-12-features
 ```powershell
 git status --short
 git diff --stat
-git diff -- learning/03_GIT_VSCODE_FOUNDATIONS_2h.md
+git diff -- 03_GIT_VSCODE_FOUNDATIONS_2h.md
 ```
 - `git status --short`: прикаже кратак, компактни статус working tree-ја.
 - `git diff --stat`: прикаже статистички преглед промјена по фајловима.
-- `git diff -- learning/03_GIT_VSCODE_FOUNDATIONS_2h.md`: прикаже тачан diff само за наведени фајл.
+- `git diff -- 03_GIT_VSCODE_FOUNDATIONS_2h.md`: прикаже тачан diff само за наведени фајл.
 - `--short` је дуга опција; тражиш краћи, компактнији приказ Git статуса.
 - `--stat` је дуга опција; тражиш кратак статистички преглед промјена по фајловима.
-- у команди `git diff -- learning/03_GIT_VSCODE_FOUNDATIONS_2h.md`, оно `--` није назив фајла него раздвајач; Git-у говори: све послије овога третирај као путању, не као опцију.
-- `learning/03_GIT_VSCODE_FOUNDATIONS_2h.md` је аргумент, односно путања фајла за који тражиш diff.
+- у команди `git diff -- 03_GIT_VSCODE_FOUNDATIONS_2h.md`, оно `--` није назив фајла него раздвајач; Git-у говори: све послије овога третирај као путању, не као опцију.
+- `03_GIT_VSCODE_FOUNDATIONS_2h.md` је аргумент, односно путања фајла за који тражиш diff.
 - у причи са папиром: сад пишеш по свом радном папиру и онда гледаш шта си на њему стварно промијенио у односу на старо стање.
 
 ### Корак 4: staged-уј и commit-уј
 ```powershell
-git add learning/03_GIT_VSCODE_FOUNDATIONS_2h.md ИЛИ git add --all
+git add 03_GIT_VSCODE_FOUNDATIONS_2h.md ИЛИ git add --all
 git commit -m "Expand Git foundations workflow"
 ```
-- `git add learning/03_GIT_VSCODE_FOUNDATIONS_2h.md`: staged-ује само тај један фајл.
+- `git add 03_GIT_VSCODE_FOUNDATIONS_2h.md`: staged-ује само тај један фајл.
 - `git add --all`: staged-ује све детектоване измјене у радном стаблу, укључујући нове, измијењене и обрисане фајлове.
 - `git commit -m "Expand Git foundations workflow"`: направи commit од staged измјена и одмах упише commit поруку.
 - `--all`: flag који каже Git-у да не бираш појединачне фајлове него све тренутне измјене.

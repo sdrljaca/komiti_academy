@@ -90,7 +90,7 @@ Business Context Input: Business Owner
 ### 3.4 Критеријум пролаза
 
 - Може сам да подигне локално окружење
-- Разумије где су `ENGINEERING_CODEX`, `custom-addons/CODEX_ODOO`, `SESSION_NOTES` и `learning/00_END2END_ONBOARDING_LEARNING_PATH_39-52w.md`
+- Разумије где су `ENGINEERING_CODEX`, `custom-addons/CODEX_ODOO`, `SESSION_NOTES` и `00_END2END_ONBOARDING_LEARNING_PATH_39-52w.md`
 - Направио бар 1 чист PR по стандарду
 - `komiti_academy` skeleton постоји и може бити објашњен без нагађања
 
@@ -234,7 +234,7 @@ Capstone checkpoints:
 
 Овај plan је реалан и амбициозан. Кључ успеха: континуитет, менторски feedback и рад на стварним задачама, не само теорији.
 
-Learning документи у `learning/` нису генерички Odoo курс, него KomITi-centered curriculum. Нови члан тима кроз њих истовремено учи:
+Learning документи у root-у `komiti_academy` repo-а нису генерички Odoo курс, него KomITi-centered curriculum. Нови члан тима кроз њих истовремено учи:
 - Odoo основе,
 - KomITi модуле,
 - KomITi engineering дисциплину,
