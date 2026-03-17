@@ -222,13 +222,13 @@ Odoo UI углавном долази из XML view-ова:
 
 ## 99) Задатак на komiti_academy пројекту за кандидата
 
-1. Направи skeleton модула `komiti_academy` са почетним Odoo фајловима.
+1. Направи skeleton модула `komiti_academy` са почетним Odoo фајловима.  
 Референца: Ово је објашњено у поглављима `## 2) Шта је model`, `## 7) Views`, `## 9) Action и menu слој` и `## 14) Foundations capstone задатак`.
-2. Дефиниши скицу `academy.course` и `academy.session` model-а и попиши њихова почетна поља.
+2. Дефиниши скицу `academy.course` и `academy.session` model-а и попиши њихова почетна поља.  
 Референца: Ово је објашњено у поглављима `## 2) Шта је model`, `## 4) Шта су: \`env\`, \`domain\`, \`context\`` и `## 5) Fields`.
-3. Одреди шта је input, шта derived, а шта business rule у првој верзији модула.
+3. Одреди шта је input, шта derived, а шта business rule у првој верзији модула.  
 Референца: Ово је објашњено у поглављима `## 5) Fields`, `## 6) Шта су: \`onchange\`, \`constrains\`, \`create\`, \`write\`, \`unlink\`` и `## 14) Foundations capstone задатак`.
-4. Именуј минимални UI који модул мора имати: tree, form и search слој.
+4. Именуј минимални UI који модул мора имати: tree, form и search слој.  
 Референца: Ово је објашњено у поглављима `## 7) Views`, `## 8) View inheritance`, `## 9) Action и menu слој` и `## 14) Foundations capstone задатак`.
 
 ## 99) Рјешења
