@@ -7,7 +7,6 @@
 - шта ради Docker и терминалска команда `docker compose`,
 - шта ради Terraform и његове терминалске команде,
 - и како се та три слоја везују у један систем.
-------------------------------------------------------------------------------------------------------------------
 
 ## 1) Шта је infra stack у KomITi-ју
 
@@ -22,7 +21,6 @@
 - Docker не замјењује AWS,
 - AWS не замјењује application verification,
 - сваки слој има своју сврху, свој risk и свој operational vocabulary.
-------------------------------------------------------------------------------------------------------------------
 
 ## 2) AWS основе које мораш знати
 
@@ -53,7 +51,6 @@ Junior грешка је да AWS гледа као „само сервер“.
 - S3 = durable object storage за backup-е и operational артефакте,
 - subnet/VPC = гдје тај compute живи,
 - IP/DNS = како други системи долазе до њега.
-------------------------------------------------------------------------------------------------------------------
 
 ## 3) Docker и container основе које мораш знати
 
@@ -78,7 +75,6 @@ Container није виртуелна машина. То је изолован r
 - container = шта тренутно ради,
 - compose = како више контејнера формира један runtime систем,
 - volume = шта мора преживјети restart/recreate cycle.
-------------------------------------------------------------------------------------------------------------------
 ## 4) Terraform
 
 ### 4.1) Terraform mental model
@@ -338,7 +334,6 @@ Apply значи:
 - ако је Odoo up али functional flow не ради, то више није чист infra problem.
 
 Ово је суштина infrastructure reasoning-а: исти incident може изгледати као „систем не ради“, али root cause може бити у сасвим другом слоју.
-------------------------------------------------------------------------------------------------------------------
 
 ## 6) Да сумирамо шта Terraform код често значи у овом репоу
 
@@ -361,7 +356,6 @@ Apply значи:
 - field -> argument/attribute
 - action/menu wiring -> dependency/reference wiring
 - runtime upgrade -> plan/apply cycle
-------------------------------------------------------------------------------------------------------------------
 
 ## 7) Dependency reasoning
 
@@ -401,7 +395,6 @@ flowchart RL
 Из овог дијаграма се одмах види да је `docker_network.odoo` foundation, да Postgres долази прије Odoo runtime-а и да Odoo није самосталан resource него чвор који зависи од више других елемената.
 
 Junior грешка је да гледа фајл по фајл, а не graph по graph.
-------------------------------------------------------------------------------------------------------------------
 
 ## 8) Drift и ручне AWS промјене
 
@@ -417,7 +410,6 @@ Terraform рад постаје опасан кад људи ручно мије
 - ако их радиш у incident ситуацији, документуј их,
 - што прије врати ownership у код и state дисциплину,
 - читај plan као drift detector, не само као apply prelude.
-------------------------------------------------------------------------------------------------------------------
 
 ## 9) Minimal safe workflow у KomITi-ју
 
@@ -434,7 +426,6 @@ Terraform рад постаје опасан кад људи ручно мије
 9. документуј operational delta ако је битан.
 
 То није бирократија; то је основна production discipline.
-------------------------------------------------------------------------------------------------------------------
 
 ## 10) KomITi infra checklist
 
@@ -450,7 +441,6 @@ Terraform рад постаје опасан кад људи ручно мије
 - зашто infrastructure apply није исто што и application verification,
 - како да читаш AWS Terraform фолдер као систем, а не као скуп случајних `.tf` фајлова,
 - како да разликујеш AWS problem, Docker/runtime problem и Odoo functional problem.
-------------------------------------------------------------------------------------------------------------------
 
 ## 11) Foundations practical drill
 
@@ -467,7 +457,6 @@ Terraform рад постаје опасан кад људи ручно мије
 Ако ово не можеш објаснити без нагађања, још ниси стварно усвојио infra foundations.
 
 Овај infra drill није директно task имплементације модула, али је припрема да касније за `komiti_academy` разликујеш code problem, runtime problem и infra problem.
-------------------------------------------------------------------------------------------------------------------
 
 ## 12) Local Terraform + Docker Desktop lab за кандидата
 
@@ -527,7 +516,6 @@ Minimum safe lab flow нека буде:
 7. `terraform destroy -var-file=terraform.tfvars`
 
 Ако candidate успјешно уради овај lab, онда је стварно увјежбао Terraform shape и lifecycle дисциплину, чак иако још није радио прави cloud provisioning.
-------------------------------------------------------------------------------------------------------------------
 
 ## 13) Шта читаш даље
 
@@ -536,7 +524,6 @@ Minimum safe lab flow нека буде:
 - `../infra/aws/odoo-dev-ec2-compose/RUNBOOK.md`
 - `../infra/aws/odoo-prod-ec2-compose/README.md`
 - `../infra/aws/odoo-prod-ec2-compose/RUNBOOK.md`
-------------------------------------------------------------------------------------------------------------------
 
 ## 99) Задатак на komiti_academy пројекту за кандидата
 
@@ -548,7 +535,6 @@ Minimum safe lab flow нека буде:
 Референца: Ово је објашњено у поглављима `## 3) Docker и container основе које мораш знати`, `## 5) Како се AWS, Docker и Terraform вежу у један flow` и `## 9) Minimal safe workflow у KomITi-ју`.
 4. Осмисли и локално опиши Terraform lab у свом репоу `komiti_academy_ime_polaznika` који преко Docker Desktop-а подиже Postgres и Odoo stack за локални `dev` runtime, са јасном структуром фајлова, variables, outputs и јасним редослиједом рада.
 Референца: Ово је објашњено у поглављима `#### 4.7.1) \`variables.tf\`, \`terraform.tfvars.example\` и \`terraform.tfvars\``, `### 4.5) Структура директоријума: општа и KomITi конкретна`, `### 4.8) Plan није формалност`, `## 9) Minimal safe workflow у KomITi-ју` и `## 12) Local Terraform + Docker Desktop lab за кандидата`.
-------------------------------------------------------------------------------------------------------------------
 
 ## 99) Рјешења
 
@@ -575,3 +561,4 @@ Minimum safe lab flow нека буде:
 	5. Кад skeleton буде спреман, у терминалу редом пусти `terraform init`, `terraform validate`, `terraform plan -var-file=terraform.tfvars` и `terraform apply -var-file=terraform.tfvars`; као резултат треба да добијеш Docker ресурсе и output са URL-ом типа `http://localhost:8069`.
 	6. Потврди runtime са `docker ps`; као резултат треба да видиш бар Odoo и Postgres container у `Up` стању.
 	7. На крају запиши шта овај lab учи, а шта не учи: учи Terraform structure/lifecycle и Docker runtime wiring за локални `komiti_academy` dev runtime, али не учи стварни cloud VM/network/security boundary и не мијења core product scope самог Odoo модула.
+
