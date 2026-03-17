@@ -160,13 +160,19 @@ KOMITI КОНКРЕТНО
 	|
 	+-- [aws/]
 		 |
-		 +-- CODEX_TERRAFORM.md                          -> policy/disciplina документ
+		 +-- CODEX_TERRAFORM.md                          -> КомИТи policy/disciplina документ
 		 +-- [modules/]                                  -> reusable Terraform module-и
+		 |    |
+		 |    +-- [odoo_ec2_compose/]                    -> shared module који root stack-ови reuse-ују
+		 |         |
+		 |         +-- main.tf                           -> module internal resources и wiring
+		 |         +-- variables.tf                      -> inputs које module прима од root stack-а
+		 |         +-- outputs.tf                        -> module outputs
 		 +-- [odoo-dev-ec2-compose/] је [root stack/] за dev
 		 |    |
 		 |    +-- main.tf / versions.tf                  -> root Terraform setup
 		 |    +-- network.tf / security.tf / compute.tf / locals.tf
-		 |    +-- variables.tf / outputs.tf
+		 |    +-- variables.tf / outputs.tf              -> root inputs/outputs за dev stack, не за унутрашњост module-а
 		 |    +-- templates/ / scripts/                  -> template-и и helper оперативне скрипте
 		 |    +-- README.md / RUNBOOK.md                 -> operator documentation
 		 |    +-- terraform.tfvars / terraform.tfstate   -> локални runtime/state фајлови, нису за commit
@@ -174,14 +180,16 @@ KOMITI КОНКРЕТНО
 		 |
 		 +-- [odoo-prod-ec2-compose/] је [root stack/] за prod
 				|
-				+-- main.tf / versions.tf                -> root Terraform setup
+				+-- main.tf / versions.tf
 				+-- network.tf / security.tf / compute.tf / locals.tf
 				+-- variables.tf / outputs.tf
-				+-- templates/ / scripts/                -> template-и и helper оперативне скрипте
-				+-- README.md / RUNBOOK.md               -> operator documentation
-				+-- terraform.tfvars / terraform.tfstate -> локални runtime/state фајлови, нису за commit
-				+-- .terraform/ / .terraform.lock.hcl    -> локални provider/cache и lock после init
+				+-- templates/ / scripts/
+				+-- README.md / RUNBOOK.md
+				+-- terraform.tfvars / terraform.tfstate
+				+-- .terraform/ / .terraform.lock.hcl
 ```
+
+Кратко правило за читање овог layout-а: `modules/odoo_ec2_compose/main.tf` и `modules/odoo_ec2_compose/variables.tf` припадају reusable module-у, док `odoo-dev-ec2-compose/main.tf` и `odoo-dev-ec2-compose/variables.tf` припадају root stack-у који тај module позива. Значи, нису дупликати у истој улози: module има свој унутрашњи Terraform API, а root stack има свој environment-level API.
 
 Практично, кад кажемо „Terraform код за DEV“, у овом репоу то најчешће значи: отвори `infra/aws/odoo-dev-ec2-compose/` и читај тај директоријум као један инфраструктурни систем.
 
@@ -190,7 +198,7 @@ KOMITI КОНКРЕТНО
 - `compose` = Docker runtime orchestration на том host-у,
 - Terraform `.tf` фајлови = опис инфраструктуре која тај host и његов boundary прави.
 
-### 4.6) Terraform фајлови
+### 4.6) Terraform фајлови у [root stack/]
 
 Након што разумијеш структуру директоријума, има смисла да читаш и шта раде кључни Terraform фајлови унутар тог stack-а.
 
