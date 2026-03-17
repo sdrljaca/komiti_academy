@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="858" height="330" viewBox="0 0 858 330" role="img" aria-labelledby="title desc">
+  <title id="title">Terraform local dependency graph</title>
+  <desc id="desc">Dependency graph for the local komiti_academy Docker Desktop Terraform stack.</desc>
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#d8d8d8" />
+    </marker>
+    <style>
+      .bg { fill: #202020; }
+      .box { fill: #202020; stroke: #d9d9d9; stroke-width: 1.35; rx: 6; ry: 6; }
+      .label { fill: #f2f2f2; font-family: Segoe UI, Arial, sans-serif; font-size: 13px; }
+      .edge { fill: none; stroke: #d9d9d9; stroke-width: 1.35; marker-end: url(#arrow); }
+    </style>
+  </defs>
+
+  <rect class="bg" x="0" y="0" width="858" height="330" />
+
+  <rect class="box" x="24" y="12" width="225" height="54" />
+  <text class="label" x="54" y="44">docker_image.postgres</text>
+
+  <rect class="box" x="28" y="116" width="217" height="54" />
+  <text class="label" x="58" y="148">docker_network.odoo</text>
+
+  <rect class="box" x="1" y="219" width="273" height="54" />
+  <text class="label" x="28" y="251">docker_volume.postgres_data</text>
+
+  <rect class="box" x="324" y="63" width="250" height="54" />
+  <text class="label" x="355" y="95">docker_container.postgres</text>
+
+  <rect class="box" x="349" y="169" width="201" height="54" />
+  <text class="label" x="380" y="201">docker_image.odoo</text>
+
+  <rect class="box" x="325" y="272" width="249" height="54" />
+  <text class="label" x="351" y="304">docker_volume.odoo_data</text>
+
+  <rect class="box" x="624" y="219" width="224" height="54" />
+  <text class="label" x="650" y="251">docker_container.odoo</text>
+
+  <path class="edge" d="M 324 88 C 301 57, 286 39, 249 39" />
+  <path class="edge" d="M 324 91 C 297 121, 286 141, 245 143" />
+  <path class="edge" d="M 378 116 C 353 154, 329 220, 274 246" />
+  <path class="edge" d="M 624 246 C 603 246, 590 246, 574 246" />
+  <path class="edge" d="M 624 236 C 585 209, 550 196, 550 196" />
+  <path class="edge" d="M 713 219 C 694 181, 668 127, 574 90" />
+</svg>

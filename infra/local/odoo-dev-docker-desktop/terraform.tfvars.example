@@ -1,0 +1,8 @@
+project_name      = "komiti-academy"
+env               = "dev"
+odoo_image        = "odoo:19.0"
+postgres_image    = "postgres:16"
+odoo_port         = 8069
+postgres_db       = "postgres"
+postgres_user     = "odoo"
+postgres_password = "change-me-local-dev"
