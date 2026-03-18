@@ -3,6 +3,6 @@ env               = "dev"
 odoo_image        = "odoo:19.0"
 postgres_image    = "postgres:16"
 odoo_port         = 8067
-postgres_db       = "postgres"
+postgres_db       = "komiti_academy_odoo_dev"
 postgres_user     = "odoo"
 postgres_password = "change-me-local-dev"
