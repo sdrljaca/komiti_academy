@@ -637,6 +637,38 @@ Minimum safe lab flow нека буде:
 	</tbody>
 </table>
 
+### 12.2) Одакле долази Master Password који видиш у browser-у
+
+<table>
+	<colgroup>
+		<col width="22%">
+		<col width="43%">
+		<col width="35%">
+	</colgroup>
+	<thead>
+		<tr>
+			<th>Информација</th>
+			<th>Terraform</th>
+			<th>Compose</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td>Odoo Master Password који се види у browser-у</td>
+			<td><table>
+				<tr><td>default:</td><td>нема експлицитног <code>admin_passwd</code> / <code>ADMIN_PASSWD</code> у <a href="infra/local/odoo-dev-docker-desktop/variables.tf">variables.tf</a></td></tr>
+				<tr><td>стварна вриједност:</td><td>не долази из <a href="infra/local/odoo-dev-docker-desktop/terraform.tfvars">terraform.tfvars</a>; ако је видиш у browser-у, то није вриједност дефинисана овим Terraform lab фајловима</td></tr>
+				<tr><td>гдје се примјењује:</td><td>у <a href="infra/local/odoo-dev-docker-desktop/compute.tf">compute.tf</a> се не просљеђује <code>ADMIN_PASSWD</code>; видљива лозинка долази из Odoo runtime/config state-а, а не из овог Terraform wiring-а</td></tr>
+			</table></td>
+			<td><table>
+				<tr><td>default:</td><td>у <a href="infra/local/odoo-dev-docker-desktop/docker-compose.yml">docker-compose.yml</a> нема <code>ADMIN_PASSWD</code></td></tr>
+				<tr><td>стварна вриједност:</td><td>ако browser приказује конкретан password, он не долази из овог Compose фајла</td></tr>
+				<tr><td>гдје се примјењује:</td><td>видљива вриједност долази из Odoo runtime/config state-а унутар покренутог runtime-а, не из Compose декларације</td></tr>
+			</table></td>
+		</tr>
+	</tbody>
+</table>
+
 ## 13) Шта читаш даље
 
 - `../infra/aws/CODEX_TERRAFORM.md`
