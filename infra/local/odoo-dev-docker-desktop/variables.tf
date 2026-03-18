@@ -31,7 +31,7 @@ variable "postgres_image" {
 variable "odoo_port" {
   type        = number
   description = "Host port for the local Odoo UI."
-  default     = 8069
+  default     = 8067
 }
 
 variable "postgres_db" {
