@@ -200,7 +200,7 @@ KOMITI КОНКРЕТНО
 
 Након што разумијеш структуру директоријума, има смисла да читаш и шта раде кључни Terraform фајлови унутар тог stack-а.
 
-#### 4.6.1) `terraform.tfstate`
+#### 4.6.1) Terraform State `terraform.tfstate`
 
 `terraform.tfstate` је кључни артефакт који садржи стање свих ресурса.
 
@@ -219,6 +219,13 @@ State памти:
 У KomITi начину рада мораш рано усвојити:
 - source code није довољан,
 - Terraform state + cloud runtime = стварна истина.
+
+Не радити ручне промјене директно у AWS console-у јер оне ручне измјене које Терраформ код и state не испрате брзо праве drift између Terraform слике и стварног runtime-а.
+
+- код може говорити једно, state памтити друго, а cloud runtime изгледати треће;
+- ако ручно мијењаш ресурс у incident ситуацији, документуј шта је урађено;
+- ownership што прије врати у код и state дисциплину;
+- `terraform plan` читај и као drift detector, не само као apply prelude.
 
 #### 4.6.2) `variables.tf`, `terraform.tfvars.example` и `terraform.tfvars`
 
@@ -356,6 +363,147 @@ Apply значи:
 - field -> argument/attribute
 - action/menu wiring -> dependency/reference wiring
 - runtime upgrade -> plan/apply cycle
+
+### 12.1) Terraform и Compose: исте информације, друго мјесто записа
+
+Испод је мапирање локалног `komiti_academy` lab-а тако да јасно видиш гдје је иста runtime информација записана у Terraform варијанти, а гдје у Compose варијанти.
+
+<table>
+	<colgroup>
+		<col width="18%">
+		<col width="47%">
+		<col width="35%">
+	</colgroup>
+	<thead>
+		<tr>
+			<th>Информација</th>
+			<th>Terraform</th>
+			<th>Compose</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td>Назив локалног academy runtime-а</td>
+			<td><a href="infra/local/odoo-dev-docker-desktop/locals.tf">locals.tf</a> - <code>name_prefix</code></td>
+			<td><a href="infra/local/odoo-dev-docker-desktop/docker-compose.yml">docker-compose.yml</a> - <code>name: komiti-academy-dev</code></td>
+		</tr>
+		<tr>
+			<td>Odoo image</td>
+			<td><div><strong>default:</strong> <a href="infra/local/odoo-dev-docker-desktop/variables.tf">variables.tf</a> - <code>odoo_image</code> = <code>odoo:19.0</code></div><div><strong>стварна вриједност:</strong> <a href="infra/local/odoo-dev-docker-desktop/terraform.tfvars">terraform.tfvars</a> - <code>odoo:19.0</code></div><div><strong>гдје се примјењује:</strong> <a href="infra/local/odoo-dev-docker-desktop/compute.tf">compute.tf</a> - <code>docker_image.odoo</code></div></td>
+			<td><a href="infra/local/odoo-dev-docker-desktop/docker-compose.yml">docker-compose.yml</a> - <code>services.odoo.image</code></td>
+		</tr>
+		<tr>
+			<td>Postgres image</td>
+			<td><div><strong>default:</strong> <a href="infra/local/odoo-dev-docker-desktop/variables.tf">variables.tf</a> - <code>postgres_image</code> = <code>postgres:16</code></div><div><strong>стварна вриједност:</strong> <a href="infra/local/odoo-dev-docker-desktop/terraform.tfvars">terraform.tfvars</a> - <code>postgres:16</code></div><div><strong>гдје се примјењује:</strong> <a href="infra/local/odoo-dev-docker-desktop/compute.tf">compute.tf</a> - <code>docker_image.postgres</code></div></td>
+			<td><a href="infra/local/odoo-dev-docker-desktop/docker-compose.yml">docker-compose.yml</a> - <code>services.postgres.image</code></td>
+		</tr>
+		<tr>
+			<td>Host port за Odoo</td>
+			<td><div><strong>default:</strong> <a href="infra/local/odoo-dev-docker-desktop/variables.tf">variables.tf</a> - <code>odoo_port</code> = <code>8067</code></div><div><strong>стварна вриједност:</strong> <a href="infra/local/odoo-dev-docker-desktop/terraform.tfvars">terraform.tfvars</a> - <code>odoo_port = 8067</code></div><div><strong>гдје се примјењује:</strong> <a href="infra/local/odoo-dev-docker-desktop/compute.tf">compute.tf</a> - <code>ports.external</code> = <code>var.odoo_port</code></div></td>
+			<td><a href="infra/local/odoo-dev-docker-desktop/docker-compose.yml">docker-compose.yml</a> - <code>services.odoo.ports</code></td>
+		</tr>
+		<tr>
+			<td>Мапирање <code>8067 -&gt; 8069</code></td>
+			<td><a href="infra/local/odoo-dev-docker-desktop/compute.tf">compute.tf</a> - <code>ports { external = var.odoo_port, internal = 8069 }</code></td>
+			<td><a href="infra/local/odoo-dev-docker-desktop/docker-compose.yml">docker-compose.yml</a> - <code>"${ODOO_PORT:-8067}:8069"</code></td>
+		</tr>
+		<tr>
+			<td>Postgres DB name</td>
+			<td><div><strong>default:</strong> <a href="infra/local/odoo-dev-docker-desktop/variables.tf">variables.tf</a> - <code>postgres_db</code> = <code>komiti_academy_odoo</code></div><div><strong>стварна вриједност:</strong> <a href="infra/local/odoo-dev-docker-desktop/terraform.tfvars">terraform.tfvars</a> - <code>komiti_academy_odoo</code></div><div><strong>гдје се примјењује:</strong> <a href="infra/local/odoo-dev-docker-desktop/compute.tf">compute.tf</a> - <code>POSTGRES_DB</code> = <code>${var.postgres_db}</code></div></td>
+			<td><a href="infra/local/odoo-dev-docker-desktop/docker-compose.yml">docker-compose.yml</a> - <code>POSTGRES_DB</code></td>
+		</tr>
+		<tr>
+			<td>Postgres user</td>
+			<td><div><strong>default:</strong> <a href="infra/local/odoo-dev-docker-desktop/variables.tf">variables.tf</a> - <code>postgres_user</code> = <code>odoo</code></div><div><strong>стварна вриједност:</strong> <a href="infra/local/odoo-dev-docker-desktop/terraform.tfvars">terraform.tfvars</a> - <code>admin.komiti_odoo</code></div><div><strong>гдје се примјењује:</strong> <a href="infra/local/odoo-dev-docker-desktop/compute.tf">compute.tf</a> - <code>POSTGRES_USER</code> и Odoo <code>USER</code></div></td>
+			<td><a href="infra/local/odoo-dev-docker-desktop/docker-compose.yml">docker-compose.yml</a> - <code>POSTGRES_USER</code> и Odoo <code>USER</code></td>
+		</tr>
+		<tr>
+			<td>Postgres password</td>
+			<td><div><strong>default:</strong> <a href="infra/local/odoo-dev-docker-desktop/variables.tf">variables.tf</a> - <code>postgres_password</code> = нема default вриједности</div><div><strong>стварна вриједност:</strong> <a href="infra/local/odoo-dev-docker-desktop/terraform.tfvars">terraform.tfvars</a> - <code>komiti-academy-local-dev</code></div><div><strong>гдје се примјењује:</strong> <a href="infra/local/odoo-dev-docker-desktop/compute.tf">compute.tf</a> - <code>POSTGRES_PASSWORD</code> и Odoo <code>PASSWORD</code></div></td>
+			<td><a href="infra/local/odoo-dev-docker-desktop/docker-compose.yml">docker-compose.yml</a> - <code>POSTGRES_PASSWORD</code> и Odoo <code>PASSWORD</code></td>
+		</tr>
+		<tr>
+			<td>Odoo качи Postgres на host <code>db</code></td>
+			<td><a href="infra/local/odoo-dev-docker-desktop/compute.tf">compute.tf</a> - Odoo env <code>HOST=db</code> и Postgres network alias <code>db</code></td>
+			<td><a href="infra/local/odoo-dev-docker-desktop/docker-compose.yml">docker-compose.yml</a> - Odoo <code>HOST: db</code> и network alias <code>db</code></td>
+		</tr>
+		<tr>
+			<td>Addons bind mount</td>
+			<td><a href="infra/local/odoo-dev-docker-desktop/locals.tf">locals.tf</a> - <code>addons_host_path</code><br><a href="infra/local/odoo-dev-docker-desktop/compute.tf">compute.tf</a> - користи се у volume mount-у ка <code>/mnt/extra-addons</code></td>
+			<td><a href="infra/local/odoo-dev-docker-desktop/docker-compose.yml">docker-compose.yml</a> - <code>../../../custom-addons:/mnt/extra-addons:rw</code></td>
+		</tr>
+		<tr>
+			<td>Odoo data volume</td>
+			<td><a href="infra/local/odoo-dev-docker-desktop/compute.tf">compute.tf</a> - <code>docker_volume.odoo_data</code></td>
+			<td><a href="infra/local/odoo-dev-docker-desktop/docker-compose.yml">docker-compose.yml</a> - <code>odoo-data:/var/lib/odoo</code></td>
+		</tr>
+		<tr>
+			<td>Postgres data volume</td>
+			<td><a href="infra/local/odoo-dev-docker-desktop/compute.tf">compute.tf</a> - <code>docker_volume.postgres_data</code></td>
+			<td><a href="infra/local/odoo-dev-docker-desktop/docker-compose.yml">docker-compose.yml</a> - <code>postgres-data:/var/lib/postgresql/data</code></td>
+		</tr>
+		<tr>
+			<td>Network</td>
+			<td><a href="infra/local/odoo-dev-docker-desktop/network.tf">network.tf</a> - <code>docker_network.odoo</code></td>
+			<td><a href="infra/local/odoo-dev-docker-desktop/docker-compose.yml">docker-compose.yml</a> - <code>networks.academy</code></td>
+		</tr>
+		<tr>
+			<td>Зависност Odoo од Postgres-а</td>
+			<td><a href="infra/local/odoo-dev-docker-desktop/compute.tf">compute.tf</a> - <code>depends_on = [docker_container.postgres]</code></td>
+			<td><a href="infra/local/odoo-dev-docker-desktop/docker-compose.yml">docker-compose.yml</a> - <code>depends_on.postgres.condition: service_healthy</code></td>
+		</tr>
+		<tr>
+			<td>URL output</td>
+			<td><a href="infra/local/odoo-dev-docker-desktop/outputs.tf">outputs.tf</a> - <code>odoo_url</code></td>
+			<td>Нема output блока; практични еквивалент су <code>ports</code> и команда <code>docker compose ps</code></td>
+		</tr>
+	</tbody>
+</table>
+
+### 12.2) Посебно важне напомене
+
+<table>
+	<colgroup>
+		<col width="20%">
+		<col width="18%">
+		<col width="18%">
+		<col width="44%">
+	</colgroup>
+	<thead>
+		<tr>
+			<th>Тема</th>
+			<th>Terraform</th>
+			<th>Compose</th>
+			<th>Шта то значи</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td>Master Password за localhost Odoo</td>
+			<td>Није експлицитно дефинисан</td>
+			<td>Није експлицитно дефинисан</td>
+			<td>Ниједан од ваших academy фајлова тренутно не задаје <code>admin_passwd</code>, па password који видиш у browser-у не долази директно из овог Terraform/Compose wiring-а.</td>
+		</tr>
+		<tr>
+			<td>Postgres healthcheck</td>
+			<td>Нема</td>
+			<td>Има</td>
+			<td>Compose варијанта је ту мало богатија, јер има експлицитан <code>healthcheck</code> и чека да Postgres буде здрав прије Odoo старта.</td>
+		</tr>
+		<tr>
+			<td>Docker Desktop UI grouping</td>
+			<td>Нема Compose metadata</td>
+			<td>Има Compose metadata</td>
+			<td>Зато је Compose груписан у Docker Desktop UI-ју, а Terraform Docker provider ресурси изгледају више као појединачни Docker објекти.</td>
+		</tr>
+		<tr>
+			<td>State</td>
+			<td><code>terraform.tfstate</code></td>
+			<td>Нема један state фајл</td>
+			<td>Terraform памти жељено и стварно стање у свом state-у, док се Compose више ослања на тренутно Docker engine стање и Compose пројектне metadata ознаке.</td>
+		</tr>
+	</tbody>
+</table>
 
 ## 7) Dependency reasoning
 
@@ -519,147 +667,6 @@ Minimum safe lab flow нека буде:
 7. `terraform destroy -var-file=terraform.tfvars`
 
 Ако candidate успјешно уради овај lab, онда је стварно увјежбао Terraform shape и lifecycle дисциплину, чак иако још није радио прави cloud provisioning.
-
-### 12.1) Terraform и Compose: исте информације, друго мјесто записа
-
-Испод је мапирање локалног `komiti_academy` lab-а тако да јасно видиш гдје је иста runtime информација записана у Terraform варијанти, а гдје у Compose варијанти.
-
-<table>
-	<colgroup>
-		<col width="18%">
-		<col width="47%">
-		<col width="35%">
-	</colgroup>
-	<thead>
-		<tr>
-			<th>Информација</th>
-			<th>Terraform</th>
-			<th>Compose</th>
-		</tr>
-	</thead>
-	<tbody>
-		<tr>
-			<td>Назив локалног academy runtime-а</td>
-			<td><a href="infra/local/odoo-dev-docker-desktop/locals.tf">locals.tf</a> - <code>name_prefix</code></td>
-			<td><a href="infra/local/odoo-dev-docker-desktop/docker-compose.yml">docker-compose.yml</a> - <code>name: komiti-academy-dev</code></td>
-		</tr>
-		<tr>
-			<td>Odoo image</td>
-			<td><div><strong>default:</strong> <a href="infra/local/odoo-dev-docker-desktop/variables.tf">variables.tf</a> - <code>odoo_image</code> = <code>odoo:19.0</code></div><div><strong>стварна вриједност:</strong> <a href="infra/local/odoo-dev-docker-desktop/terraform.tfvars">terraform.tfvars</a> - <code>odoo:19.0</code></div><div><strong>гдје се примјењује:</strong> <a href="infra/local/odoo-dev-docker-desktop/compute.tf">compute.tf</a> - <code>docker_image.odoo</code></div></td>
-			<td><a href="infra/local/odoo-dev-docker-desktop/docker-compose.yml">docker-compose.yml</a> - <code>services.odoo.image</code></td>
-		</tr>
-		<tr>
-			<td>Postgres image</td>
-			<td><div><strong>default:</strong> <a href="infra/local/odoo-dev-docker-desktop/variables.tf">variables.tf</a> - <code>postgres_image</code> = <code>postgres:16</code></div><div><strong>стварна вриједност:</strong> <a href="infra/local/odoo-dev-docker-desktop/terraform.tfvars">terraform.tfvars</a> - <code>postgres:16</code></div><div><strong>гдје се примјењује:</strong> <a href="infra/local/odoo-dev-docker-desktop/compute.tf">compute.tf</a> - <code>docker_image.postgres</code></div></td>
-			<td><a href="infra/local/odoo-dev-docker-desktop/docker-compose.yml">docker-compose.yml</a> - <code>services.postgres.image</code></td>
-		</tr>
-		<tr>
-			<td>Host port за Odoo</td>
-			<td><div><strong>default:</strong> <a href="infra/local/odoo-dev-docker-desktop/variables.tf">variables.tf</a> - <code>odoo_port</code> = <code>8067</code></div><div><strong>стварна вриједност:</strong> <a href="infra/local/odoo-dev-docker-desktop/terraform.tfvars">terraform.tfvars</a> - <code>odoo_port = 8067</code></div><div><strong>гдје се примјењује:</strong> <a href="infra/local/odoo-dev-docker-desktop/compute.tf">compute.tf</a> - <code>ports.external</code> = <code>var.odoo_port</code></div></td>
-			<td><a href="infra/local/odoo-dev-docker-desktop/docker-compose.yml">docker-compose.yml</a> - <code>services.odoo.ports</code></td>
-		</tr>
-		<tr>
-			<td>Мапирање <code>8067 -&gt; 8069</code></td>
-			<td><a href="infra/local/odoo-dev-docker-desktop/compute.tf">compute.tf</a> - <code>ports { external = var.odoo_port, internal = 8069 }</code></td>
-			<td><a href="infra/local/odoo-dev-docker-desktop/docker-compose.yml">docker-compose.yml</a> - <code>"${ODOO_PORT:-8067}:8069"</code></td>
-		</tr>
-		<tr>
-			<td>Postgres DB name</td>
-			<td><div><strong>default:</strong> <a href="infra/local/odoo-dev-docker-desktop/variables.tf">variables.tf</a> - <code>postgres_db</code> = <code>komiti_academy_odoo</code></div><div><strong>стварна вриједност:</strong> <a href="infra/local/odoo-dev-docker-desktop/terraform.tfvars">terraform.tfvars</a> - <code>komiti_academy_odoo</code></div><div><strong>гдје се примјењује:</strong> <a href="infra/local/odoo-dev-docker-desktop/compute.tf">compute.tf</a> - <code>POSTGRES_DB</code> = <code>${var.postgres_db}</code></div></td>
-			<td><a href="infra/local/odoo-dev-docker-desktop/docker-compose.yml">docker-compose.yml</a> - <code>POSTGRES_DB</code></td>
-		</tr>
-		<tr>
-			<td>Postgres user</td>
-			<td><div><strong>default:</strong> <a href="infra/local/odoo-dev-docker-desktop/variables.tf">variables.tf</a> - <code>postgres_user</code> = <code>odoo</code></div><div><strong>стварна вриједност:</strong> <a href="infra/local/odoo-dev-docker-desktop/terraform.tfvars">terraform.tfvars</a> - <code>admin.komiti_odoo</code></div><div><strong>гдје се примјењује:</strong> <a href="infra/local/odoo-dev-docker-desktop/compute.tf">compute.tf</a> - <code>POSTGRES_USER</code> и Odoo <code>USER</code></div></td>
-			<td><a href="infra/local/odoo-dev-docker-desktop/docker-compose.yml">docker-compose.yml</a> - <code>POSTGRES_USER</code> и Odoo <code>USER</code></td>
-		</tr>
-		<tr>
-			<td>Postgres password</td>
-			<td><div><strong>default:</strong> <a href="infra/local/odoo-dev-docker-desktop/variables.tf">variables.tf</a> - <code>postgres_password</code> = нема default вриједности</div><div><strong>стварна вриједност:</strong> <a href="infra/local/odoo-dev-docker-desktop/terraform.tfvars">terraform.tfvars</a> - <code>komiti-academy-local-dev</code></div><div><strong>гдје се примјењује:</strong> <a href="infra/local/odoo-dev-docker-desktop/compute.tf">compute.tf</a> - <code>POSTGRES_PASSWORD</code> и Odoo <code>PASSWORD</code></div></td>
-			<td><a href="infra/local/odoo-dev-docker-desktop/docker-compose.yml">docker-compose.yml</a> - <code>POSTGRES_PASSWORD</code> и Odoo <code>PASSWORD</code></td>
-		</tr>
-		<tr>
-			<td>Odoo качи Postgres на host <code>db</code></td>
-			<td><a href="infra/local/odoo-dev-docker-desktop/compute.tf">compute.tf</a> - Odoo env <code>HOST=db</code> и Postgres network alias <code>db</code></td>
-			<td><a href="infra/local/odoo-dev-docker-desktop/docker-compose.yml">docker-compose.yml</a> - Odoo <code>HOST: db</code> и network alias <code>db</code></td>
-		</tr>
-		<tr>
-			<td>Addons bind mount</td>
-			<td><a href="infra/local/odoo-dev-docker-desktop/locals.tf">locals.tf</a> - <code>addons_host_path</code><br><a href="infra/local/odoo-dev-docker-desktop/compute.tf">compute.tf</a> - користи се у volume mount-у ка <code>/mnt/extra-addons</code></td>
-			<td><a href="infra/local/odoo-dev-docker-desktop/docker-compose.yml">docker-compose.yml</a> - <code>../../../custom-addons:/mnt/extra-addons:rw</code></td>
-		</tr>
-		<tr>
-			<td>Odoo data volume</td>
-			<td><a href="infra/local/odoo-dev-docker-desktop/compute.tf">compute.tf</a> - <code>docker_volume.odoo_data</code></td>
-			<td><a href="infra/local/odoo-dev-docker-desktop/docker-compose.yml">docker-compose.yml</a> - <code>odoo-data:/var/lib/odoo</code></td>
-		</tr>
-		<tr>
-			<td>Postgres data volume</td>
-			<td><a href="infra/local/odoo-dev-docker-desktop/compute.tf">compute.tf</a> - <code>docker_volume.postgres_data</code></td>
-			<td><a href="infra/local/odoo-dev-docker-desktop/docker-compose.yml">docker-compose.yml</a> - <code>postgres-data:/var/lib/postgresql/data</code></td>
-		</tr>
-		<tr>
-			<td>Network</td>
-			<td><a href="infra/local/odoo-dev-docker-desktop/network.tf">network.tf</a> - <code>docker_network.odoo</code></td>
-			<td><a href="infra/local/odoo-dev-docker-desktop/docker-compose.yml">docker-compose.yml</a> - <code>networks.academy</code></td>
-		</tr>
-		<tr>
-			<td>Зависност Odoo од Postgres-а</td>
-			<td><a href="infra/local/odoo-dev-docker-desktop/compute.tf">compute.tf</a> - <code>depends_on = [docker_container.postgres]</code></td>
-			<td><a href="infra/local/odoo-dev-docker-desktop/docker-compose.yml">docker-compose.yml</a> - <code>depends_on.postgres.condition: service_healthy</code></td>
-		</tr>
-		<tr>
-			<td>URL output</td>
-			<td><a href="infra/local/odoo-dev-docker-desktop/outputs.tf">outputs.tf</a> - <code>odoo_url</code></td>
-			<td>Нема output блока; практични еквивалент су <code>ports</code> и команда <code>docker compose ps</code></td>
-		</tr>
-	</tbody>
-</table>
-
-### 12.2) Посебно важне напомене
-
-<table>
-	<colgroup>
-		<col width="20%">
-		<col width="18%">
-		<col width="18%">
-		<col width="44%">
-	</colgroup>
-	<thead>
-		<tr>
-			<th>Тема</th>
-			<th>Terraform</th>
-			<th>Compose</th>
-			<th>Шта то значи</th>
-		</tr>
-	</thead>
-	<tbody>
-		<tr>
-			<td>Master Password за localhost Odoo</td>
-			<td>Није експлицитно дефинисан</td>
-			<td>Није експлицитно дефинисан</td>
-			<td>Ниједан од ваших academy фајлова тренутно не задаје <code>admin_passwd</code>, па password који видиш у browser-у не долази директно из овог Terraform/Compose wiring-а.</td>
-		</tr>
-		<tr>
-			<td>Postgres healthcheck</td>
-			<td>Нема</td>
-			<td>Има</td>
-			<td>Compose варијанта је ту мало богатија, јер има експлицитан <code>healthcheck</code> и чека да Postgres буде здрав прије Odoo старта.</td>
-		</tr>
-		<tr>
-			<td>Docker Desktop UI grouping</td>
-			<td>Нема Compose metadata</td>
-			<td>Има Compose metadata</td>
-			<td>Зато је Compose груписан у Docker Desktop UI-ју, а Terraform Docker provider ресурси изгледају више као појединачни Docker објекти.</td>
-		</tr>
-		<tr>
-			<td>State</td>
-			<td><code>terraform.tfstate</code></td>
-			<td>Нема један state фајл</td>
-			<td>Terraform памти жељено и стварно стање у свом state-у, док се Compose више ослања на тренутно Docker engine стање и Compose пројектне metadata ознаке.</td>
-		</tr>
-	</tbody>
-</table>
 
 ## 13) Шта читаш даље
 
