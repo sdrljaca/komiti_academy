@@ -10,8 +10,8 @@
 
 ## Садржај
 
-1\) Шта је infra stack у KomITi-ју
-2\) AWS основе које мораш знати
+- 1\) Шта је infra stack у KomITi-ју
+- 2\) AWS основе које мораш знати
 - 3\) Docker и container основе које мораш знати
 - 4\) Terraform
 	- 4.1\) Terraform mental model
