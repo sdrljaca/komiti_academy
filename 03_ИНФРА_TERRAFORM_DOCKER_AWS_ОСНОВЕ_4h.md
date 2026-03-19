@@ -10,29 +10,29 @@
 
 ## Садржај
 
-- 1\) Шта је infra stack у KomITi-ју
-- 2\) AWS основе које мораш знати
-- 3\) Docker и container основе које мораш знати
-- 4\) Terraform
-	- 4.1\) Terraform mental model
-	- 4.2\) Шта је provider
-	- 4.3\) Шта су resource, data source и output
-	- 4.4\) Структура директоријума: општа и KomITi конкретна
-	- 4.5\) Terraform фајлови у [modules/]
-	- 4.6\) Terraform фајлови у [root stack/]
-	- 4.7\) Dependency reasoning
-	- 4.8\) Да сумирамо шта Terraform код често значи у овом репоу
-	- 4.9\) Како се AWS, Docker и Terraform вежу у један flow
-	- 4.10\) Terraform vs Docker Compose: исте информације, друго мјесто записа
-- 5\) Како Tefraform фајлове претворити у акцију и материјализовати артифакте (Docker контејнере, aws ресурсе, Odoo)
-	- 5.1\) Plan није формалност
-	- 5.2\) Apply није deploy script
-- 6\) Minimal safe workflow у KomITi-ју
-- 7\) KomITi infra checklist
-- 8\) Foundations practical drill
-- 9\) Local Terraform + Docker Desktop lab за кандидата
-- 10\) Шта читаш даље
-- 99\) Задатак на komiti_academy пројекту за кандидата
+1\) Шта је infra stack у KomITi-ју<br>
+2\) AWS основе које мораш знати<br>
+3\) Docker и container основе које мораш знати<br>
+4\) Terraform<br>
+&nbsp;&nbsp;&nbsp;&nbsp;4.1\) Terraform mental model<br>
+&nbsp;&nbsp;&nbsp;&nbsp;4.2\) Шта је provider<br>
+&nbsp;&nbsp;&nbsp;&nbsp;4.3\) Шта су resource, data source и output<br>
+&nbsp;&nbsp;&nbsp;&nbsp;4.4\) Структура директоријума: општа и KomITi конкретна<br>
+&nbsp;&nbsp;&nbsp;&nbsp;4.5\) Terraform фајлови у [modules/]<br>
+&nbsp;&nbsp;&nbsp;&nbsp;4.6\) Terraform фајлови у [root stack/]<br>
+&nbsp;&nbsp;&nbsp;&nbsp;4.7\) Dependency reasoning<br>
+&nbsp;&nbsp;&nbsp;&nbsp;4.8\) Да сумирамо шта Terraform код често значи у овом репоу<br>
+&nbsp;&nbsp;&nbsp;&nbsp;4.9\) Како се AWS, Docker и Terraform вежу у један flow<br>
+&nbsp;&nbsp;&nbsp;&nbsp;4.10\) Terraform vs Docker Compose: исте информације, друго мјесто записа<br>
+5\) Како Tefraform фајлове претворити у акцију и материјализовати артифакте (Docker контејнере, aws ресурсе, Odoo)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;5.1\) Plan није формалност<br>
+&nbsp;&nbsp;&nbsp;&nbsp;5.2\) Apply није deploy script<br>
+6\) Minimal safe workflow у KomITi-ју<br>
+7\) KomITi infra checklist<br>
+8\) Foundations practical drill<br>
+9\) Local Terraform + Docker Desktop lab за кандидата<br>
+10\) Шта читаш даље<br>
+99\) Задатак на komiti_academy пројекту за кандидата
 
 ## 1) Шта је infra stack у KomITi-ју
 
