@@ -326,23 +326,7 @@ Apply значи:
 
 То је иста ментална дисциплина као код Odoo-а: infra code truth није исто што и runtime truth.
 
-## 5) Како се AWS, Docker и Terraform вежу у један flow
-
-Најкориснији foundations mental model за овај репо је овај редослијед:
-
-1. Terraform дефинише AWS ресурсе.
-2. AWS даје host, мрежу, security boundary и јавни endpoint.
-3. На том host-у Docker/Compose покреће application сервисе.
-4. Онда тек мјериш да ли је Odoo runtime стварно здрав.
-
-Зато је важно да не мијешаш класе проблема:
-- ако security group не пушта саобраћај, то није Docker bug,
-- ако container не диже service, то није нужно Terraform bug,
-- ако је Odoo up али functional flow не ради, то више није чист infra problem.
-
-Ово је суштина infrastructure reasoning-а: исти incident може изгледати као „систем не ради“, али root cause може бити у сасвим другом слоју.
-
-## 6) Да сумирамо шта Terraform код често значи у овом репоу
+## 5) Да сумирамо шта Terraform код често значи у овом репоу
 
 Кад читаш AWS Terraform директоријуме, размишљај овако:
 
@@ -364,7 +348,23 @@ Apply значи:
 - action/menu wiring -> dependency/reference wiring
 - runtime upgrade -> plan/apply cycle
 
-### 12.1) Terraform и Compose: исте информације, друго мјесто записа
+## 6) Како се AWS, Docker и Terraform вежу у један flow
+
+Најкориснији foundations mental model за овај репо је овај редослијед:
+
+1. Terraform дефинише AWS ресурсе.
+2. AWS даје host, мрежу, security boundary и јавни endpoint.
+3. На том host-у Docker/Compose покреће application сервисе.
+4. Онда тек мјериш да ли је Odoo runtime стварно здрав.
+
+Зато је важно да не мијешаш класе проблема:
+- ако security group не пушта саобраћај, то није Docker bug,
+- ако container не диже service, то није нужно Terraform bug,
+- ако је Odoo up али functional flow не ради, то више није чист infra problem.
+
+Ово је суштина infrastructure reasoning-а: исти incident може изгледати као „систем не ради“, али root cause може бити у сасвим другом слоју.
+
+## 7) Terraform и Compose: исте информације, друго мјесто записа
 
 Испод је мапирање локалног `komiti_academy` lab-а тако да јасно видиш гдје је иста runtime информација записана у Terraform варијанти, а гдје у Compose варијанти.
 
@@ -460,7 +460,7 @@ Apply значи:
 	</tbody>
 </table>
 
-### 12.2) Посебно важне напомене
+## 8) Посебно важне напомене
 
 <table>
 	<colgroup>
@@ -505,7 +505,7 @@ Apply значи:
 	</tbody>
 </table>
 
-## 7) Dependency reasoning
+## 9) Dependency reasoning
 
 Један од најбитнијих Terraform concepts је dependency graph.
 
@@ -547,7 +547,7 @@ flowchart RL
 
 Junior грешка је да гледа фајл по фајл, а не graph по graph.
 
-## 8) Drift и ручне AWS промјене
+## 10) Drift и ручне AWS промјене
 
 Terraform рад постаје опасан кад људи ручно мијењају ресурсе у AWS console-у, а онда забораве да код/state то не одражавају.
 
@@ -562,7 +562,7 @@ Terraform рад постаје опасан кад људи ручно мије
 - што прије врати ownership у код и state дисциплину,
 - читај plan као drift detector, не само као apply prelude.
 
-## 9) Minimal safe workflow у KomITi-ју
+## 11) Minimal safe workflow у KomITi-ју
 
 Кад радиш Terraform промјену, minimum safe редослијед је:
 
@@ -578,7 +578,7 @@ Terraform рад постаје опасан кад људи ручно мије
 
 То није бирократија; то је основна production discipline.
 
-## 10) KomITi infra checklist
+## 12) KomITi infra checklist
 
 Кад завршиш овај документ, мораш моћи објаснити:
 - шта AWS даје, а шта не даје,
@@ -593,7 +593,7 @@ Terraform рад постаје опасан кад људи ручно мије
 - како да читаш AWS Terraform фолдер као систем, а не као скуп случајних `.tf` фајлова,
 - како да разликујеш AWS problem, Docker/runtime problem и Odoo functional problem.
 
-## 11) Foundations practical drill
+## 13) Foundations practical drill
 
 После овог документа уради бар ово:
 
@@ -609,7 +609,7 @@ Terraform рад постаје опасан кад људи ручно мије
 
 Овај infra drill није директно task имплементације модула, али је припрема да касније за `komiti_academy` разликујеш code problem, runtime problem и infra problem.
 
-## 12) Local Terraform + Docker Desktop lab за кандидата
+## 14) Local Terraform + Docker Desktop lab за кандидата
 
 Ако кандидат нема AWS/Azure lab буџет, има смисла да први Terraform lab ради локално преко Docker Desktop-а.
 Овај lab није дио core product scope-а модула `komiti_academy`, него learning/support exercise да кандидат локално подигне runtime на ком ће касније развијати и провјеравати Odoo модул.
@@ -668,7 +668,7 @@ Minimum safe lab flow нека буде:
 
 Ако candidate успјешно уради овај lab, онда је стварно увјежбао Terraform shape и lifecycle дисциплину, чак иако још није радио прави cloud provisioning.
 
-## 13) Шта читаш даље
+## 15) Шта читаш даље
 
 - `../infra/aws/CODEX_TERRAFORM.md`
 - `../infra/aws/odoo-dev-ec2-compose/README.md`
@@ -679,29 +679,29 @@ Minimum safe lab flow нека буде:
 ## 99) Задатак на komiti_academy пројекту за кандидата
 
 1. Напиши кратку infra/runtime дијагностичку биљешку за `komiti_academy`: шта би прво провјеравао ако модул не ради, а шта ако runtime уопште није здрав.  
-Референца: Ово је објашњено у поглављима `## 5) Како се AWS, Docker и Terraform вежу у један flow` и `## 11) Foundations practical drill`.
+Референца: Ово је објашњено у поглављима `## 6) Како се AWS, Docker и Terraform вежу у један flow` и `## 13) Foundations practical drill`.
 2. За `komiti_academy` попиши које runtime претпоставке морају бити истините прије стварне провјере да модул ради.  
-Референца: Ово је објашњено у поглављима `## 3) Docker и container основе које мораш знати`, `#### 4.6.1) terraform.tfstate` и `## 9) Minimal safe workflow у KomITi-ју`.
+Референца: Ово је објашњено у поглављима `## 3) Docker и container основе које мораш знати`, `#### 4.6.1) terraform.tfstate` и `## 11) Minimal safe workflow у KomITi-ју`.
 3. Објасни на једном примјеру зашто container restart, module upgrade и стварна провјера захваћеног flow-а нису иста ствар.  
-Референца: Ово је објашњено у поглављима `## 3) Docker и container основе које мораш знати`, `## 5) Како се AWS, Docker и Terraform вежу у један flow` и `## 9) Minimal safe workflow у KomITi-ју`.
+Референца: Ово је објашњено у поглављима `## 3) Docker и container основе које мораш знати`, `## 6) Како се AWS, Docker и Terraform вежу у један flow` и `## 11) Minimal safe workflow у KomITi-ју`.
 4. Осмисли и локално опиши Terraform lab у свом репоу `komiti_academy_ime_polaznika` који преко Docker Desktop-а подиже Postgres и Odoo stack за локални `dev` runtime, са јасном структуром фајлова, variables, outputs и јасним редослиједом рада.  
-Референца: Ово је објашњено у поглављима `#### 4.6.2) \`variables.tf\`, \`terraform.tfvars.example\` и \`terraform.tfvars\``, `### 4.4) Структура директоријума: општа и KomITi конкретна`, `### 4.7) Plan није формалност`, `## 9) Minimal safe workflow у KomITi-ју` и `## 12) Local Terraform + Docker Desktop lab за кандидата`.
+Референца: Ово је објашњено у поглављима `#### 4.6.2) \`variables.tf\`, \`terraform.tfvars.example\` и \`terraform.tfvars\``, `### 4.4) Структура директоријума: општа и KomITi конкретна`, `### 4.7) Plan није формалност`, `## 11) Minimal safe workflow у KomITi-ју` и `## 14) Local Terraform + Docker Desktop lab за кандидата`.
 
 ## 99) Рјешења
 
 1. За дијагностичку биљешку уради ово редом:
-	1. У `## 5) Како се AWS, Docker и Terraform вежу у један flow` узми образац како раздвајаш infra слој од application слоја.
+	1. У `## 6) Како се AWS, Docker и Terraform вежу у један flow` узми образац како раздвајаш infra слој од application слоја.
 	2. Раздвоји двије ситуације: `модул не ради` и `runtime није здрав`.
 	3. За сваку ситуацију запиши прве 2 до 3 провјере које би урадио, нпр. за `runtime није здрав`: `контейнери нису up`, `health endpoint не враћа 200`, `service restart није помогао`.
-	4. Ако ти треба образац питања, узми га из `## 11) Foundations practical drill` и преведи у `komiti_academy` контекст.
+	4. Ако ти треба образац питања, узми га из `## 13) Foundations practical drill` и преведи у `komiti_academy` контекст.
 2. За runtime претпоставке уради ово редом:
 	1. Из `## 3) Docker и container основе које мораш знати` издвоји шта мора бити подигнуто и доступно.
 	2. Из `#### 4.6.1) terraform.tfstate` запиши које стање мора бити конзистентно прије тестирања.
-	3. Из `## 9) Minimal safe workflow у KomITi-ју` препиши минимални редослијед провјера прије стварне провјере да модул ради.
+	3. Из `## 11) Minimal safe workflow у KomITi-ју` препиши минимални редослијед провјера прије стварне провјере да модул ради.
 	4. Сложи коначну листу runtime претпоставки у кратку checklist форму, нпр. `runtime up`, `health 200`, `исправна база`, `свјеж module upgrade`.
 3. За разлику између restart-а, upgrade-а и провјере захваћеног flow-а уради ово редом:
 	1. Из `## 3) Docker и container основе које мораш знати` издвоји шта значи restart runtime-а.
-	2. Из `## 9) Minimal safe workflow у KomITi-ју` издвоји шта значи module upgrade.
+	2. Из `## 11) Minimal safe workflow у KomITi-ју` издвоји шта значи module upgrade.
 	3. Затим запиши шта је стварна провјера захваћеног flow-а и по чему се разликује од претходна два корака.
 	4. Формулиши један кратак примјер на `komiti_academy` модулу, нпр. `restart је само подигао сервис`, `upgrade је учитао XML и Python измјене`, `провјера је доказала да корисник може стварно проћи flow без грешке`.
 4. За локални Terraform + Docker Desktop lab уради ово редом:
