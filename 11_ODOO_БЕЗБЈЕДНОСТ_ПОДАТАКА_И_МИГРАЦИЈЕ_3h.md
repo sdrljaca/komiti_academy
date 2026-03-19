@@ -2,6 +2,23 @@
 
 Ово је документ који учи како се мијења Odoo систем који већ има податке. То је тачка у којој junior најчешће прави production-grade грешке ако нема discipline.
 
+## Садржај
+
+1\) Основно правило<br>
+2\) Шта је risky change<br>
+3\) Шта питаш прије измјене<br>
+4\) New field није увијек безопасно<br>
+5\) Required field changes<br>
+6\) XML ID discipline<br>
+7\) КомИТi примјери за размишљање<br>
+&nbsp;&nbsp;&nbsp;&nbsp;`komiti_timesheet`<br>
+&nbsp;&nbsp;&nbsp;&nbsp;`komiti_project`<br>
+&nbsp;&nbsp;&nbsp;&nbsp;`komiti_dispatching`<br>
+8\) Safe pattern<br>
+9\) Anti-patterns<br>
+10\) Шта мораш знати као професионалац<br>
+11\) Шта читаш даље
+
 ## 1) Основно правило
 
 Module upgrade није исто што и data migration safety.

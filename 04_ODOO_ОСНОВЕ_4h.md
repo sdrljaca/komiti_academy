@@ -2,6 +2,25 @@
 
 Ово је foundation документ за кандидата и сваког новог KomITi инжењера који учи Odoo од нуле, али кроз реалан KomITi код, не кроз апстрактне toy примјере.
 
+## Садржај
+
+1\) Odoo mental model<br>
+2\) Шта је model<br>
+3\) Шта је recordset<br>
+4\) Шта су: `env`, `domain`, `context`<br>
+5\) Fields<br>
+6\) Шта су: `onchange`, `constrains`, `create`, `write`, `unlink`<br>
+7\) Views<br>
+8\) View inheritance<br>
+9\) Action и menu слој<br>
+10\) Security basics<br>
+11\) Module upgrade није опционо<br>
+12\) Runtime truth > source code truth<br>
+13\) KomITi foundations checklist<br>
+14\) Foundations capstone задатак<br>
+15\) Шта читаш даље<br>
+99\) Задатак на komiti_academy пројекту за кандидата
+
 ## 1) Odoo mental model
 
 Odoo је framework у коме се већина посла врти око ових слојева:

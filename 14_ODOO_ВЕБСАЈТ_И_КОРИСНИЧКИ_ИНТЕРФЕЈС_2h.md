@@ -2,6 +2,18 @@
 
 Овај документ покрива website/theme/frontend слој у KomITi Odoo систему. Ово је посебна дисциплина и не треба је мијешати са класичним form/tree CRUD thinking-ом.
 
+## Садржај
+
+1\) Шта је у KomITi-ју website/frontend слој<br>
+2\) Разлика: source code vs rendered truth<br>
+3\) QWeb thinking<br>
+4\) SCSS / assets thinking<br>
+5\) Website form / CRM integration<br>
+6\) Asset reset discipline<br>
+7\) Mobile vs desktop<br>
+8\) KomITi practical checklist<br>
+9\) Шта мораш знати као професионалац
+
 ## 1) Шта је у KomITi-ју website/frontend слој
 
 Најрелевантнији модули су:

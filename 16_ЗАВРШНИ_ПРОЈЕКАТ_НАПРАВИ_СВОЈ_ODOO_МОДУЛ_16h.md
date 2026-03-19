@@ -19,6 +19,33 @@ Business Validation Input: Business Owner
 Модул који се прави је:
 - `komiti_academy`
 
+## Садржај
+
+1\) Зашто баш `komiti_academy`<br>
+2\) Шта модул треба да ради<br>
+3\) Обавезан scope<br>
+&nbsp;&nbsp;&nbsp;&nbsp;3.1 `academy.course`<br>
+&nbsp;&nbsp;&nbsp;&nbsp;3.2 `academy.session`<br>
+&nbsp;&nbsp;&nbsp;&nbsp;3.3 Derived/business fields<br>
+4\) Обавезна правила<br>
+5\) Обавезни UI слој<br>
+6\) Обавезни security слој<br>
+7\) Како се модул гради кроз curriculum<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Фаза A<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Фаза B<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Фаза C<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Фаза D<br>
+8\) Контролне тачке<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Checkpoint 1: Skeleton ready<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Checkpoint 2: Functional flow ready<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Checkpoint 3: Rules enforced<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Checkpoint 4: Delivery ready<br>
+9\) Definition of Done за capstone<br>
+10\) Шта мора остати као артефакт<br>
+11\) Како користиш остале learning документе док правиш овај модул<br>
+12\) Завршна провјера за ментора<br>
+99\) Задатак на komiti_academy пројекту за кандидата
+
 ## 1) Зашто баш `komiti_academy`
 
 Овај модул је намјерно изабран као средња тежина.

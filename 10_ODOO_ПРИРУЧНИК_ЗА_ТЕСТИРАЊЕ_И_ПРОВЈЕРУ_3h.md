@@ -2,6 +2,24 @@
 
 Овај документ учи шта значи професионална верификација Odoo измјене у KomITi-ју. Циљ није “ја сам кликнуо и мени ради”, него доказ да је измјена довољно провјерена за свој risk profile.
 
+## Садржај
+
+1\) Minimum rule<br>
+2\) Docs-only измјена<br>
+3\) XML / view измјена<br>
+4\) Python business logic измјена<br>
+5\) Security измјена<br>
+6\) JS / OWL / custom view измјена<br>
+7\) Website / frontend измјена<br>
+8\) Restore / parity / clone рад<br>
+9\) Role-based testing<br>
+10\) Testing anti-patterns<br>
+11\) Verification note template<br>
+12\) Кад си стварно завршио<br>
+13\) Capstone verification за `komiti_academy`<br>
+14\) Шта читаш даље<br>
+99\) Задатак на komiti_academy пројекту за кандидата
+
 ## 1) Minimum rule
 
 Свака измјена мора имати verification који одговара њеном стварном impact-у.

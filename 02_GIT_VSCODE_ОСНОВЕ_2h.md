@@ -2,6 +2,35 @@
 Овај документ уводи кандидата у VS Code и Git основе које су потребне за сигуран рад у KomITi репоу.
 Циљ није да кандидат постане Git или VS Code експерт за 2 сата, него да не прави почетничке грешке и да разумије шта тачно ради кад отвара workspace, проналази фајлове, мијења код, снима, commit-ује и шаље код.
 
+## Садржај
+
+1\) VS Code основе које мораш знати<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Explorer<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Workspace је VS Code контекст у ком радиш; он може садржати један фолдер или више фолдера<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Search, Explorer, Source Control и Terminal су 4 панела која мораш разликовати<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Шта почетник у VS Code-у мора одмах усвојити<br>
+2\) Git основе које мораш знати<br>
+3.1\) Локална и remote грана<br>
+4\) Шта значе слова у VS Code Explorer-у<br>
+5\) Explorer није исто што и Source Control panel<br>
+5.1\) Шта значи доњи лијеви угао у VS Code-у: Git status indicator<br>
+6\) Save није исто што и commit<br>
+7\) Основни локални ток рада<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Корак 1: узми најновији `main`<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Корак 2: направи нови feature branch из `main`<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Корак 3: уради локалне измјене<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Корак 4: staged-уј и commit-уј<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Корак 5: push на GitHub<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Корак 6: промоција у `staging`<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Корак 7: промоција у `main`<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Корак 8: врати се на свој feature branch ако настављаш рад<br>
+8\) Најчешће почетничке грешке<br>
+9\) Најважнији појмови и Минималне команде које мораш знати<br>
+10\) Како ово изгледа у KomITi-ју<br>
+11\) Самопровјера<br>
+12\) Шта читаш даље<br>
+99\) Задатак на komiti_academy пројекту за кандидата
+
 ## 1) VS Code основе које мораш знати
 
 ### Explorer

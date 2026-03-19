@@ -18,6 +18,31 @@ Business Context Input: Business Owner
 - главни product description је у `00_ОПИС_ПРОИЗВОДА_2h.md`,
 - главна спецификација завршног пројекта и execution plan су у `16_ЗАВРШНИ_ПРОЈЕКАТ_НАПРАВИ_СВОЈ_ODOO_МОДУЛ_16h.md`.
 
+## Садржај
+
+1\) Како се користe документи у овом komiti_academy repo<br>
+2\) Пројектни план<br>
+3\) Фаза A — Foundations (седмице 1–4)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;3.1 Циљ<br>
+&nbsp;&nbsp;&nbsp;&nbsp;3.2 Теме<br>
+&nbsp;&nbsp;&nbsp;&nbsp;3.3 Критеријум пролаза<br>
+4\) Фаза B — Guided Odoo Development (седмице 5–8)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;4.1 Циљ<br>
+&nbsp;&nbsp;&nbsp;&nbsp;4.2 Теме<br>
+&nbsp;&nbsp;&nbsp;&nbsp;4.3 Критеријум пролаза<br>
+5\) Фаза C — Independent Delivery (седмице 9–12)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;5.1 Циљ<br>
+&nbsp;&nbsp;&nbsp;&nbsp;5.2 Теме<br>
+&nbsp;&nbsp;&nbsp;&nbsp;5.3 Критеријум пролаза<br>
+6\) Фаза D — Professional Growth (мјесеци 4–12)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;6.1 Циљ<br>
+&nbsp;&nbsp;&nbsp;&nbsp;6.2 Теме<br>
+&nbsp;&nbsp;&nbsp;&nbsp;6.3 Излазни исход<br>
+7\) Дневни/седмични ритам учења<br>
+8\) Проверa напретка (checkpoint-и)<br>
+9\) Definition of Done за „0 -> pro"<br>
+10\) Напомена
+
 ## 1) Како се користe документи у овом komiti_academy repo
 
 Редослијед није случајан. Читање иде од потпуног почетника ка раднику који разумије и Odoo и KomITi начин рада:

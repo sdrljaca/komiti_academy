@@ -2,6 +2,22 @@
 
 Овај документ учи како се bug дијагностикује у KomITi-ју. Циљ није да “нешто пробаш”, него да систематски дођеш до root cause-а.
 
+## Садржај
+
+1\) Прво класификуј проблем<br>
+2\) Debug order у KomITi начину рада<br>
+3\) Ако сумњаш на model/business logic<br>
+4\) Ако сумњаш на view problem<br>
+5\) Ако сумњаш на security problem<br>
+6\) Ако сумњаш на action/search context problem<br>
+7\) Ако сумњаш на website/frontend/assets problem<br>
+8\) Ако сумњаш на localhost vs remote difference<br>
+9\) Restore / parity debugging<br>
+10\) Debug anti-patterns<br>
+11\) KomITi debugging questions<br>
+12\) Кад је дијагноза добра<br>
+13\) Шта читаш даље
+
 ## 1) Прво класификуј проблем
 
 Питај се којој класи проблема припада:

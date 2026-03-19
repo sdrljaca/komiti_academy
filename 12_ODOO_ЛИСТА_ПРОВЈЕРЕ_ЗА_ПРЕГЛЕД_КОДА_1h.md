@@ -2,6 +2,21 @@
 
 Ово је checklist који учи како senior гледа Odoo PR у KomITi-ју.
 
+## Садржај
+
+1\) Scope и intent<br>
+2\) Manifest и module structure<br>
+3\) Python logic<br>
+4\) XML / view review<br>
+5\) Security review<br>
+6\) Frontend / website review<br>
+7\) Upgrade и migration review<br>
+8\) Testing review<br>
+9\) Documentation review<br>
+10\) Review outcome categories<br>
+11\) Шта junior мора научити из review-а<br>
+99\) Задатак на komiti_academy пројекту за кандидата
+
 ## 1) Scope и intent
 
 - Да ли је problem statement јасан?

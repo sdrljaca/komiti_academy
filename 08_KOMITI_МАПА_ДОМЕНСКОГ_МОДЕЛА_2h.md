@@ -2,6 +2,30 @@
 
 Овај документ објашњава систем не као збир фајлова, него као domain map. Циљ је да нови инжењер разумије гдје су главни пословни токови и који custom модули носе ту логику.
 
+## Садржај
+
+1\) Велика слика<br>
+2\) Projects и tasks<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Шта `komiti_project` додаје<br>
+3\) Timesheets и costing<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Шта `komiti_timesheet` ради<br>
+4\) Dispatching и resource allocation<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Пословна сврха<br>
+5\) Website и lead capture<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Шта је битно<br>
+6\) Internal ops<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Шта учиш из овог слоја<br>
+7\) AI / automation слој<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Зашто је важан за learning<br>
+8\) Employees и fleet<br>
+9\) Како domain zone-ови комуницирају<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Projects <-> Timesheets<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Projects <-> Dispatching<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Website <-> CRM / Projects<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Ops <-> Runtime<br>
+10\) Шта нови инжењер мора знати напамет<br>
+11\) Шта читаш даље
+
 ## 1) Велика слика
 
 KomITi систем у овом репоу се може читати кроз 5 главних domain зона:

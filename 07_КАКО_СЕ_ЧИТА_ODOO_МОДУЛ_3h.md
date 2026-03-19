@@ -2,6 +2,27 @@
 
 Ово је једна од најважнијих practical skills у KomITi-ју. Професионалац не почиње од random фајла, него чита модул систематски.
 
+## Садржај
+
+1\) Прави редослијед читања<br>
+2\) Шта желиш знати после 5 минута<br>
+3\) Како читати `komiti_timesheet`<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Питање<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Читање<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Зашто је ово добар training case<br>
+4\) Како читати `komiti_gantt`<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Питање<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Читање<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Шта учиш<br>
+5\) Како читати bug report<br>
+6\) Од UI-а до кода<br>
+7\) Од кода до impact-а<br>
+8\) Common junior mistakes<br>
+9\) KomITi reading drills<br>
+10\) Како читаш свој capstone модул<br>
+11\) Шта читаш даље<br>
+99\) Задатак на komiti_academy пројекту за кандидата
+
 ## 1) Прави редослијед читања
 
 Кад први пут уђеш у модул, иди овим редом:
