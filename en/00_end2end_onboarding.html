@@ -1,0 +1,823 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>End2End Onboarding Learning Path — KomITi Academy</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 15px;
+    line-height: 1.75;
+    color: #2c2c2c;
+    background: #f4f6f9;
+}
+.page-wrapper {
+    max-width: 980px;
+    margin: 40px auto;
+    background: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 2px 16px rgba(0,0,0,0.1);
+    padding: 60px 72px;
+}
+.book-meta {
+    text-align: center;
+    border-bottom: 3px solid #875A7B;
+    padding-bottom: 28px;
+    margin-bottom: 40px;
+}
+.book-meta .book-title {
+    font-size: 13px;
+    color: #875A7B;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-bottom: 8px;
+}
+h1 { font-size: 32px; color: #1a1a2e; margin-bottom: 6px; }
+.book-meta .subtitle { font-size: 16px; color: #666; font-style: italic; }
+h2 {
+    font-size: 22px;
+    color: #875A7B;
+    border-left: 5px solid #875A7B;
+    padding-left: 14px;
+    margin: 48px 0 16px 0;
+}
+h3 {
+    font-size: 17px;
+    color: #1a1a2e;
+    margin: 32px 0 10px 0;
+    border-bottom: 1px solid #e8e8e8;
+    padding-bottom: 5px;
+}
+h4 { font-size: 15px; color: #444; margin: 20px 0 8px 0; font-style: italic; }
+p  { margin-bottom: 14px; }
+ul, ol { margin: 10px 0 14px 28px; }
+li { margin-bottom: 6px; }
+code {
+    background: #f0eaf4;
+    color: #875A7B;
+    padding: 2px 6px;
+    border-radius: 3px;
+    font-family: 'Consolas', 'Courier New', monospace;
+    font-size: 13.5px;
+}
+pre {
+    background: #1e1e2e;
+    color: #cdd6f4;
+    padding: 20px 24px;
+    border-radius: 6px;
+    overflow-x: auto;
+    font-family: 'Consolas', 'Courier New', monospace;
+    font-size: 13.5px;
+    line-height: 1.6;
+    margin: 14px 0 20px 0;
+    border-left: 4px solid #875A7B;
+}
+blockquote {
+    background: #fdf6ff;
+    border-left: 4px solid #875A7B;
+    padding: 14px 18px;
+    margin: 16px 0;
+    border-radius: 0 6px 6px 0;
+    color: #555;
+    font-style: italic;
+}
+blockquote strong { color: #875A7B; font-style: normal; }
+table { width: 100%; border-collapse: collapse; margin: 16px 0 24px 0; font-size: 14px; }
+thead tr { background: #875A7B; color: #fff; }
+th { padding: 10px 14px; text-align: left; font-weight: 600; }
+td { padding: 9px 14px; border-bottom: 1px solid #e8e8e8; vertical-align: top; }
+tbody tr:nth-child(even) { background: #faf7fc; }
+tbody tr:hover { background: #f0eaf4; }
+.toc {
+    background: #faf7fc;
+    border: 1px solid #e0d0e8;
+    border-radius: 8px;
+    padding: 24px 28px;
+    margin-bottom: 40px;
+}
+.toc h3 { border: none; color: #875A7B; margin-top: 0; font-size: 16px; }
+.toc ol { margin-top: 10px; }
+.toc li { margin-bottom: 4px; }
+.toc a { color: #875A7B; text-decoration: none; }
+.toc a:hover { text-decoration: underline; }
+.note {
+    background: #fffbe6; border-left: 4px solid #f0b429;
+    padding: 12px 18px; margin: 14px 0;
+    border-radius: 0 6px 6px 0; font-size: 14px;
+}
+.note strong { color: #b07d00; }
+hr { border: none; border-top: 2px solid #e0d0e8; margin: 48px 0; }
+a { color: #875A7B; text-decoration: none; }
+a:hover { text-decoration: underline; }
+footer {
+    text-align: center;
+    margin-top: 48px;
+    padding-top: 24px;
+    border-top: 1px solid #e8e8e8;
+    color: #999;
+    font-size: 13px;
+}
+.info-block {
+    font-size: 14px;
+    color: #666;
+    margin-bottom: 28px;
+    line-height: 1.8;
+}
+.info-block strong { color: #444; }
+</style>
+</head>
+<body>
+<div class="page-wrapper">
+
+<!-- ── Header ── -->
+<div class="book-meta">
+  <div class="book-title">KomITi Academy</div>
+  <h1>End2End Onboarding Learning Path</h1>
+  <div class="subtitle">From zero to professional — 39 to 52 weeks</div>
+</div>
+
+<!-- ── Info block ── -->
+<div class="info-block">
+  <strong>Document Owner:</strong> Project Manager<br>
+  <strong>Product Scope Input:</strong> Product Manager<br>
+  <strong>Business Context Input:</strong> Business Owner
+</div>
+
+<p>Document objective: This is the umbrella document for the entire set of documents in the <code>komiti_academy</code> learning library. The goal of the library is to take a Candidate from a complete beginner to an independent Odoo/Python engineer in the KomITi way of working:</p>
+<ul>
+  <li>KomITi engineering way of working,</li>
+  <li>KomITi branch / promotion / documentation discipline,</li>
+  <li>KomITi custom modules and business flows,</li>
+  <li>the approach to diagnosis, testing and delivery of changes in this repo.</li>
+</ul>
+
+<p>Throughout the entire onboarding there is also one ongoing final practical project that is built across all phases:</p>
+<ul>
+  <li>the participant gradually builds their first module <code>komiti_academy</code>,</li>
+  <li>each phase adds a new layer to that module,</li>
+  <li>by the end of the learning path the module must be complete, tested and documented,</li>
+  <li>the participant works on their version of the project in their own GitHub repo <code>komiti_academy_ime_polaznika</code>,</li>
+  <li>the main product description is in <code>00_ОПИС_ПРОИЗВОДА_2h.md</code>,</li>
+  <li>the main foundations/delivery mental model for the entire system is in <code>03_ИНФРА_TERRAFORM_DOCKER_AWS_ОСНОВЕ_4h.md</code>,</li>
+  <li>the main Odoo learning path and execution sequence for the Odoo-only topic are in <code>04_ODOO_PLAN_UČENJA.md</code>,</li>
+  <li>old AI Odoo materials have been moved to <code>xxx_odoo_tutorijali_AI_pravio_arhiva/</code> and are no longer the canonical learning path.</li>
+</ul>
+
+<!-- ── Table of Contents ── -->
+<div class="toc">
+  <h3>Table of Contents</h3>
+  <ol>
+    <li><a href="#s1">How to use documents in this komiti_academy repo</a></li>
+    <li><a href="#s2">Project plan</a></li>
+    <li><a href="#s3">Phase A — Foundations (weeks 1–4)</a>
+      <ol type="a" style="margin-left:20px;">
+        <li><a href="#s3-1">Objective</a></li>
+        <li><a href="#s3-2">Topics</a></li>
+        <li><a href="#s3-3">Pass Criteria</a></li>
+      </ol>
+    </li>
+    <li><a href="#s4">Phase B — Guided Odoo Development (weeks 5–8)</a>
+      <ol type="a" style="margin-left:20px;">
+        <li><a href="#s4-1">Objective</a></li>
+        <li><a href="#s4-2">Topics</a></li>
+        <li><a href="#s4-3">Pass Criteria</a></li>
+      </ol>
+    </li>
+    <li><a href="#s5">Phase C — Independent Delivery (weeks 9–12)</a>
+      <ol type="a" style="margin-left:20px;">
+        <li><a href="#s5-1">Objective</a></li>
+        <li><a href="#s5-2">Topics</a></li>
+        <li><a href="#s5-3">Pass Criteria</a></li>
+      </ol>
+    </li>
+    <li><a href="#s6">Phase D — Professional Growth (months 4–12)</a>
+      <ol type="a" style="margin-left:20px;">
+        <li><a href="#s6-1">Objective</a></li>
+        <li><a href="#s6-2">Topics</a></li>
+        <li><a href="#s6-3">Exit Outcome</a></li>
+      </ol>
+    </li>
+    <li><a href="#s7">Daily/weekly learning rhythm</a></li>
+    <li><a href="#s8">Progress checks (checkpoints)</a></li>
+    <li><a href="#s9">Definition of Done for "0 -&gt; pro"</a></li>
+    <li><a href="#s10">Note</a></li>
+  </ol>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════ -->
+<!-- 1) How to use documents -->
+<!-- ══════════════════════════════════════════════════════════ -->
+<h2 id="s1">1) How to use documents in this komiti_academy repo</h2>
+
+<p>The order is not accidental. Reading progresses from a complete beginner to a worker who understands both Odoo and the KomITi way of working:</p>
+<ol>
+  <li>you read what the product you will build through this course will look like
+    <ul>
+      <li>document: <code>00_ОПИС_ПРОИЗВОДА_2h.md</code>,</li>
+    </ul>
+  </li>
+  <li>first you learn the basic concepts,
+    <ul>
+      <li>documents: <code>01_УПРАВЉАЊЕ_ПРОЈЕКТОМ_И_ПРОИЗВОДОМ_2h.md</code>, <code>02_GIT_VSCODE_ОСНОВЕ_2h.md</code>, <code>03_ИНФРА_TERRAFORM_DOCKER_AWS_ОСНОВЕ_4h.md</code></li>
+    </ul>
+  </li>
+  <li>then through <code>03_ИНФРА_TERRAFORM_DOCKER_AWS_ОСНОВЕ_4h.md</code> you adopt the umbrella mental model for the entire delivery system,
+    <ul>
+      <li>rule: whenever you are unsure whether the question is product, project, infra, runtime or application, first go back to <code>03_ИНФРА_TERRAFORM_DOCKER_AWS_ОСНОВЕ_4h.md</code></li>
+    </ul>
+  </li>
+  <li>then you build the Odoo foundation through the canonical Odoo plan,
+    <ul>
+      <li>document: <code>04_ODOO_PLAN_UČENJA.md</code></li>
+    </ul>
+  </li>
+  <li>then you learn the KomITi module/domain reality,
+    <ul>
+      <li>documents: <code>../custom-addons/komiti_timesheet/CODEX_ODOO_KOMITI_TIMESHEET.md</code>, <code>../custom-addons/komiti_gantt/CODEX_ODOO_KOMITI_GANTT.md</code></li>
+    </ul>
+  </li>
+  <li>only then do you read the policy/codex layer at full capacity,
+    <ul>
+      <li>documents: <code>../custom-addons/CODEX_ODOO.md</code>, <code>../ENGINEERING_CODEX.md</code>, <code>../SESSION_NOTES.md</code></li>
+    </ul>
+  </li>
+  <li>only after that do you enter debugging, testing, rollout and infra discipline.
+    <ul>
+      <li>documents: <code>03_ИНФРА_TERRAFORM_DOCKER_AWS_ОСНОВЕ_4h.md</code>, <code>04_ODOO_PLAN_UČENJA.md</code>, <code>../custom-addons/CODEX_ODOO.md</code>, <code>../ENGINEERING_CODEX.md</code>, <code>../SESSION_NOTES.md</code>, <code>../infra/aws/CODEX_TERRAFORM.md</code>, <code>../infra/aws/odoo-dev-ec2-compose/RUNBOOK.md</code></li>
+    </ul>
+  </li>
+</ol>
+
+<p>The archive <code>xxx_odoo_tutorijali_AI_pravio_arhiva/</code> remains only as historical/supplementary material. It is no longer treated as a mandatory onboarding path.</p>
+
+<p>If while reading you encounter a term or acronym that is unclear, use the appendix document <code>99_РЈЕЧНИК_АКРОНИМА.md</code> as a quick index of terms and a pointer to the main documents where that concept is covered in more detail.</p>
+
+<!-- ══════════════════════════════════════════════════════════ -->
+<!-- 2) Project plan -->
+<!-- ══════════════════════════════════════════════════════════ -->
+<h2 id="s2">2) Project plan</h2>
+
+<p>For a candidate with no prior programming experience the realistic range is 39–52 weeks; here that same time frame is shown through the scope that needs to be delivered in each phase:</p>
+<ul>
+  <li><strong>Junior: Basic operational independence: 12 weeks</strong> (8–10 weeks only in accelerated mode)
+    <ul>
+      <li>1.1) Phase A — Foundations (weeks 1–4):
+        <ul><li>delivery of basic understanding of the workflow, local environment, Odoo basics and the first <code>komiti_academy</code> skeleton.</li></ul>
+      </li>
+      <li>1.2) Phase B — Guided Odoo Development (weeks 5–8):
+        <ul><li>delivery of an installable MVP with models, relations, views, action/menu layer and basic security.</li></ul>
+      </li>
+      <li>1.3) Phase C — Independent Delivery (weeks 9–12):
+        <ul><li>delivery of business rules, verification notes, docs delta and a clear Definition of Done status for <code>komiti_academy</code>.</li></ul>
+      </li>
+    </ul>
+  </li>
+  <li><strong>Mid-level work on the project: 4–8 months</strong>
+    <ul>
+      <li>1.4) Early and middle part of Phase D — Professional Growth (months 4–8):
+        <ul><li>delivery of a more stable, cleaner and review-safe module that the candidate can independently maintain, extend and defend through review.</li></ul>
+      </li>
+    </ul>
+  </li>
+  <li><strong>Senior: Independently leads more complex changes end-to-end: 9–12 months</strong>
+    <ul>
+      <li>1.5) Later part of Phase D — Professional Growth (months 9–12):
+        <ul><li>delivery of a mature version of <code>komiti_academy</code> as personal proof that the candidate can lead a more complex scope, rollout and handoff with almost no supervision.</li></ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<h3>Tasks in the project</h3>
+<p>While reading the <code>komiti_academy</code> learning library, you get the foundations/delivery mental model for all areas from <code>03_ИНФРА_TERRAFORM_DOCKER_AWS_ОСНОВЕ_4h.md</code>, the main Odoo tasks from <code>04_ODOO_PLAN_UČENJA.md</code>, and KomITi-specific implementation, review and delivery tasks from the product/codex documents.</p>
+
+<p>When you want to see all tasks leading to a complete <code>komiti_academy</code> in a single reading, use these references:</p>
+<ul>
+  <li><code>02_GIT_VSCODE_ОСНОВЕ_2h.md</code>: Git tasks for feature branch, clean commit and push discipline, with guidance from the workflow chapter.</li>
+  <li><code>03_ИНФРА_TERRAFORM_DOCKER_AWS_ОСНОВЕ_4h.md</code>: canonical foundations/delivery document for the entire system; here you learn how to distinguish product, project, infra, runtime and application reasoning, how AWS/Docker/Terraform/Odoo form a single flow and how not to mix classes of problems.</li>
+  <li><code>04_ODOO_PLAN_UČENJA.md</code>: canonical Odoo tasks from setup and first module to testing, frontend, integration and OCA reading.</li>
+  <li><code>00_ОПИС_ПРОИЗВОДА_2h.md</code>: product scope and functional objectives that <code>komiti_academy</code> must cover.</li>
+  <li><code>../custom-addons/CODEX_ODOO.md</code>: implementation, security, testing and documentation discipline for real KomITi Odoo work.</li>
+  <li><code>../custom-addons/komiti_timesheet/CODEX_ODOO_KOMITI_TIMESHEET.md</code>: ORM/domain tasks on a real module.</li>
+  <li><code>../custom-addons/komiti_gantt/CODEX_ODOO_KOMITI_GANTT.md</code>: view/UI tasks on a real module.</li>
+  <li><code>../ENGINEERING_CODEX.md</code>: delivery, branch/promotion and hotfix discipline.</li>
+  <li><code>../SESSION_NOTES.md</code>: handoff, verification note and operational evidence.</li>
+</ul>
+
+<!-- ══════════════════════════════════════════════════════════ -->
+<!-- 3) Phase A — Foundations (weeks 1–4) -->
+<!-- ══════════════════════════════════════════════════════════ -->
+<h2 id="s3">3) Phase A — Foundations (weeks 1–4)</h2>
+
+<h3 id="s3-1">3.1 Objective</h3>
+<p>The candidate should understand the basics of programming, Git, SQL and the local Odoo workflow.</p>
+
+<h3 id="s3-2">3.2 Topics</h3>
+
+<ul>
+  <li><strong>Python basics:</strong> types, functions, conditions, loops, errors
+    <ul>
+      <li>there is no separate Python-only document in this phase;</li>
+      <li>Python basics are mostly reinforced through <code>04_ODOO_PLAN_UČENJA.md</code>
+        <ul>
+          <li>On the <code>komiti_academy</code> skeleton identify which fields are input, which are derived, and where you expect business rule Python logic</li>
+          <li>Through <code>Server framework 101</code> find one Python model class and explain the imports, class, method and one condition or loop if they exist</li>
+          <li>Read one simple Python method in a module and explain what the parameters, conditions, recordset loop and return value do in it</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+
+  <li><strong>Git basics:</strong> branch, commit, merge, pull request
+    <ul>
+      <li>operational context from <code>02_GIT_VSCODE_ОСНОВЕ_2h.md</code>
+        <ul>
+          <li>Clone the repo <code>komiti_academy_ime_polaznika</code> locally</li>
+        </ul>
+      </li>
+      <li><code>02_GIT_VSCODE_ОСНОВЕ_2h.md</code>
+        <ul>
+          <li>Open your account on GitHub and subscribe to the GitCopilot service</li>
+          <li>Create your GitHub repo <code>komiti_academy_ime_polaznika</code></li>
+          <li>Create a micro PR that changes documentation</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+
+  <li><strong>SQL basics:</strong> SELECT, JOIN, WHERE, GROUP BY
+    <ul>
+      <li>there is no separate SQL-only document in this phase;</li>
+      <li>SQL reasoning is practiced alongside <code>04_ODOO_PLAN_UČENJA.md</code>
+        <ul>
+          <li>Write 5 SQL queries against the local database (with explanation of results)</li>
+        </ul>
+      </li>
+      <li>data/model context from <code>04_ODOO_PLAN_UČENJA.md</code>
+        <ul>
+          <li>Explain the results of those SQL queries through Odoo data/model context</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+
+  <li><strong>Project/Product foundations:</strong> scope, owners, sequencing, problem framing
+    <ul>
+      <li><code>01_УПРАВЉАЊЕ_ПРОЈЕКТОМ_И_ПРОИЗВОДОМ_2h.md</code>
+        <ul>
+          <li>Explain the difference between Product Manager, Business Owner, Project Manager and Service Owner</li>
+        </ul>
+      </li>
+      <li><code>03_ИНФРА_TERRAFORM_DOCKER_AWS_ОСНОВЕ_4h.md</code>
+        <ul>
+          <li>Explain why a delivery problem is not the same as an infra problem, and why a runtime issue is not automatically an Odoo bug</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+
+  <li><strong>AWS basics:</strong> EC2, security group, VPC, EIP, DNS thinking
+    <ul>
+      <li>documents: <code>03_ИНФРА_TERRAFORM_DOCKER_AWS_ОСНОВЕ_4h.md</code>
+        <ul>
+          <li>Explain on one short example how an EC2 host, security group, public IP address and DNS are connected into a single runtime path to the Odoo service</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+
+  <li><strong>Docker basics:</strong> container, image, <code>docker compose</code>
+    <ul>
+      <li><code>03_ИНФРА_TERRAFORM_DOCKER_AWS_ОСНОВЕ_4h.md</code>
+        <ul>
+          <li>Bring up the local environment from the repo <code>komiti_academy_ime_polaznika</code></li>
+          <li>Explain the difference between image, container, volume and compose wiring</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+
+  <li><strong>Terraform basics:</strong> provider, resource, variables, state, <code>plan</code>/<code>apply</code>
+    <ul>
+      <li><code>03_ИНФРА_TERRAFORM_DOCKER_AWS_ОСНОВЕ_4h.md</code>
+        <ul>
+          <li>Design a minimal Terraform lab for the <code>komiti_academy</code> dev runtime and explain the role of <code>provider</code>, <code>resource</code>, <code>variables</code>, <code>state</code>, <code>plan</code> and <code>apply</code> in that lab</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+
+  <li><strong>Odoo basics:</strong> model, view, action, security, module upgrade
+    <ul>
+      <li><code>03_ИНФРА_TERRAFORM_DOCKER_AWS_ОСНОВЕ_4h.md</code>
+        <ul>
+          <li>Explain where Odoo sits in the system/runtime flow and how to distinguish an infra/runtime problem from an Odoo functional problem</li>
+        </ul>
+      </li>
+      <li><code>04_ODOO_PLAN_UČENJA.md</code>
+        <ul>
+          <li>Go through <code>Setup guide</code>, <code>Server framework 101</code>, <code>Define module data</code>, <code>Restrict access to data</code> and <code>Safeguard your code with unit tests</code></li>
+          <li>Create a skeleton for <code>komiti_academy</code></li>
+          <li>Modify one label/field in an Odoo view and run a module upgrade</li>
+          <li>note: the same document later serves as the main Odoo roadmap for the final project checkpoints</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="s3-3">3.3 Pass Criteria</h3>
+<ul>
+  <li>Can independently bring up the local environment</li>
+  <li>Understands where <code>ENGINEERING_CODEX</code>, <code>custom-addons/CODEX_ODOO</code>, <code>SESSION_NOTES</code> and <code>00_END2END_ONBOARDING_ПУТ_УЧЕЊА_39-52w.md</code> are located</li>
+  <li>Has created at least 1 clean PR following the standard</li>
+  <li><code>komiti_academy</code> skeleton exists and can be explained without guessing</li>
+</ul>
+
+<!-- ══════════════════════════════════════════════════════════ -->
+<!-- 4) Phase B — Guided Odoo Development (weeks 5–8) -->
+<!-- ══════════════════════════════════════════════════════════ -->
+<h2 id="s4">4) Phase B — Guided Odoo Development (weeks 5–8)</h2>
+
+<h3 id="s4-1">4.1 Objective</h3>
+<p>The candidate should be able to implement a small feature with mentor review.</p>
+
+<h3 id="s4-2">4.2 Topics</h3>
+
+<ul>
+  <li><strong>Odoo ORM</strong> (fields, compute, related)
+    <ul>
+      <li><code>03_ИНФРА_TERRAFORM_DOCKER_AWS_ОСНОВЕ_4h.md</code>
+        <ul>
+          <li>Keep <code>03_...</code> as the canonical reference so you do not confuse an ORM change with the runtime/infra layer</li>
+        </ul>
+      </li>
+      <li><code>04_ODOO_PLAN_UČENJA.md</code>
+        <ul>
+          <li>Go through <code>ORM API</code>, <code>Server framework 101</code> and the corresponding chapters for relations, compute and onchange</li>
+        </ul>
+      </li>
+      <li><code>../custom-addons/komiti_timesheet/CODEX_ODOO_KOMITI_TIMESHEET.md</code>
+        <ul>
+          <li>Bring <code>komiti_academy</code> to an installable MVP at the model and basic flow level</li>
+          <li>Perform one ORM change on the <code>komiti_timesheet</code> model and explain why it is a <code>fields/compute/related</code> problem</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+
+  <li><strong>XML view inheritance</strong> (xpath, stable anchors)
+    <ul>
+      <li><code>03_ИНФРА_TERRAFORM_DOCKER_AWS_ОСНОВЕ_4h.md</code>
+        <ul>
+          <li>When the UI does not work, first distinguish whether the problem is runtime/startup, routing/proxy, or actually an XML/Odoo view problem</li>
+        </ul>
+      </li>
+      <li><code>04_ODOO_PLAN_UČENJA.md</code>
+        <ul>
+          <li>Go through <code>View records</code>, <code>View architectures</code> and the backend/UI parts of <code>Server framework 101</code></li>
+        </ul>
+      </li>
+      <li><code>../custom-addons/komiti_gantt/CODEX_ODOO_KOMITI_GANTT.md</code>
+        <ul>
+          <li>Perform one change in a list/form/calendar view with a stable xpath anchor</li>
+        </ul>
+      </li>
+      <li><code>../custom-addons/CODEX_ODOO.md</code>
+        <ul>
+          <li>Bring <code>komiti_academy</code> to an installable MVP at the views, actions and menu level</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+
+  <li><strong>Access rules / groups / security</strong>
+    <ul>
+      <li><code>03_ИНФРА_TERRAFORM_DOCKER_AWS_ОСНОВЕ_4h.md</code>
+        <ul>
+          <li>Know that application security is not the same as network/security-group boundary</li>
+        </ul>
+      </li>
+      <li><code>04_ODOO_PLAN_UČENJA.md</code>
+        <ul>
+          <li>Go through <code>Access Rights</code>, <code>Record Rules</code>, <code>Field Access</code> and <code>Security Pitfalls</code></li>
+        </ul>
+      </li>
+      <li><code>../custom-addons/CODEX_ODOO.md</code>
+        <ul>
+          <li>Fix one permission behavior in an existing module</li>
+          <li>Bring <code>komiti_academy</code> to an installable MVP at the basic security level</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+
+  <li><strong>Testing UI flows by roles</strong>
+    <ul>
+      <li><code>03_ИНФРА_TERRAFORM_DOCKER_AWS_ОСНОВЕ_4h.md</code>
+        <ul>
+          <li>Before role-based UI testing confirm that the runtime is healthy and that the problem is not in the infra/startup layer</li>
+        </ul>
+      </li>
+      <li><code>04_ODOO_PLAN_UČENJA.md</code>
+        <ul>
+          <li>Go through <code>Testing Python code</code> and <code>Integration Testing</code></li>
+        </ul>
+      </li>
+      <li><code>../custom-addons/CODEX_ODOO.md</code>
+        <ul>
+          <li>Create a smoke test record for <code>employee/manager/admin</code></li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+
+  <li><strong>Documentation after implementation</strong>
+    <ul>
+      <li><code>../custom-addons/CODEX_ODOO.md</code>
+        <ul>
+          <li>Document what was done and what was manually verified for the <code>komiti_academy</code> MVP</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="s4-3">4.3 Pass Criteria</h3>
+<ul>
+  <li>2–3 merged PRs without critical regressions</li>
+  <li>Independently follows the <code>staging -&gt; main</code> flow with mentor confirmation</li>
+  <li><code>komiti_academy</code> installs, opens in the UI and covers the basic flow course → session</li>
+</ul>
+
+<!-- ══════════════════════════════════════════════════════════ -->
+<!-- 5) Phase C — Independent Delivery (weeks 9–12) -->
+<!-- ══════════════════════════════════════════════════════════ -->
+<h2 id="s5">5) Phase C — Independent Delivery (weeks 9–12)</h2>
+
+<h3 id="s5-1">5.1 Objective</h3>
+<p>The candidate should deliver a smaller task independently end-to-end.</p>
+
+<h3 id="s5-2">5.2 Topics</h3>
+
+<ul>
+  <li><strong>Root-cause debugging</strong>
+    <ul>
+      <li><code>03_ИНФРА_TERRAFORM_DOCKER_AWS_ОСНОВЕ_4h.md</code>
+        <ul>
+          <li>Use it as the first document for classifying problems: infra, runtime, application, functional flow</li>
+        </ul>
+      </li>
+      <li><code>04_ODOO_PLAN_UČENJA.md</code>
+        <ul>
+          <li>Use <code>Reference</code>, <code>Profiling</code>, <code>Good practices</code> and the relevant backend/frontend reference pages as a working tool during diagnosis</li>
+        </ul>
+      </li>
+      <li><code>../custom-addons/CODEX_ODOO.md</code>
+        <ul>
+          <li>Independently close 1 quickfix and briefly explain the root cause</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+
+  <li><strong>Hotfix discipline</strong>
+    <ul>
+      <li><code>../ENGINEERING_CODEX.md</code>
+        <ul>
+          <li>Independently close 1 feature task following the KomITi delivery standard</li>
+          <li>Independently close 1 quickfix without violating hotfix discipline</li>
+        </ul>
+      </li>
+      <li><code>../SESSION_NOTES.md</code>
+        <ul>
+          <li>Write a handoff note for the delivered change</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+
+  <li><strong>Release checklist (pre/deploy/post)</strong>
+    <ul>
+      <li><code>03_ИНФРА_TERRAFORM_DOCKER_AWS_ОСНОВЕ_4h.md</code>
+        <ul>
+          <li>Use it as the canonical basis for reasoning about the runtime, the plan/apply cycle and distinguishing deploy problems from Odoo verification problems</li>
+        </ul>
+      </li>
+      <li><code>04_ODOO_PLAN_UČENJA.md</code>
+        <ul>
+          <li>Rely on the testing/reference/how-to sections as the basis for verification</li>
+        </ul>
+      </li>
+      <li><code>../custom-addons/CODEX_ODOO.md</code>
+        <ul>
+          <li>Perform a post-deploy smoke</li>
+          <li>Complete the verification note for <code>komiti_academy</code></li>
+        </ul>
+      </li>
+      <li><code>../SESSION_NOTES.md</code>
+        <ul>
+          <li>Record the smoke result and handoff</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+
+  <li><strong>Change impact analysis</strong>
+    <ul>
+      <li><code>03_ИНФРА_TERRAFORM_DOCKER_AWS_ОСНОВЕ_4h.md</code>
+        <ul>
+          <li>In impact reasoning first separate the system/runtime impact from the pure Odoo feature impact</li>
+        </ul>
+      </li>
+      <li><code>../ENGINEERING_CODEX.md</code>
+        <ul>
+          <li>Independently close 1 feature task with clear impact reasoning</li>
+          <li>Complete business rules and docs delta for <code>komiti_academy</code></li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="s5-3">5.3 Pass Criteria</h3>
+<ul>
+  <li>Independently implements, tests, documents and deploys a smaller task</li>
+  <li>Can explain why something is a root cause, not a symptom</li>
+  <li><code>komiti_academy</code> has manual verification proof and a clear Definition of Done status</li>
+</ul>
+
+<!-- ══════════════════════════════════════════════════════════ -->
+<!-- 6) Phase D — Professional Growth (months 4–12) -->
+<!-- ══════════════════════════════════════════════════════════ -->
+<h2 id="s6">6) Phase D — Professional Growth (months 4–12)</h2>
+
+<h3 id="s6-1">6.1 Objective</h3>
+<p>The candidate should become a stable owner of a part of the system.</p>
+
+<h3 id="s6-2">6.2 Topics</h3>
+
+<ul>
+  <li><strong>Advanced Odoo patterns</strong>
+    <ul>
+      <li><code>03_ИНФРА_TERRAFORM_DOCKER_AWS_ОСНОВЕ_4h.md</code>
+        <ul>
+          <li>Even in advanced Odoo changes keep it as the canonical document for the system mental model and problem classification</li>
+        </ul>
+      </li>
+      <li><code>04_ODOO_PLAN_UČENJA.md</code>
+        <ul>
+          <li>Go through <code>Discover the web framework</code>, <code>Master the web framework</code>, <code>Customize a field</code>, <code>Customize a view type</code>, <code>Create a client action</code>, <code>Website themes</code> and <code>Web Services</code></li>
+          <li>Perform one more advanced UI/website change and explain why it is not just a basic view change</li>
+        </ul>
+      </li>
+      <li><code>../custom-addons/CODEX_ODOO.md</code>
+        <ul>
+          <li>Perform one more advanced UI/website change and explain why it is not just a basic view change</li>
+        </ul>
+      </li>
+      <li><code>04_ODOO_PLAN_UČENJA.md</code>
+        <ul>
+          <li>Extend <code>komiti_academy</code> with one more advanced Odoo pattern that requires an independent design choice and review reasoning</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+
+  <li><strong>Pipeline architecture (Fabrick)</strong>
+    <ul>
+      <li><code>../infra/aws/CODEX_TERRAFORM.md</code>
+        <ul>
+          <li>Explain the architecture/pipeline layer and state which changes go through Terraform discipline and which do not</li>
+        </ul>
+      </li>
+      <li><code>../infra/aws/odoo-dev-ec2-compose/RUNBOOK.md</code>
+        <ul>
+          <li>Simulate one operational scenario and describe which runbook steps would come first</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+
+  <li><strong>Performance and data quality</strong>
+    <ul>
+      <li><code>03_ИНФРА_TERRAFORM_DOCKER_AWS_ОСНОВЕ_4h.md</code>
+        <ul>
+          <li>Distinguish a performance problem at the host/container/runtime layer from a performance problem in the Odoo ORM/UI layer</li>
+        </ul>
+      </li>
+      <li><code>04_ODOO_PLAN_UČENJA.md</code>
+        <ul>
+          <li>Go through <code>Profiling</code>, <code>Good practices</code>, <code>Upgrade a customized database</code> and <code>OpenUpgrade</code></li>
+          <li>On one example explain data quality risk, migration risk and how you would verify that before releasing a change</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+
+  <li><strong>Incident response and technical leadership of smaller initiatives</strong>
+    <ul>
+      <li><code>../ENGINEERING_CODEX.md</code>
+        <ul>
+          <li>Independently review one more complex change following the checklist and record findings</li>
+        </ul>
+      </li>
+      <li><code>04_ODOO_PLAN_UČENJA.md</code>
+        <ul>
+          <li>Choose several exercises/practical artifacts that lead toward technical leadership and connect them with the next steps on <code>komiti_academy</code></li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="s6-3">6.3 Exit Outcome</h3>
+<ul>
+  <li>Leads more complex changes with minimal supervision</li>
+  <li>Creates a technical plan, estimate and rollout strategy</li>
+  <li>Mentors a new junior team member</li>
+  <li>Has a completed <code>komiti_academy</code> as personal proof of being able to build an Odoo module end-to-end</li>
+</ul>
+
+<!-- ══════════════════════════════════════════════════════════ -->
+<!-- 7) Daily/weekly learning rhythm -->
+<!-- ══════════════════════════════════════════════════════════ -->
+<h2 id="s7">7) Daily/weekly learning rhythm</h2>
+
+<ul>
+  <li><strong>Daily (2–3h focused learning):</strong>
+    <ul>
+      <li>45 min theory</li>
+      <li>90 min practical code/task</li>
+      <li>15 min journaling (what was learned)</li>
+    </ul>
+  </li>
+  <li><strong>Weekly:</strong>
+    <ul>
+      <li>1 mentor review meeting (60–90 min)</li>
+      <li>1 mini demo of completed work</li>
+      <li>1 retrospective: what was hard, what we change</li>
+    </ul>
+  </li>
+</ul>
+
+<!-- ══════════════════════════════════════════════════════════ -->
+<!-- 8) Progress checks (checkpoints) -->
+<!-- ══════════════════════════════════════════════════════════ -->
+<h2 id="s8">8) Progress checks (checkpoints)</h2>
+
+<ul>
+  <li><strong>Day 14:</strong> local environment + first PR</li>
+  <li><strong>Day 30:</strong> one small Odoo task with review</li>
+  <li><strong>Day 60:</strong> independent quickfix + smoke test</li>
+  <li><strong>Day 90:</strong> independent end-to-end task in the KomITi workflow</li>
+  <li><strong>Month 6:</strong> stable mid-level delivery</li>
+  <li><strong>Month 12:</strong> professional level for most Odoo/KomITi tasks</li>
+</ul>
+
+<p>Final project checkpoints:</p>
+<ul>
+  <li><strong>Day 14:</strong> <code>komiti_academy</code> skeleton</li>
+  <li><strong>Day 30:</strong> installable MVP</li>
+  <li><strong>Day 60:</strong> business rules + negative tests</li>
+  <li><strong>Day 90:</strong> documentation + verification + clean handoff</li>
+</ul>
+
+<!-- ══════════════════════════════════════════════════════════ -->
+<!-- 9) Definition of Done for "0 -> pro" -->
+<!-- ══════════════════════════════════════════════════════════ -->
+<h2 id="s9">9) Definition of Done for &ldquo;0 -&gt; pro&rdquo;</h2>
+
+<p>The candidate is considered a &ldquo;professional&rdquo; when:</p>
+<ul>
+  <li>Independently delivers feature/quickfix with quality</li>
+  <li>Independently performs root-cause debugging</li>
+  <li>Independently manages <code>staging -&gt; main</code> promotion with verification</li>
+  <li>Writes clear documentation and handoff</li>
+  <li>Does not violate KomITi standards from <code>ENGINEERING_CODEX.md</code></li>
+  <li>Has one own module <code>komiti_academy</code> that has passed the install, upgrade, verification and documentation cycle</li>
+</ul>
+
+<!-- ══════════════════════════════════════════════════════════ -->
+<!-- 10) Note -->
+<!-- ══════════════════════════════════════════════════════════ -->
+<h2 id="s10">10) Note</h2>
+
+<p>This plan is realistic and ambitious. The key to success: continuity, mentor feedback and work on real tasks, not just theory.</p>
+
+<p>Learning documents in the root of the <code>komiti_academy</code> repo are not a generic Odoo course, but a KomITi-centered curriculum. The canonical foundations/delivery document for the entire system is now <code>03_ИНФРА_TERRAFORM_DOCKER_AWS_ОСНОВЕ_4h.md</code>, the canonical Odoo learning document is <code>04_ODOO_PLAN_UČENJA.md</code>, while <code>xxx_odoo_tutorijali_AI_pravio_arhiva/</code> is only archival material. A new team member through this set simultaneously learns:</p>
+<ul>
+  <li>Odoo basics,</li>
+  <li>KomITi modules,</li>
+  <li>KomITi engineering discipline,</li>
+  <li>the way of thinking expected in real delivery.</li>
+</ul>
+
+<!-- ── Footer ── -->
+<footer>&copy; KomITi &middot; komiti.eu</footer>
+
+</div><!-- .page-wrapper -->
+</body>
+</html>

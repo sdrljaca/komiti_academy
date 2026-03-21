@@ -1,0 +1,988 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Infrastructure: Terraform, Docker &amp; AWS Foundations — KomITi Academy</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 15px;
+    line-height: 1.75;
+    color: #2c2c2c;
+    background: #f4f6f9;
+}
+.page-wrapper {
+    max-width: 980px;
+    margin: 40px auto;
+    background: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 2px 16px rgba(0,0,0,0.1);
+    padding: 60px 72px;
+}
+.book-meta {
+    text-align: center;
+    border-bottom: 3px solid #875A7B;
+    padding-bottom: 28px;
+    margin-bottom: 40px;
+}
+.book-meta .book-title {
+    font-size: 13px;
+    color: #875A7B;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-bottom: 8px;
+}
+h1 { font-size: 32px; color: #1a1a2e; margin-bottom: 6px; }
+.book-meta .subtitle { font-size: 16px; color: #666; font-style: italic; }
+h2 {
+    font-size: 22px;
+    color: #875A7B;
+    border-left: 5px solid #875A7B;
+    padding-left: 14px;
+    margin: 48px 0 16px 0;
+}
+h3 {
+    font-size: 17px;
+    color: #1a1a2e;
+    margin: 32px 0 10px 0;
+    border-bottom: 1px solid #e8e8e8;
+    padding-bottom: 5px;
+}
+h4 { font-size: 15px; color: #444; margin: 20px 0 8px 0; font-style: italic; }
+p  { margin-bottom: 14px; }
+ul, ol { margin: 10px 0 14px 28px; }
+li { margin-bottom: 6px; }
+code {
+    background: #f0eaf4;
+    color: #875A7B;
+    padding: 2px 6px;
+    border-radius: 3px;
+    font-family: 'Consolas', 'Courier New', monospace;
+    font-size: 13.5px;
+}
+pre {
+    background: #1e1e2e;
+    color: #cdd6f4;
+    padding: 20px 24px;
+    border-radius: 6px;
+    overflow-x: auto;
+    font-family: 'Consolas', 'Courier New', monospace;
+    font-size: 13.5px;
+    line-height: 1.6;
+    margin: 14px 0 20px 0;
+    border-left: 4px solid #875A7B;
+}
+pre .comment { color: #6c7086; }
+pre code {
+    background: none;
+    color: inherit;
+    padding: 0;
+    border-radius: 0;
+    font-size: inherit;
+}
+blockquote {
+    background: #fdf6ff;
+    border-left: 4px solid #875A7B;
+    padding: 14px 18px;
+    margin: 16px 0;
+    border-radius: 0 6px 6px 0;
+    color: #555;
+    font-style: italic;
+}
+blockquote strong { color: #875A7B; font-style: normal; }
+table { width: 100%; border-collapse: collapse; margin: 16px 0 24px 0; font-size: 14px; }
+thead tr { background: #875A7B; color: #fff; }
+th { padding: 10px 14px; text-align: left; font-weight: 600; }
+td { padding: 9px 14px; border-bottom: 1px solid #e8e8e8; vertical-align: top; }
+tbody tr:nth-child(even) { background: #faf7fc; }
+tbody tr:hover { background: #f0eaf4; }
+.toc {
+    background: #faf7fc;
+    border: 1px solid #e0d0e8;
+    border-radius: 8px;
+    padding: 24px 28px;
+    margin-bottom: 40px;
+}
+.toc h3 { border: none; color: #875A7B; margin-top: 0; font-size: 16px; }
+.toc ol { margin-top: 10px; }
+.toc li { margin-bottom: 4px; }
+.toc a { color: #875A7B; text-decoration: none; }
+.toc a:hover { text-decoration: underline; }
+.note {
+    background: #fffbe6; border-left: 4px solid #f0b429;
+    padding: 12px 18px; margin: 14px 0;
+    border-radius: 0 6px 6px 0; font-size: 14px;
+}
+.note strong { color: #b07d00; }
+.tip {
+    background: #e8f5e9; border-left: 4px solid #43a047;
+    padding: 12px 18px; margin: 14px 0;
+    border-radius: 0 6px 6px 0; font-size: 14px;
+}
+.tip strong { color: #2e7d32; }
+hr { border: none; border-top: 2px solid #e0d0e8; margin: 48px 0; }
+a { color: #875A7B; text-decoration: none; }
+a:hover { text-decoration: underline; }
+.ascii-diagram {
+    background: #f8f6fa;
+    border: 1px solid #e0d0e8;
+    border-radius: 6px;
+    padding: 20px 24px;
+    font-family: 'Consolas', 'Courier New', monospace;
+    font-size: 13px;
+    line-height: 1.5;
+    white-space: pre;
+    overflow-x: auto;
+    margin: 14px 0 20px 0;
+}
+footer {
+    text-align: center;
+    margin-top: 48px;
+    padding-top: 24px;
+    border-top: 1px solid #e8e8e8;
+    color: #999;
+    font-size: 13px;
+}
+.checklist { list-style: none; margin-left: 0; padding-left: 0; }
+.checklist li { padding: 6px 0 6px 32px; position: relative; margin-bottom: 4px; }
+.checklist li::before {
+    content: '☐';
+    position: absolute;
+    left: 6px;
+    top: 6px;
+    font-size: 16px;
+    color: #875A7B;
+}
+.task-list { list-style: none; margin-left: 0; padding-left: 4px; }
+.task-list > li { margin-bottom: 12px; }
+</style>
+</head>
+<body>
+<div class="page-wrapper">
+
+<!-- ───────── HEADER ───────── -->
+<div class="book-meta">
+    <div class="book-title">KomITi Academy</div>
+    <h1>Infrastructure: Terraform, Docker &amp; AWS Foundations</h1>
+    <div class="subtitle">Delivery mental model for the entire KomITi system</div>
+</div>
+
+<p>This is a foundation document for candidates and every new KomITi engineer learning the infrastructure layer from scratch, but through the real KomITi AWS/Terraform/Docker context, not through abstract toy examples.</p>
+
+<p>The purpose is not to turn you into a cloud/platform specialist in 4 hours, but to give you an operational mental model:</p>
+<ul>
+    <li>what AWS does in KomITi,</li>
+    <li>what Docker and the terminal command <code>docker compose</code> do,</li>
+    <li>what Terraform and its terminal commands do,</li>
+    <li>and how these three layers connect into a single system.</li>
+</ul>
+
+<!-- ───────── TABLE OF CONTENTS ───────── -->
+<div class="toc">
+    <h3>Table of Contents</h3>
+    <ol>
+        <li><a href="#s1">What is the infra stack in KomITi</a></li>
+        <li><a href="#s2">AWS fundamentals you need to know</a></li>
+        <li><a href="#s3">Docker and container fundamentals you need to know</a></li>
+        <li><a href="#s4">Terraform</a>
+            <ol>
+                <li><a href="#s4-1">Terraform mental model</a></li>
+                <li><a href="#s4-2">What is a provider</a></li>
+                <li><a href="#s4-3">What are resource, data source, and output</a></li>
+                <li><a href="#s4-4">Directory structure: general and KomITi-specific</a></li>
+                <li><a href="#s4-5">Terraform files in [modules/]</a></li>
+                <li><a href="#s4-6">Terraform files in [root stack/]</a></li>
+                <li><a href="#s4-7">Dependency reasoning</a></li>
+                <li><a href="#s4-8">Summarizing what Terraform code typically means in this repo</a></li>
+                <li><a href="#s4-9">How AWS, Docker, and Terraform connect into a single flow</a></li>
+                <li><a href="#s4-10">Terraform vs Docker Compose: same information, different place of record</a></li>
+            </ol>
+        </li>
+        <li><a href="#s5">How to turn Terraform files into action and materialize artifacts</a>
+            <ol>
+                <li><a href="#s5-1">Plan is not a formality</a></li>
+                <li><a href="#s5-2">Apply is not a deploy script</a></li>
+            </ol>
+        </li>
+        <li><a href="#s6">Minimal safe workflow in KomITi</a></li>
+        <li><a href="#s7">KomITi infra checklist</a></li>
+        <li><a href="#s8">Foundations practical drill</a></li>
+        <li><a href="#s9">Local Terraform + Docker Desktop lab for candidates</a></li>
+        <li><a href="#s10">What to read next</a></li>
+        <li><a href="#s99">Task on the komiti_academy project for candidates</a></li>
+    </ol>
+</div>
+
+<!-- ───────── 1 ───────── -->
+<h2 id="s1">1) What is the infra stack in KomITi</h2>
+
+<p>When we say &ldquo;infra&rdquo; in this repo, we don&rsquo;t mean a single tool, but multiple layers working together:</p>
+<ul>
+    <li><strong>AWS</strong> is the cloud substrate: VM, network, IP, security boundary, disk,</li>
+    <li><strong>Docker</strong> is the runtime packaging and local orchestration layer: how a service is packaged and run in a container, and how multiple services are coordinated via the terminal command <code>docker compose</code>,</li>
+    <li><strong>Terraform</strong> is the infrastructure-as-code layer that describes and modifies AWS resources,</li>
+    <li><strong>Odoo/Caddy/Postgres</strong> are the application/runtime workload that lives on that layer.</li>
+</ul>
+
+<p>The professional thinking here is:</p>
+<ul>
+    <li>Terraform does not replace Docker,</li>
+    <li>Docker does not replace AWS,</li>
+    <li>AWS does not replace application verification,</li>
+    <li>each layer has its own purpose, its own risk, and its own operational vocabulary.</li>
+</ul>
+
+<!-- ───────── 2 ───────── -->
+<h2 id="s2">2) AWS fundamentals you need to know</h2>
+
+<p>In this learning context, you don&rsquo;t study AWS as a catalog of 200 services, but as a minimal operational set.</p>
+
+<p>The most important concepts are:</p>
+<ul>
+    <li><strong>region</strong>: the geographic/operational context in which resources live, and in which you must consistently reason about latency, availability, and resource locality,</li>
+    <li><code>EC2</code>: the virtual machine where the runtime actually lives,</li>
+    <li><code>VPC</code> / subnet: network space and segmentation,</li>
+    <li><strong>security group</strong>: inbound/outbound firewall boundary,</li>
+    <li><code>EIP</code> (<code>Elastic IP</code>): a stable public IP address,</li>
+    <li><code>S3</code>: the object storage layer where backups and other artifacts that don&rsquo;t belong to the VM&rsquo;s own filesystem are often kept,</li>
+    <li><code>Route 53</code> / DNS thinking: how a domain reaches the right host,</li>
+    <li><strong>disk/volume reasoning</strong>: runtime is not just CPU and RAM but also storage.</li>
+</ul>
+
+<p>In the KomITi mental model, this typically means:</p>
+<ul>
+    <li>region determines in which AWS context the runtime and dependent resources even exist,</li>
+    <li>a single EC2 host carries the runtime layer,</li>
+    <li>security group determines who can reach SSH/HTTP/HTTPS,</li>
+    <li><code>S3</code> carries the backup/storage layer that you don&rsquo;t want tied solely to the lifecycle of a single VM,</li>
+    <li>EIP and DNS bind the host to a public endpoint,</li>
+    <li>network and security boundary are part of production safety, not a side detail.</li>
+</ul>
+
+<p>A junior mistake is to view AWS as &ldquo;just a server&rdquo;. A better mental model is:</p>
+<ul>
+    <li><strong>region</strong> = where your compute and other resources actually live,</li>
+    <li><strong>EC2</strong> = compute,</li>
+    <li><strong>security group</strong> = who is allowed to talk to that compute,</li>
+    <li><strong>S3</strong> = durable object storage for backups and operational artifacts,</li>
+    <li><strong>subnet/VPC</strong> = where that compute lives,</li>
+    <li><strong>IP/DNS</strong> = how other systems reach it.</li>
+</ul>
+
+<!-- ───────── 3 ───────── -->
+<h2 id="s3">3) Docker and container fundamentals you need to know</h2>
+
+<p>A container is not a virtual machine. It is an isolated runtime process with its own filesystem view, network namespace, and agreed-upon entrypoint.</p>
+
+<p>The most important concepts are:</p>
+<ul>
+    <li><strong>image</strong>: the template from which a container is created,</li>
+    <li><strong>container</strong>: a running instance of that image,</li>
+    <li><strong>volume</strong>: persistent data you don&rsquo;t want to lose when the container is re-created,</li>
+    <li><strong>port mapping</strong>: how a service inside a container becomes accessible to the host,</li>
+    <li><strong>environment variables</strong>: runtime configuration,</li>
+    <li><code>docker compose</code>: a declarative description of multiple services working together.</li>
+</ul>
+
+<p>In the KomITi context, it&rsquo;s important to adopt early:</p>
+<ul>
+    <li>Odoo often doesn&rsquo;t run alone, but with Postgres, a reverse proxy, and other helper layers,</li>
+    <li><code>docker compose</code> is the agreement on how these services live together,</li>
+    <li>restarting a container is not the same as rebuilding an image,</li>
+    <li>ephemeral container filesystem is not the same as persistent data.</li>
+</ul>
+
+<p>Practical thinking:</p>
+<ul>
+    <li><strong>image</strong> = what you run,</li>
+    <li><strong>container</strong> = what is currently running,</li>
+    <li><strong>compose</strong> = how multiple containers form a single runtime system,</li>
+    <li><strong>volume</strong> = what must survive a restart/recreate cycle.</li>
+</ul>
+
+<!-- ───────── 4 ───────── -->
+<h2 id="s4">4) Terraform</h2>
+
+<h3 id="s4-1">4.1) Terraform mental model</h3>
+
+<p>Terraform is an infrastructure-as-code tool.</p>
+
+<p>Its essence is not &ldquo;create me one EC2&rdquo;, but:</p>
+<ul>
+    <li>describe the desired state of infrastructure as code,</li>
+    <li>compare that state with what actually exists,</li>
+    <li>get a plan of changes,</li>
+    <li>apply those changes in a controlled manner.</li>
+</ul>
+
+<p>In the KomITi context, this means:</p>
+<ul>
+    <li>DEV and PROD AWS environments are described with Terraform code,</li>
+    <li>EC2, networking, security groups, and EIP are not manual clicks in the AWS console,</li>
+    <li><code>terraform plan</code> is proof of what will change,</li>
+    <li><code>terraform apply</code> is a controlled application,</li>
+    <li>the state file <code>terraform.tfstate</code> is Terraform&rsquo;s runtime truth about the resources it manages; in the odoo4komiti repo you can see it, for example, at <code>infra/aws/odoo-dev-ec2-compose/terraform.tfstate</code>.</li>
+</ul>
+
+<h3 id="s4-2">4.2) What is a provider</h3>
+
+<p>A provider is a plugin that enables Terraform to communicate with a given system.</p>
+
+<p>In this repo, the most important one is: the AWS provider. Practically:</p>
+<ul>
+    <li>Terraform by itself doesn&rsquo;t know what EC2, VPC, or Elastic IP is,</li>
+    <li>the AWS provider gives it that vocabulary and API bridge.</li>
+</ul>
+
+<p>If you look at Terraform code, the <code>provider</code> layer is what connects Terraform to the actual cloud.</p>
+
+<h3 id="s4-3">4.3) What are resource, data source, and output</h3>
+
+<p><code>resource</code> describes something that Terraform creates or modifies. Examples from our AWS context:</p>
+<ul>
+    <li>EC2 instance,</li>
+    <li>security group,</li>
+    <li>elastic IP,</li>
+    <li>route table,</li>
+    <li>key pair.</li>
+</ul>
+
+<p><code>data</code> reads something that already exists, without ownership over that resource. Practically:</p>
+<ul>
+    <li><strong>resource</strong> = Terraform manages the lifecycle,</li>
+    <li><strong>data source</strong> = Terraform only reads.</li>
+</ul>
+
+<p><code>output</code> exposes an important value outward. In the KomITi context, these are often:</p>
+<ul>
+    <li>public IP,</li>
+    <li>SSH command,</li>
+    <li>HTTP/HTTPS URL,</li>
+    <li>other runtime identifiers you need after <code>apply</code>.</li>
+</ul>
+
+<h3 id="s4-4">4.4) Directory structure: general and KomITi-specific</h3>
+
+<p>When you first read a Terraform repo, it&rsquo;s not enough to know what a <code>resource</code> is; you also need to know where things live.</p>
+
+<p>The KomITi-specific layout looks roughly like this:</p>
+
+<div class="ascii-diagram">KOMITI LAYOUT
+
+[infra/]
+    |
+    +-- [aws/]
+         |
+         +-- CODEX_TERRAFORM.md                          -&gt; KomITi policy/discipline document
+         +-- [modules/]                                  -&gt; reusable Terraform modules
+         |    |
+         |    +-- [odoo_ec2_compose/]                    -&gt; shared module that root stacks reuse
+         |         |
+         |         +-- main.tf                           -&gt; module internal resources and wiring
+         |         +-- variables.tf                      -&gt; inputs the module receives from root stack
+         |         +-- outputs.tf                        -&gt; module outputs
+         +-- [odoo-dev-ec2-compose/] is [root stack/] for dev
+         |    |
+         |    +-- main.tf / versions.tf                  -&gt; root Terraform setup
+         |    +-- network.tf / security.tf / compute.tf / locals.tf
+         |    +-- variables.tf / outputs.tf              -&gt; root inputs/outputs for dev stack
+         |    +-- templates/ / scripts/                  -&gt; templates and helper operational scripts
+         |    +-- README.md / RUNBOOK.md                 -&gt; operator documentation
+         |    +-- terraform.tfvars / terraform.tfstate   -&gt; local runtime/state files, not for commit
+         |    +-- .terraform/ / .terraform.lock.hcl      -&gt; local provider/cache and lock after init
+         |
+         +-- [odoo-prod-ec2-compose/] is [root stack/] for prod
+              |
+              +-- main.tf / versions.tf
+              +-- network.tf / security.tf / compute.tf / locals.tf
+              +-- variables.tf / outputs.tf
+              +-- templates/ / scripts/
+              +-- README.md / RUNBOOK.md
+              +-- terraform.tfvars / terraform.tfstate
+              +-- .terraform/ / .terraform.lock.hcl</div>
+
+<p>A short rule for reading this layout: <code>modules/odoo_ec2_compose/main.tf</code> and <code>modules/odoo_ec2_compose/variables.tf</code> belong to the reusable module, while <code>odoo-dev-ec2-compose/main.tf</code> and <code>odoo-dev-ec2-compose/variables.tf</code> belong to the root stack that calls that module. In other words, they are not duplicates serving the same role: the module has its own internal Terraform API, and the root stack has its own environment-level API.</p>
+
+<p>Practically, when we say &ldquo;Terraform code for DEV&rdquo;, in this repo that most often means: open <code>infra/aws/odoo-dev-ec2-compose/</code> and read that directory as a single infrastructure system.</p>
+
+<p>Keep in mind that the name <code>odoo-dev-ec2-compose</code> already carries 3 layers within it:</p>
+<ul>
+    <li><code>ec2</code> = AWS compute host,</li>
+    <li><code>compose</code> = Docker runtime orchestration on that host,</li>
+    <li>Terraform <code>.tf</code> files = the infrastructure description that creates that host and its boundary.</li>
+</ul>
+
+<h3 id="s4-5">4.5) Terraform files in [modules/]</h3>
+
+<p>Once you see that <code>odoo_ec2_compose/</code> exists in <code>modules/</code>, it&rsquo;s important not to think of it as just a helper folder. It is a reusable Terraform building block that root stacks call.</p>
+
+<p>There are 3 key files in that module:</p>
+
+<h4>4.5.1) <code>main.tf</code></h4>
+
+<p><code>main.tf</code> in the module describes the internal logic of the reusable block: which AWS resources the module creates and how they are connected. In our KomITi example, you can see that the module builds multiple layers at once, e.g. <code>VPC</code>, subnet, route table, security group, and other resources that the root stack doesn&rsquo;t want to write from scratch every time.</p>
+
+<p>In the actual <code>modules/odoo_ec2_compose/main.tf</code>, short teaching comments have been added alongside <code>resource "aws_vpc" "main"</code> and <code>resource "aws_subnet" "public_a"</code>. The comments illustrate two important things: that the module first establishes the network foundation, and that the subnet already reveals a dependency on the VPC and a public/private designation.</p>
+
+<p>Practically: if you want to understand what <code>odoo_ec2_compose</code> actually does when a dev/prod stack calls it, the module <code>main.tf</code> is the first place to read.</p>
+
+<h4>4.5.2) <code>variables.tf</code></h4>
+
+<p><code>variables.tf</code> in the module defines the input API of that reusable block. Here the module says: if you want to use me, you must provide or may provide values such as <code>name_prefix</code>, <code>env</code>, <code>allowed_ssh_cidr</code>, <code>instance_type</code>, <code>ssh_public_key</code>, and so on. In other words: the root stack calls the module via its own <code>main.tf</code>, and the module&rsquo;s <code>variables.tf</code> determines what that call is allowed and required to pass.</p>
+
+<h4>4.5.3) <code>outputs.tf</code></h4>
+
+<p><code>outputs.tf</code> in the module defines what the module returns back to the root stack. In our case, these are important operational values such as public IP, elastic IP, or backup bucket name. This matters because the root stack often doesn&rsquo;t just want to &ldquo;fire up&rdquo; the module, but also to take some of its results and show them to the operator or pass them further.</p>
+
+<h3 id="s4-6">4.6) Terraform files in [root stack/]</h3>
+
+<p>Once you understand the directory structure, it makes sense to also read what the key Terraform files inside that stack do.</p>
+
+<h4>4.6.1) Terraform State <code>terraform.tfstate</code></h4>
+
+<p><code>terraform.tfstate</code> is the critical artifact that contains the state of all resources.</p>
+
+<p>State remembers:</p>
+<ul>
+    <li>which resources Terraform considers its own,</li>
+    <li>their IDs,</li>
+    <li>attributes needed for the next plan,</li>
+    <li>the dependency graph that has already been materialized at runtime.</li>
+</ul>
+
+<p>That&rsquo;s why these rules are important:</p>
+<ul>
+    <li>state is not committed to git,</li>
+    <li>state may contain sensitive data,</li>
+    <li>losing state is not a &ldquo;minor problem&rdquo; but an operational problem,</li>
+    <li>manual changes in the AWS console can create drift between state and reality.</li>
+</ul>
+
+<p>In the KomITi way of working, you must adopt early:</p>
+<ul>
+    <li>source code is not sufficient,</li>
+    <li>Terraform state + cloud runtime = the actual truth.</li>
+</ul>
+
+<p>Do not make manual changes directly in the AWS console, because manual modifications that the Terraform code and state don&rsquo;t track quickly create drift between the Terraform picture and the actual runtime.</p>
+
+<ul>
+    <li>code can say one thing, state can remember another, and the cloud runtime can look like a third;</li>
+    <li>if you manually change a resource in an incident situation, document what was done;</li>
+    <li>return ownership to code and state discipline as soon as possible;</li>
+    <li>read <code>terraform plan</code> also as a drift detector, not just as an apply prelude.</li>
+</ul>
+
+<h4>4.6.2) <code>variables.tf</code>, <code>terraform.tfvars.example</code>, and <code>terraform.tfvars</code></h4>
+
+<p>Variables are the input parameters of a Terraform configuration.</p>
+
+<p>They exist so that code doesn&rsquo;t hardcode:</p>
+<ul>
+    <li>CIDR rules,</li>
+    <li>instance type,</li>
+    <li>domain,</li>
+    <li>key naming/runtime values,</li>
+    <li>sometimes credentials/secrets, if the model allows it.</li>
+</ul>
+
+<p>There are 3 distinct files to understand here:</p>
+
+<p>The file <code>variables.tf</code> describes which input parameters exist at all, what their types are, and what is optional or has a default value. Not every variable needs a default; the point of this file is to define the schema that the stack expects. There you can see, for example, that Terraform expects <code>instance_type</code>, <code>domain_name</code>, or <code>allowed_ssh_cidr</code>.</p>
+
+<p>The file <code>terraform.tfvars</code> (<code>terraform.tfvars.example</code> is nothing other than an example of how <code>terraform.tfvars</code> should look) contains the actual, local values that Terraform uses during <code>plan</code>/<code>apply</code>. This is where the real <code>instance_type</code>, domain, SSH CIDR, and so on for that clone and that environment actually reside. In the PROD context, the designated local location is <code>infra/aws/odoo-prod-ec2-compose/terraform.tfvars</code>, if the operator actually creates it for that environment. Important: the DEV and PROD stacks intentionally don&rsquo;t use the same secret model here. That&rsquo;s why the actual <code>infra/aws/odoo-prod-ec2-compose/terraform.tfvars</code> for PROD is not version-controlled in the repo, and even when the operator creates it locally, it must not contain PROD secrets. Under this model, secret data is kept on the PROD EC2 server itself, not in Terraform git artifacts; this is defined in <code>infra/aws/CODEX_TERRAFORM.md</code>, chapter <code>5.2 Terraform apply</code>.</p>
+
+<p>A Terraform beginner often sees a variable and assumes it&rsquo;s normal to put every password in <code>tfvars</code>.</p>
+
+<p>That is not always acceptable.</p>
+
+<p>You must think about:</p>
+<ul>
+    <li>whether that value ends up in state,</li>
+    <li>whether state is stored locally or remotely,</li>
+    <li>who has access to that state,</li>
+    <li>whether the secret belongs to the Terraform layer or the bootstrap/runtime layer.</li>
+</ul>
+
+<p>In the KomITi context, it&rsquo;s especially important:</p>
+<ul>
+    <li>DEV has somewhat more tolerance for lab/runtime convenience,</li>
+    <li>PROD has stricter secret discipline,</li>
+    <li>not every operational secret is a good Terraform secret.</li>
+</ul>
+
+<p>Key discipline:</p>
+<ul>
+    <li><code>terraform.tfvars</code> can be sensitive,</li>
+    <li>it does not go into git,</li>
+    <li>for PROD especially, don&rsquo;t push DB/Odoo passwords into Terraform if they&rsquo;ll end up in state,</li>
+    <li>the files <code>terraform.tfstate</code> and <code>terraform.tfstate.backup</code> are local state artifacts; in this repo you can see them, for example, at <code>infra/aws/odoo-dev-ec2-compose/terraform.tfstate</code> and <code>infra/aws/odoo-dev-ec2-compose/terraform.tfstate.backup</code>, and that&rsquo;s precisely why they should not become a normal part of version control.</li>
+</ul>
+
+<h4>4.6.3) <code>main.tf</code></h4>
+
+<p><code>main.tf</code> is most often the entry point of a stack: there you typically first see which modules are used, how the root stack connects to them, and which key variables are passed to them. If you&rsquo;re opening just one Terraform file to get a quick picture of the architecture, <code>main.tf</code> is usually the best first place.</p>
+
+<p>The difference compared to <code>main.tf</code> from <strong>4.5.1)</strong> is in the level of responsibility:</p>
+<ul>
+    <li>module <code>main.tf</code> describes what the reusable block creates internally,</li>
+    <li>root stack <code>main.tf</code> describes how a specific dev/prod environment calls that module and with which values.</li>
+</ul>
+
+<p>In other words: in <code>modules/odoo_ec2_compose/main.tf</code> you&rsquo;re looking at the internal implementation of the reusable block, while in <code>odoo-dev-ec2-compose/main.tf</code> or <code>odoo-prod-ec2-compose/main.tf</code> you&rsquo;re looking at the orchestration layer that incorporates that block into an actual environment.</p>
+
+<p>In the KomITi context, this means: <code>main.tf</code> often doesn&rsquo;t give you all the details about every AWS resource, but it&rsquo;s the first to show you the shape of the stack and how the compute, network, security, and bootstrap layers are connected.</p>
+
+<h4>4.6.4) <code>network.tf</code></h4>
+
+<p><code>network.tf</code> is the file where the network topology logic most often lives: <code>VPC</code>, subnets, route tables, internet gateway, and similar. If you want to understand where EC2 actually lives and how it even reaches the internet, this is one of the first files you should read.</p>
+
+<h4>4.6.5) <code>outputs.tf</code></h4>
+
+<p><code>outputs.tf</code> is the file that declares which important values Terraform exposes to the operator after <code>apply</code>. These are often public IP, SSH command, URL, or some other identifier you need immediately for the next operational step.</p>
+
+<p>That&rsquo;s why <code>outputs.tf</code> is important: it&rsquo;s the bridge between infra code and operator work. Without it, Terraform can successfully create resources while the person doing the deploy still can&rsquo;t quickly see what their most important next entry point into the system is.</p>
+
+<h3 id="s4-7">4.7) Dependency reasoning</h3>
+
+<p>One of the most important Terraform concepts is the dependency graph.</p>
+
+<p>Terraform must know:</p>
+<ul>
+    <li>what depends on what,</li>
+    <li>in what order resources are created,</li>
+    <li>what may only be destroyed after what,</li>
+    <li>where a reference means an implicit dependency.</li>
+</ul>
+
+<p>Practically:</p>
+<ul>
+    <li>EC2 can depend on the subnet and security group,</li>
+    <li>route table association depends on the network,</li>
+    <li>an output often depends on a resource that was just created.</li>
+</ul>
+
+<p>On the local <code>komiti_academy</code> Docker Desktop lab, that dependency graph looks roughly like this:</p>
+
+<p>If the candidate has Graphviz <code>dot</code> installed, the graph can be generated from the terminal like this:</p>
+
+<pre><code>terraform graph | dot -Tpng &gt; graph.png</code></pre>
+
+<p>Below is also a diagram of the same dependency relationship, useful when you want to read the graph directly:</p>
+
+<div class="ascii-diagram">Dependency graph  (arrows read "depends on")
+
+docker_container.odoo ──────┬──▶ docker_container.postgres
+                            │         │
+                            │         ├──▶ docker_image.postgres
+                            │         ├──▶ docker_network.odoo
+                            │         └──▶ docker_volume.postgres_data
+                            │
+                            ├──▶ docker_image.odoo
+                            └──▶ docker_volume.odoo_data</div>
+
+<p>When you see an arrow in this example:</p>
+<ul>
+    <li><code>docker_container.odoo --&gt; docker_container.postgres</code> means that <code>docker_container.odoo</code> depends on <code>docker_container.postgres</code>;</li>
+    <li><code>docker_network.odoo</code> is a foundation node within this graph, and <code>docker_container.postgres</code> is shown in the diagram as a node that binds to that network;</li>
+    <li>from the remaining dependencies you can then see that <code>docker_container.odoo</code> is not standalone, but depends on other runtime elements (<code>docker_container.postgres</code>, <code>docker_image.odoo</code>, <code>docker_volume.odoo_data</code>).</li>
+</ul>
+
+<p>A junior mistake is to look file by file, rather than graph by graph.</p>
+
+<h3 id="s4-8">4.8) Summarizing what Terraform code typically means in this repo</h3>
+
+<p>When reading AWS Terraform directories, think like this:</p>
+
+<ul>
+    <li><code>network.tf</code> = networking topology</li>
+    <li><code>security.tf</code> = security boundary</li>
+    <li><code>compute.tf</code> = instance/runtime host</li>
+    <li><code>locals.tf</code> = naming/tagging/helper composition</li>
+    <li><code>variables.tf</code> = what is configurable</li>
+    <li><code>outputs.tf</code> = what the operator needs after apply</li>
+    <li><code>templates/*.tpl</code> = rendered bootstrap/user-data content</li>
+</ul>
+
+<p>This is the infrastructure equivalent of the Odoo mental model:</p>
+<ul>
+    <li>model &rarr; resource</li>
+    <li>field &rarr; argument/attribute</li>
+    <li>action/menu wiring &rarr; dependency/reference wiring</li>
+    <li>runtime upgrade &rarr; plan/apply cycle</li>
+</ul>
+
+<h3 id="s4-9">4.9) How AWS, Docker, and Terraform connect into a single flow</h3>
+
+<p>The most useful foundations mental model for this repo is the following sequence:</p>
+
+<ol>
+    <li>Terraform defines AWS resources.</li>
+    <li>AWS provides the host, network, security boundary, and public endpoint.</li>
+    <li>On that host, Docker/Compose runs the application services.</li>
+    <li>Only then do you measure whether the Odoo runtime is actually healthy.</li>
+</ol>
+
+<p>That&rsquo;s why it&rsquo;s important not to mix problem classes:</p>
+<ul>
+    <li>if a security group isn&rsquo;t allowing traffic, that&rsquo;s not a Docker bug,</li>
+    <li>if a container won&rsquo;t start a service, that&rsquo;s not necessarily a Terraform bug,</li>
+    <li>if Odoo is up but a functional flow doesn&rsquo;t work, that&rsquo;s no longer a pure infra problem.</li>
+</ul>
+
+<p>This is the essence of infrastructure reasoning: the same incident can look like &ldquo;the system doesn&rsquo;t work&rdquo;, but the root cause can be in an entirely different layer.</p>
+
+<h3 id="s4-10">4.10) Terraform vs Docker Compose: same information, different place of record</h3>
+
+<p>Below is a mapping of the local <code>komiti_academy</code> lab so you can clearly see where the same runtime information is recorded in the Terraform variant versus the Compose variant. In a real scenario, Terraform files and Docker Compose complement each other, since you use each for what it does best. But in this <code>komiti_academy</code> lab, you should view these two approaches as mutually exclusive variants (you use either Terraform or Docker Compose, not both simultaneously for the same runtime).</p>
+
+<table>
+    <thead>
+        <tr>
+            <th style="width:18%">Information</th>
+            <th style="width:47%">Terraform</th>
+            <th style="width:35%">Compose</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>Local academy runtime name</td>
+            <td><code>locals.tf</code> &ndash; <code>name_prefix</code></td>
+            <td><code>docker-compose.yml</code> &ndash; <code>name: komiti-academy-dev</code></td>
+        </tr>
+        <tr>
+            <td>Odoo image</td>
+            <td><strong>default:</strong> <code>variables.tf</code> &ndash; <code>odoo_image</code> = <code>odoo:19.0</code><br><strong>actual value:</strong> <code>terraform.tfvars</code> &ndash; <code>odoo:19.0</code><br><strong>where applied:</strong> <code>compute.tf</code> &ndash; <code>docker_image.odoo</code></td>
+            <td><code>docker-compose.yml</code> &ndash; <code>services.odoo.image</code></td>
+        </tr>
+        <tr>
+            <td>Postgres image</td>
+            <td><strong>default:</strong> <code>variables.tf</code> &ndash; <code>postgres_image</code> = <code>postgres:16</code><br><strong>actual value:</strong> <code>terraform.tfvars</code> &ndash; <code>postgres:16</code><br><strong>where applied:</strong> <code>compute.tf</code> &ndash; <code>docker_image.postgres</code></td>
+            <td><code>docker-compose.yml</code> &ndash; <code>services.postgres.image</code></td>
+        </tr>
+        <tr>
+            <td>Host port for Odoo</td>
+            <td><strong>default:</strong> <code>variables.tf</code> &ndash; <code>odoo_port</code> = <code>8067</code><br><strong>actual value:</strong> <code>terraform.tfvars</code> &ndash; <code>odoo_port = 8067</code><br><strong>where applied:</strong> <code>compute.tf</code> &ndash; <code>ports.external</code> = <code>var.odoo_port</code></td>
+            <td><code>docker-compose.yml</code> &ndash; <code>services.odoo.ports</code></td>
+        </tr>
+        <tr>
+            <td>Mapping <code>8067 &rarr; 8069</code></td>
+            <td><code>compute.tf</code> &ndash; <code>ports { external = var.odoo_port, internal = 8069 }</code></td>
+            <td><code>docker-compose.yml</code> &ndash; <code>"${ODOO_PORT:-8067}:8069"</code></td>
+        </tr>
+        <tr>
+            <td>Postgres DB name</td>
+            <td><strong>default:</strong> <code>variables.tf</code> &ndash; <code>postgres_db</code> = <code>komiti_academy_odoo</code><br><strong>actual value:</strong> <code>terraform.tfvars</code> &ndash; <code>komiti_academy_odoo</code><br><strong>where applied:</strong> <code>compute.tf</code> &ndash; <code>POSTGRES_DB</code> = <code>${var.postgres_db}</code></td>
+            <td><code>docker-compose.yml</code> &ndash; <code>POSTGRES_DB</code></td>
+        </tr>
+        <tr>
+            <td>Postgres user</td>
+            <td><strong>default:</strong> <code>variables.tf</code> &ndash; <code>postgres_user</code> = <code>odoo</code><br><strong>actual value:</strong> <code>terraform.tfvars</code> &ndash; <code>admin.komiti_odoo</code><br><strong>where applied:</strong> <code>compute.tf</code> &ndash; <code>POSTGRES_USER</code> and Odoo <code>USER</code></td>
+            <td><code>docker-compose.yml</code> &ndash; <code>POSTGRES_USER</code> and Odoo <code>USER</code></td>
+        </tr>
+        <tr>
+            <td>Postgres password</td>
+            <td><strong>default:</strong> <code>variables.tf</code> &ndash; <code>postgres_password</code> = no default value<br><strong>actual value:</strong> <code>terraform.tfvars</code> &ndash; <code>komiti-academy-local-dev</code><br><strong>where applied:</strong> <code>compute.tf</code> &ndash; <code>POSTGRES_PASSWORD</code> and Odoo <code>PASSWORD</code></td>
+            <td><code>docker-compose.yml</code> &ndash; <code>POSTGRES_PASSWORD</code> and Odoo <code>PASSWORD</code></td>
+        </tr>
+        <tr>
+            <td>Odoo connects to Postgres on host <code>db</code></td>
+            <td><code>compute.tf</code> &ndash; Odoo env <code>HOST=db</code> and Postgres network alias <code>db</code></td>
+            <td><code>docker-compose.yml</code> &ndash; Odoo <code>HOST: db</code> and network alias <code>db</code></td>
+        </tr>
+        <tr>
+            <td>Addons bind mount</td>
+            <td><code>locals.tf</code> &ndash; <code>addons_host_path</code><br><code>compute.tf</code> &ndash; used in volume mount to <code>/mnt/extra-addons</code></td>
+            <td><code>docker-compose.yml</code> &ndash; <code>../../../custom-addons:/mnt/extra-addons:rw</code></td>
+        </tr>
+        <tr>
+            <td>Odoo data volume</td>
+            <td><code>compute.tf</code> &ndash; <code>docker_volume.odoo_data</code></td>
+            <td><code>docker-compose.yml</code> &ndash; <code>odoo-data:/var/lib/odoo</code></td>
+        </tr>
+        <tr>
+            <td>Postgres data volume</td>
+            <td><code>compute.tf</code> &ndash; <code>docker_volume.postgres_data</code></td>
+            <td><code>docker-compose.yml</code> &ndash; <code>postgres-data:/var/lib/postgresql/data</code></td>
+        </tr>
+        <tr>
+            <td>Network</td>
+            <td><code>network.tf</code> &ndash; <code>docker_network.odoo</code></td>
+            <td><code>docker-compose.yml</code> &ndash; <code>networks.academy</code></td>
+        </tr>
+        <tr>
+            <td>Odoo dependency on Postgres</td>
+            <td><code>compute.tf</code> &ndash; <code>depends_on = [docker_container.postgres]</code></td>
+            <td><code>docker-compose.yml</code> &ndash; <code>depends_on.postgres.condition: service_healthy</code></td>
+        </tr>
+        <tr>
+            <td>URL output</td>
+            <td><code>outputs.tf</code> &ndash; <code>odoo_url</code></td>
+            <td>No output block; the practical equivalent is <code>ports</code> and the command <code>docker compose ps</code></td>
+        </tr>
+    </tbody>
+</table>
+
+<p><strong>Especially important notes:</strong></p>
+
+<table>
+    <thead>
+        <tr>
+            <th style="width:20%">Topic</th>
+            <th style="width:18%">Terraform</th>
+            <th style="width:18%">Compose</th>
+            <th style="width:44%">What this means</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>Master Password for localhost Odoo</td>
+            <td>Not explicitly defined</td>
+            <td>Not explicitly defined</td>
+            <td>None of your academy files currently set <code>admin_passwd</code>, so the password you see in the browser does not come directly from this Terraform/Compose wiring.</td>
+        </tr>
+        <tr>
+            <td>Postgres healthcheck</td>
+            <td>None</td>
+            <td>Present</td>
+            <td>The Compose variant is a bit richer here, because it has an explicit <code>healthcheck</code> and waits for Postgres to be healthy before starting Odoo.</td>
+        </tr>
+        <tr>
+            <td>Docker Desktop UI grouping</td>
+            <td>No Compose metadata</td>
+            <td>Has Compose metadata</td>
+            <td>That&rsquo;s why Compose is grouped in the Docker Desktop UI, while Terraform Docker provider resources look more like individual Docker objects.</td>
+        </tr>
+        <tr>
+            <td>State</td>
+            <td><code>terraform.tfstate</code></td>
+            <td>No single state file</td>
+            <td>Terraform remembers the desired and actual state in its state, while Compose relies more on the current Docker engine state and Compose project metadata labels.</td>
+        </tr>
+    </tbody>
+</table>
+
+<!-- ───────── 5 ───────── -->
+<h2 id="s5">5) How to turn Terraform files into action and materialize artifacts (Docker containers, AWS resources, Odoo)</h2>
+
+<h3 id="s5-1">5.1) Plan is not a formality</h3>
+
+<p><code>terraform plan</code> is a terminal command, and it is not a checkbox before <code>apply</code>.</p>
+
+<p>Its purpose is to clearly show you:</p>
+<ul>
+    <li>what will be created,</li>
+    <li>what will be modified,</li>
+    <li>what will be deleted,</li>
+    <li>whether a seemingly small change has a large blast radius.</li>
+</ul>
+
+<p>Professional thinking means:</p>
+<ul>
+    <li>first you read the plan,</li>
+    <li>then you assess the impact,</li>
+    <li>only then do you run <code>apply</code>.</li>
+</ul>
+
+<p>If you can&rsquo;t read a Terraform plan, then you are not yet operationally safe for infrastructure work.</p>
+
+<h3 id="s5-2">5.2) Apply is not a deploy script</h3>
+
+<p>The terminal command <code>terraform apply</code> does not mean &ldquo;I launched the server and I&rsquo;m done&rdquo;.</p>
+
+<p>Apply means:</p>
+<ul>
+    <li>Terraform has applied an infrastructure change,</li>
+    <li>state has been updated,</li>
+    <li>the cloud resource layer has been brought closer to the described state.</li>
+</ul>
+
+<p>But that is not the same as:</p>
+<ul>
+    <li>the application being functional,</li>
+    <li>the compose stack being healthy,</li>
+    <li>Odoo being operational,</li>
+    <li>day-2 ops steps being completed.</li>
+</ul>
+
+<p>In the KomITi AWS context, the flow often goes like this:</p>
+<ol>
+    <li>Terraform brings up the infrastructure skeleton.</li>
+    <li>The bootstrap/compose/runtime layer brings the application to an operational state.</li>
+    <li>Then verification follows.</li>
+</ol>
+
+<p>This is the same mental discipline as with Odoo: infra code truth is not the same as runtime truth.</p>
+
+<!-- ───────── 6 ───────── -->
+<h2 id="s6">6) Minimal safe workflow in KomITi</h2>
+
+<p>When making a Terraform change, the minimum safe sequence is:</p>
+<ol>
+    <li>understand what you&rsquo;re changing at the resource level,</li>
+    <li>verify variables and environment context,</li>
+    <li>run <code>terraform init</code> if needed,</li>
+    <li>run <code>terraform validate</code>,</li>
+    <li>run <code>terraform plan</code>,</li>
+    <li>read the impact,</li>
+    <li>only then run <code>terraform apply</code>,</li>
+    <li>verify outputs and runtime,</li>
+    <li>document the operational delta if significant.</li>
+</ol>
+
+<p>This is not bureaucracy; it is basic production discipline.</p>
+
+<!-- ───────── 7 ───────── -->
+<h2 id="s7">7) KomITi infra checklist</h2>
+
+<p>When you finish this document, you must be able to explain:</p>
+<ul class="checklist">
+    <li>what AWS provides and what it doesn&rsquo;t,</li>
+    <li>what is an image and what is a container,</li>
+    <li>what <code>docker compose</code> does,</li>
+    <li>what a provider is,</li>
+    <li>what is a resource and what is a data source,</li>
+    <li>why state is critical,</li>
+    <li>why you read <code>plan</code> before <code>apply</code>,</li>
+    <li>why <code>terraform.tfvars</code> and state don&rsquo;t go into git,</li>
+    <li>why infrastructure apply is not the same as application verification,</li>
+    <li>how to read an AWS Terraform folder as a system, not as a collection of random <code>.tf</code> files,</li>
+    <li>how to distinguish an AWS problem, a Docker/runtime problem, and an Odoo functional problem.</li>
+</ul>
+
+<!-- ───────── 8 ───────── -->
+<h2 id="s8">8) Foundations practical drill</h2>
+
+<p>After this document, do at least the following:</p>
+
+<ol>
+    <li>Open <code>infra/aws/odoo-dev-ec2-compose</code>.</li>
+    <li>Find <code>variables.tf</code>, <code>compute.tf</code>, <code>security.tf</code>, <code>outputs.tf</code>.</li>
+    <li>Explain which <code>.tf</code> file defines the host, which defines the network boundary, and which defines the operator outputs.</li>
+    <li>Explain where in that stack Terraform ends and Docker/runtime reasoning begins.</li>
+    <li>Explain why <code>terraform plan</code> must come before <code>apply</code>.</li>
+    <li>Explain why for PROD we don&rsquo;t want DB/Odoo passwords to live in Terraform state.</li>
+    <li>Explain the difference between <code>infra/aws/CODEX_TERRAFORM.md</code> and a root stack directory such as <code>infra/aws/odoo-dev-ec2-compose/</code>.</li>
+</ol>
+
+<p>If you can&rsquo;t explain these without guessing, you haven&rsquo;t truly internalized the infra foundations yet.</p>
+
+<p>This infra drill is not directly a module implementation task, but it&rsquo;s preparation so that later for <code>komiti_academy</code> you can distinguish a code problem, a runtime problem, and an infra problem.</p>
+
+<!-- ───────── 9 ───────── -->
+<h2 id="s9">9) Local Terraform + Docker Desktop lab for candidates</h2>
+
+<p>If the candidate doesn&rsquo;t have an AWS/Azure lab budget, it makes sense to do the first Terraform lab locally via Docker Desktop. This lab is not part of the core product scope of the <code>komiti_academy</code> module, but a learning/support exercise so the candidate can locally bring up the runtime on which they&rsquo;ll later develop and verify the Odoo module.</p>
+
+<p>The purpose of this lab is not to simulate a real cloud deployment, but for the candidate to practically exercise:</p>
+<ul>
+    <li>the structure of a Terraform project,</li>
+    <li><code>variables.tf</code>, <code>outputs.tf</code>, <code>terraform.tfvars.example</code>, and a local <code>terraform.tfvars</code>,</li>
+    <li>separation between <code>dev</code> and <code>prod</code> variants of a stack,</li>
+    <li>naming conventions,</li>
+    <li>the <code>plan</code> / <code>apply</code> / <code>destroy</code> cycle,</li>
+    <li>the idea that Terraform brings the runtime skeleton to a state where Odoo can start.</li>
+</ul>
+
+<p>This lab does not teach real cloud networking, VM lifecycle, or cloud security boundary. You must know this so you don&rsquo;t confuse a local Docker lab with actual AWS/Azure infra work. You should view this lab as a bridge: patterns around variables, outputs, naming, and environment separation can later be transferred to AWS/Azure Terraform work, but this is not a 1:1 cloud template.</p>
+
+<p>The suggested lab should live in your repo <code>komiti_academy_ime_polaznika</code>, for example like this:</p>
+<ul>
+    <li><code>infra/local/odoo-dev-docker-desktop/</code></li>
+    <li><code>infra/local/odoo-prod-docker-desktop/</code></li>
+</ul>
+
+<p>Within each of those two root directories, the candidate should have at least:</p>
+<ul>
+    <li><code>versions.tf</code></li>
+    <li><code>main.tf</code></li>
+    <li><code>variables.tf</code></li>
+    <li><code>outputs.tf</code></li>
+    <li><code>terraform.tfvars.example</code></li>
+    <li>a local <code>terraform.tfvars</code> that doesn&rsquo;t go into git</li>
+</ul>
+
+<p>The minimal runtime that Terraform should bring up locally is:</p>
+<ul>
+    <li>one Docker network,</li>
+    <li>one Postgres container,</li>
+    <li>one Odoo container,</li>
+    <li>a volume for Postgres data,</li>
+    <li>volume or mount reasoning for Odoo config/addons if the lab reaches that phase,</li>
+    <li>an operator output that says on which URL Odoo should be accessible.</li>
+</ul>
+
+<p>A good minimum viable lab is:</p>
+<ol>
+    <li>Terraform Docker provider locally manages the Docker Desktop runtime.</li>
+    <li><code>main.tf</code> creates the network, volume, and both containers.</li>
+    <li><code>variables.tf</code> carries the environment name, port, DB credentials for the lab, and naming prefix.</li>
+    <li><code>outputs.tf</code> outputs a URL like <code>http://localhost:8069</code> and key resource names.</li>
+    <li><code>terraform.tfvars.example</code> exists for both <code>dev</code> and <code>prod</code>, so the candidate sees the separation even when both stacks live locally.</li>
+</ol>
+
+<p>The bootstrap idea in this local lab doesn&rsquo;t mean cloud-init on a VM, but:</p>
+<ul>
+    <li>Terraform first brings the Docker resources to the desired state,</li>
+    <li>then the Odoo container receives the environment/config to communicate with Postgres,</li>
+    <li>only then do you verify whether the runtime is actually up.</li>
+</ul>
+
+<p>The minimum safe lab flow should be:</p>
+<ol>
+    <li><code>terraform init</code></li>
+    <li><code>terraform validate</code></li>
+    <li><code>terraform plan -var-file=terraform.tfvars</code></li>
+    <li><code>terraform apply -var-file=terraform.tfvars</code></li>
+    <li><code>docker ps</code> and verify that Odoo and Postgres are up</li>
+    <li>open the Odoo URL from the <code>output</code> value</li>
+    <li><code>terraform destroy -var-file=terraform.tfvars</code></li>
+</ol>
+
+<p>If the candidate successfully completes this lab, then they&rsquo;ve truly practiced the Terraform shape and lifecycle discipline, even if they haven&rsquo;t yet done real cloud provisioning.</p>
+
+<!-- ───────── 10 ───────── -->
+<h2 id="s10">10) What to read next</h2>
+
+<ul>
+    <li><code>../infra/aws/CODEX_TERRAFORM.md</code></li>
+    <li><code>../infra/aws/odoo-dev-ec2-compose/README.md</code></li>
+    <li><code>../infra/aws/odoo-dev-ec2-compose/RUNBOOK.md</code></li>
+    <li><code>../infra/aws/odoo-prod-ec2-compose/README.md</code></li>
+    <li><code>../infra/aws/odoo-prod-ec2-compose/RUNBOOK.md</code></li>
+</ul>
+
+<hr>
+
+<!-- ───────── 99 ───────── -->
+<h2 id="s99">99) Task on the komiti_academy project for candidates</h2>
+
+<ol class="task-list">
+    <li>
+        <strong>Write a short infra/runtime diagnostic note for <code>komiti_academy</code>:</strong> what would you check first if the module doesn&rsquo;t work, and what if the runtime itself isn&rsquo;t healthy.<br>
+        <em>Reference: This is explained in chapters <strong>4.9) How AWS, Docker, and Terraform connect into a single flow</strong> and <strong>8) Foundations practical drill</strong>.</em>
+    </li>
+    <li>
+        <strong>For <code>komiti_academy</code>, list which runtime assumptions must be true</strong> before actually verifying that the module works.<br>
+        <em>Reference: This is explained in chapters <strong>3) Docker and container fundamentals you need to know</strong>, <strong>4.6.1) terraform.tfstate</strong>, and <strong>6) Minimal safe workflow in KomITi</strong>.</em>
+    </li>
+    <li>
+        <strong>Explain with one example</strong> why a container restart, a module upgrade, and actually verifying the affected flow are not the same thing.<br>
+        <em>Reference: This is explained in chapters <strong>3) Docker and container fundamentals you need to know</strong>, <strong>4.9) How AWS, Docker, and Terraform connect into a single flow</strong>, and <strong>6) Minimal safe workflow in KomITi</strong>.</em>
+    </li>
+    <li>
+        <strong>Design and locally describe a Terraform lab</strong> in your repo <code>komiti_academy_ime_polaznika</code> that uses Docker Desktop to bring up a Postgres and Odoo stack for a local <code>dev</code> runtime, with a clear file structure, variables, outputs, and a clear workflow sequence.<br>
+        <em>Reference: This is explained in chapters <strong>4.6.2) <code>variables.tf</code>, <code>terraform.tfvars.example</code>, and <code>terraform.tfvars</code></strong>, <strong>4.4) Directory structure: general and KomITi-specific</strong>, <strong>5.1) Plan is not a formality</strong>, <strong>6) Minimal safe workflow in KomITi</strong>, and <strong>9) Local Terraform + Docker Desktop lab for candidates</strong>.</em>
+    </li>
+</ol>
+
+<p><strong>Solutions:</strong></p>
+
+<!-- ───────── FOOTER ───────── -->
+<footer>&copy; KomITi &middot; komiti.eu</footer>
+
+</div><!-- .page-wrapper -->
+</body>
+</html>
