@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Odoo Learning Plan – KomITi Academy</title>
+    <style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 15px;
+    line-height: 1.75;
+    color: #2c2c2c;
+    background: #f4f6f9;
+}
+.page-wrapper {
+    max-width: 980px;
+    margin: 40px auto;
+    background: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 2px 16px rgba(0,0,0,0.1);
+    padding: 60px 72px;
+}
+.book-meta {
+    text-align: center;
+    border-bottom: 3px solid #875A7B;
+    padding-bottom: 28px;
+    margin-bottom: 40px;
+}
+.book-meta .book-title {
+    font-size: 13px;
+    color: #875A7B;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-bottom: 8px;
+}
+h1 { font-size: 32px; color: #1a1a2e; margin-bottom: 6px; }
+.book-meta .subtitle { font-size: 16px; color: #666; font-style: italic; }
+h2 {
+    font-size: 22px;
+    color: #875A7B;
+    border-left: 5px solid #875A7B;
+    padding-left: 14px;
+    margin: 48px 0 16px 0;
+}
+h3 {
+    font-size: 17px;
+    color: #1a1a2e;
+    margin: 32px 0 10px 0;
+    border-bottom: 1px solid #e8e8e8;
+    padding-bottom: 5px;
+}
+h4 { font-size: 15px; color: #444; margin: 20px 0 8px 0; font-style: italic; }
+p  { margin-bottom: 14px; }
+ul, ol { margin: 10px 0 14px 28px; }
+li { margin-bottom: 6px; }
+code {
+    background: #f0eaf4;
+    color: #875A7B;
+    padding: 2px 6px;
+    border-radius: 3px;
+    font-family: 'Consolas', 'Courier New', monospace;
+    font-size: 13.5px;
+}
+pre {
+    background: #1e1e2e;
+    color: #cdd6f4;
+    padding: 20px 24px;
+    border-radius: 6px;
+    overflow-x: auto;
+    font-family: 'Consolas', 'Courier New', monospace;
+    font-size: 13.5px;
+    line-height: 1.6;
+    margin: 14px 0 20px 0;
+    border-left: 4px solid #875A7B;
+}
+blockquote {
+    background: #fdf6ff;
+    border-left: 4px solid #875A7B;
+    padding: 14px 18px;
+    margin: 16px 0;
+    border-radius: 0 6px 6px 0;
+    color: #555;
+    font-style: italic;
+}
+blockquote strong { color: #875A7B; font-style: normal; }
+table { width: 100%; border-collapse: collapse; margin: 16px 0 24px 0; font-size: 14px; }
+thead tr { background: #875A7B; color: #fff; }
+th { padding: 10px 14px; text-align: left; font-weight: 600; }
+td { padding: 9px 14px; border-bottom: 1px solid #e8e8e8; vertical-align: top; }
+tbody tr:nth-child(even) { background: #faf7fc; }
+tbody tr:hover { background: #f0eaf4; }
+.toc {
+    background: #faf7fc;
+    border: 1px solid #e0d0e8;
+    border-radius: 8px;
+    padding: 24px 28px;
+    margin-bottom: 40px;
+}
+.toc h3 { border: none; color: #875A7B; margin-top: 0; font-size: 16px; }
+.toc ol { margin-top: 10px; }
+.toc li { margin-bottom: 4px; }
+.toc a { color: #875A7B; text-decoration: none; }
+.toc a:hover { text-decoration: underline; }
+.note {
+    background: #fffbe6; border-left: 4px solid #f0b429;
+    padding: 12px 18px; margin: 14px 0;
+    border-radius: 0 6px 6px 0; font-size: 14px;
+}
+.note strong { color: #b07d00; }
+.tip {
+    background: #e8f5e9; border-left: 4px solid #43a047;
+    padding: 12px 18px; margin: 14px 0;
+    border-radius: 0 6px 6px 0; font-size: 14px;
+}
+.tip strong { color: #2e7d32; }
+hr { border: none; border-top: 2px solid #e0d0e8; margin: 48px 0; }
+a { color: #875A7B; text-decoration: none; }
+a:hover { text-decoration: underline; }
+.checklist { list-style: none; margin-left: 0; padding-left: 0; }
+.checklist li { margin-bottom: 8px; padding-left: 28px; position: relative; }
+.checklist li::before { content: '☐'; position: absolute; left: 0; color: #875A7B; font-size: 16px; }
+.checklist .sub { margin-left: 28px; }
+footer {
+    text-align: center;
+    margin-top: 48px;
+    padding-top: 24px;
+    border-top: 1px solid #e8e8e8;
+    color: #999;
+    font-size: 13px;
+}
+    </style>
+</head>
+<body>
+<div class="page-wrapper">
+
+    <!-- Header -->
+    <div class="book-meta">
+        <div class="book-title">KomITi Academy</div>
+        <h1>Odoo Learning Plan</h1>
+        <div class="subtitle">External reading plan based on official Odoo documentation</div>
+    </div>
+
+    <!-- Intro -->
+    <p>This is an external learning plan based on the official Odoo documentation and the strongest community resources. It is not an AI tutorial, but a reading order of what you actually need to read and what you need to absorb from it.</p>
+
+    <!-- Table of Contents -->
+    <div class="toc">
+        <h3>Table of Contents</h3>
+        <ol>
+            <li><a href="#working-rules">Working rules</a></li>
+            <li><a href="#phase-0-junior">Phase 0 → Junior (8 weeks)</a></li>
+            <li><a href="#phase-junior-independent">Phase Junior → Independent Developer (10 weeks)</a></li>
+            <li><a href="#phase-independent-pro">Phase Independent Developer → Pro Odoo Developer (12 weeks)</a></li>
+            <li><a href="#minimum-requirements">Minimum requirements for transitioning between phases</a></li>
+        </ol>
+    </div>
+
+    <!-- Working rules -->
+    <h2 id="working-rules">Working rules</h2>
+    <ul>
+        <li>Do not move to the next item until you have actually read and tried the previous one;</li>
+        <li>For each page you must have at least one small practical exercise;</li>
+        <li>If you cannot explain the topic in your own words, consider it not yet absorbed.</li>
+        <li>If you want an item to appear checked in the web view, write a lowercase Latin <code>x</code> in the checkbox, i.e. <code>- [x]</code>, not other characters.</li>
+    </ul>
+
+    <hr>
+
+    <!-- Phase 0 → Junior -->
+    <h2 id="phase-0-junior">Phase 0 → Junior (8 weeks)</h2>
+    <p>The goal of this phase is for the person to stop being a "Python beginner looking at Odoo" and become someone who understands the basic module structure and can build a simple addon without anyone's help.</p>
+
+    <ul class="checklist">
+        <li><a href="https://www.odoo.com/documentation/19.0/developer/tutorials/setup_guide.html">Setup guide</a>: how to do a source install, how to run <code>odoo-bin</code>, what <code>addons-path</code> is, how to enable developer mode and what a proper local environment for learning and development looks like.</li>
+        <li><a href="https://www.odoo.com/documentation/19.0/developer/tutorials/server_framework_101.html">Server framework 101</a>: you get the main backend learning path and see how a single Odoo module is built step by step, from the initial skeleton to a functional application.</li>
+        <li><a href="https://www.odoo.com/documentation/19.0/developer/tutorials/server_framework_101/01_architecture.html">Chapter 1: Architecture Overview</a>: what the Odoo layers are, how the framework thinks and where model, view, data and security actually live.</li>
+        <li><a href="https://www.odoo.com/documentation/19.0/developer/tutorials/server_framework_101/02_newapp.html">Chapter 2: A New Application</a>: how to create a new Odoo application, what the basic module skeleton is and why <code>__manifest__.py</code> and <code>__init__.py</code> matter.</li>
+        <li><a href="https://www.odoo.com/documentation/19.0/developer/tutorials/server_framework_101/03_basicmodel.html">Chapter 3: Models And Basic Fields</a>: how to define a model, what the basic field types are and how to set up the first business structures in the ORM.</li>
+        <li><a href="https://www.odoo.com/documentation/19.0/developer/tutorials/server_framework_101/04_securityintro.html">Chapter 4: Security – A Brief Introduction</a>: the foundation of ACL thinking, who can see and modify what, and why security must not come only at the end.</li>
+        <li><a href="https://www.odoo.com/documentation/19.0/developer/tutorials/server_framework_101/05_firstui.html">Chapter 5: Finally, Some UI To Play With</a>: how a model gets its first UI and how Odoo transitions from the Python layer into a usable form.</li>
+        <li><a href="https://www.odoo.com/documentation/19.0/developer/tutorials/server_framework_101/06_basicviews.html">Chapter 6: Basic Views</a>: the foundation of tree, form and search views, and how XML determines what the user actually sees.</li>
+        <li><a href="https://www.odoo.com/documentation/19.0/developer/tutorials/server_framework_101/07_relations.html">Chapter 7: Relations Between Models</a>: how to use <code>Many2one</code>, <code>One2many</code> and <code>Many2many</code>, and how models are linked into a single real business flow.</li>
+        <li><a href="https://www.odoo.com/documentation/19.0/developer/tutorials/server_framework_101/08_compute_onchange.html">Chapter 8: Computed Fields And Onchanges</a>: the difference between a derived value and a UI helper logic, and when to use <code>compute</code> vs <code>onchange</code>.</li>
+        <li><a href="https://www.odoo.com/documentation/19.0/developer/tutorials/server_framework_101/09_actions.html">Chapter 9: Ready For Some Action?</a>: how to connect action, menu and view mode so that the user can actually enter the functionality you built.</li>
+        <li><a href="https://www.odoo.com/documentation/19.0/developer/tutorials/server_framework_101/10_constraints.html">Chapter 10: Constraints</a>: how to write server-side rules and why business validation must not remain only at the form level.</li>
+        <li><a href="https://www.odoo.com/documentation/19.0/developer/tutorials/server_framework_101/11_sprinkles.html">Chapter 11: Add The Sprinkles</a>: how to polish a module and add additional elements that make it more usable and closer to a real application.</li>
+        <li><a href="https://www.odoo.com/documentation/19.0/developer/tutorials/server_framework_101/12_inheritance.html">Chapter 12: Inheritance</a>: how to extend existing models and views without breaking upstream logic.</li>
+        <li><a href="https://www.odoo.com/documentation/19.0/developer/tutorials/server_framework_101/13_other_module.html">Chapter 13: Interact With Other Modules</a>: how dependencies between modules actually work and how one module safely enters another's domain.</li>
+        <li><a href="https://www.odoo.com/documentation/19.0/developer/tutorials/server_framework_101/14_qwebintro.html">Chapter 14: A Brief History Of QWeb</a>: what QWeb is, why it exists and where you will encounter it even if your main focus is backend.</li>
+        <li><a href="https://www.odoo.com/documentation/19.0/developer/tutorials/define_module_data.html">Define module data</a>: the difference between master and demo data, how data files are declared in the manifest and how XML/CSV enter the module.</li>
+        <li><a href="https://www.odoo.com/documentation/19.0/developer/tutorials/restrict_data_access.html">Restrict access to data</a>: groups, access rights, record rules, <code>sudo</code>, explicit security checks and why the security model is broader than a single <code>ir.model.access.csv</code> file.</li>
+        <li><a href="https://www.odoo.com/documentation/19.0/developer/tutorials/unit_tests.html">Safeguard your code with unit tests</a>: how to run tests, what the <code>tests/</code> structure looks like and how to write the first serious Odoo unit test.</li>
+    </ul>
+
+    <hr>
+
+    <!-- Phase Junior → Independent Developer -->
+    <h2 id="phase-junior-independent">Phase Junior → Independent Developer (10 weeks)</h2>
+    <p>The goal of this phase is for someone to no longer just build a "demo module", but to be able to enter existing code, understand it, modify it without breaking the system and deliver the change professionally.</p>
+
+    <ul class="checklist">
+        <li><a href="https://www.odoo.com/documentation/19.0/developer/reference.html">Reference</a>: you learn to use the official reference documentation as a working tool, not as passive reading.</li>
+        <li><a href="https://www.odoo.com/documentation/19.0/developer/reference/backend/orm.html">ORM API</a>: deeper understanding of models, fields, recordsets, environment, decorators and common ORM methods you use every day.</li>
+        <li><a href="https://www.odoo.com/documentation/19.0/developer/reference/backend/data.html">Data Files</a>: how XML and CSV data files work, what loading order is and how the data layer is maintained without chaos.</li>
+        <li><a href="https://www.odoo.com/documentation/19.0/developer/reference/backend/actions.html">Window Actions (<code>ir.actions.act_window</code>)</a>: how to professionally configure the action layer and how view/action/context wiring actually works.</li>
+        <li><a href="https://www.odoo.com/documentation/19.0/developer/reference/backend/module.html">Manifest</a>: everything you need to know about <code>__manifest__.py</code>, dependencies, <code>data</code>, <code>demo</code>, <code>application</code> and module structure.</li>
+        <li><a href="https://www.odoo.com/documentation/19.0/developer/reference/backend/security.html">Access Rights</a>: exact rules for the ACL layer and how group-based access is modeled in a production manner.</li>
+        <li><a href="https://www.odoo.com/documentation/19.0/developer/reference/backend/security.html">Record Rules</a>: how to write access rules per record and how domain becomes a security mechanism.</li>
+        <li><a href="https://www.odoo.com/documentation/19.0/developer/reference/backend/security.html">Field Access</a>: how restrictions can be set at the field level, not only at the model or view level.</li>
+        <li><a href="https://www.odoo.com/documentation/19.0/developer/reference/backend/security.html">Security Pitfalls</a>: the most common mistakes developers make when they think something is secure but it actually is not.</li>
+        <li><a href="https://www.odoo.com/documentation/19.0/developer/reference/cli.html">Command-line interface (CLI)</a>: how to use <code>-i</code>, <code>-u</code>, testing options, shell and other CLI commands that are a real part of everyday work.</li>
+        <li><a href="https://www.odoo.com/documentation/19.0/developer/reference/user_interface/view_records.html">View records</a>: how view records are organized and how to read the existing UI layer in someone else's module.</li>
+        <li><a href="https://www.odoo.com/documentation/19.0/developer/reference/user_interface/view_architectures.html">View architectures</a>: form, list, search, kanban, calendar, gantt and other architectures you must know when entering an existing module.</li>
+        <li><a href="https://www.odoo.com/documentation/19.0/developer/reference/backend/testing.html">Testing Python code</a>: what the official Odoo testing model looks like and how to think about behavior verification, not just a single green test run.</li>
+        <li><a href="https://www.odoo.com/documentation/19.0/developer/reference/backend/testing.html">Integration Testing</a>: how to test the entirety of a flow, not just an individual function or helper method.</li>
+        <li><a href="https://www.odoo.com/documentation/19.0/developer/reference/backend/performance.html">Profiling</a>: how to spot slow code and start thinking about performance before the system becomes hard to maintain.</li>
+        <li><a href="https://www.odoo.com/documentation/19.0/developer/reference/backend/performance.html">Good practices</a>: which performance and backend habits separate a solid module from one that is slow and fragile.</li>
+        <li><a href="https://www.odoo.com/documentation/19.0/developer/howtos.html">How-to guides</a>: this is the transition from "I know the basics" to "I know how to solve real tasks by topic".</li>
+        <li><a href="https://www.odoo.com/documentation/19.0/developer/howtos/company.html">Multi-company Guidelines</a>: how to think about company isolation, company-dependent fields and multi-company rules without accidentally breaching access.</li>
+        <li><a href="https://www.odoo.com/documentation/19.0/developer/howtos/create_reports.html">Create customized reports</a>: how to build real reports and how the SQL/ORM/report layer enters professional Odoo work.</li>
+        <li><a href="https://www.odoo.com/documentation/19.0/developer/howtos/translations.html">Translating Modules</a>: how to prepare a module for translation and why localization is not an afterthought cosmetic step.</li>
+        <li><a href="https://www.odoo.com/documentation/19.0/developer/howtos/upgrade_custom_db.html">Upgrade a customized database</a>: how to think about upgrading a custom database and why custom code is not finished if it is not upgrade-safe.</li>
+        <li><a href="https://odoo-community.org/">Odoo Community Association</a>: you meet the most important Odoo open-source community and understand where production-grade community patterns live.</li>
+        <li><a href="https://github.com/OCA">Odoo Community Association on GitHub</a>: you learn to read real OCA repositories, addon structure, review style and conventions that professionals use.</li>
+    </ul>
+
+    <hr>
+
+    <!-- Phase Independent Developer → Pro -->
+    <h2 id="phase-independent-pro">Phase Independent Developer → Pro Odoo Developer (12 weeks)</h2>
+    <p>The goal of this phase is for the developer to not only know how to build a module, but to know how to do frontend, integration, testing, upgrade, community-style code reading and deliver a change at a professional level.</p>
+
+    <ul class="checklist">
+        <li><a href="https://www.odoo.com/documentation/19.0/developer/tutorials/discover_js_framework.html">Discover the web framework</a>: entry into the Odoo frontend world and the first serious picture of Owl, dashboards and web client architecture.</li>
+        <li><a href="https://www.odoo.com/documentation/19.0/developer/tutorials/discover_js_framework/01_owl_components.html">Chapter 1: Owl components</a>: how Owl components are built and used, what component-based thinking is and how the Odoo frontend actually lives.</li>
+        <li><a href="https://www.odoo.com/documentation/19.0/developer/tutorials/discover_js_framework/02_build_a_dashboard.html">Chapter 2: Build a dashboard</a>: how multiple frontend building blocks are combined into a single usable UI.</li>
+        <li><a href="https://www.odoo.com/documentation/19.0/developer/tutorials/master_odoo_web_framework.html">Master the web framework</a>: a deeper frontend resource for transitioning from basic Owl knowledge to actual frontend specialization in Odoo.</li>
+        <li><a href="https://www.odoo.com/documentation/19.0/developer/reference/frontend/framework_overview.html">Framework Overview</a>: how the web client is organized, what the main building blocks are and how the frontend architecture actually works.</li>
+        <li><a href="https://www.odoo.com/documentation/19.0/developer/reference/frontend/assets.html">Assets</a>: how asset bundles work, lazy loading and why a frontend bug is often not just "the JS code is fine".</li>
+        <li><a href="https://www.odoo.com/documentation/19.0/developer/reference/frontend/javascript_modules.html">Odoo Module System</a>: how JavaScript modules are organized and how frontend code enters the Odoo framework.</li>
+        <li><a href="https://www.odoo.com/documentation/19.0/developer/reference/frontend/owl_components.html">Owl components</a>: the official reference for components, best practices and boundaries of the Owl layer.</li>
+        <li><a href="https://www.odoo.com/documentation/19.0/developer/reference/frontend/registries.html">Registries</a>: how the Odoo web client registers new fields, view types and other frontend extension points.</li>
+        <li><a href="https://www.odoo.com/documentation/19.0/developer/reference/frontend/services.html">Services</a>: how frontend services are written and used, and how state/behavior living outside components works in practice.</li>
+        <li><a href="https://www.odoo.com/documentation/19.0/developer/reference/frontend/hooks.html">Hooks</a>: how hooks are used in the Odoo/Owl frontend and how to avoid ad hoc frontend code.</li>
+        <li><a href="https://www.odoo.com/documentation/19.0/developer/reference/frontend/patching_code.html">Patching code</a>: how patching is done in the Odoo frontend and why it is powerful but dangerous if used without discipline.</li>
+        <li><a href="https://www.odoo.com/documentation/19.0/developer/reference/frontend/qweb.html">QWeb Templates</a>: deeper understanding of the template layer, output, conditionals, loops and the link between backend and frontend rendering.</li>
+        <li><a href="https://www.odoo.com/documentation/19.0/developer/reference/frontend/unit_testing.html">JavaScript Unit Testing</a>: how to test frontend logic, not just the Python backend.</li>
+        <li><a href="https://www.odoo.com/documentation/19.0/developer/howtos/javascript_field.html">Customize a field</a>: how to modify an existing field component in the web framework without blind patching.</li>
+        <li><a href="https://www.odoo.com/documentation/19.0/developer/howtos/javascript_view.html">Customize a view type</a>: how to build a custom view type at the framework level, which is important if you want advanced UI work.</li>
+        <li><a href="https://www.odoo.com/documentation/19.0/developer/howtos/javascript_client_action.html">Create a client action</a>: how to build a more serious custom frontend entry point inside the Odoo web client.</li>
+        <li><a href="https://www.odoo.com/documentation/19.0/developer/howtos/standalone_owl_application.html">Create a standalone Owl application</a>: how Owl is used outside the classic web client frame as well.</li>
+        <li><a href="https://www.odoo.com/documentation/19.0/developer/howtos/frontend_owl_components.html">Use Owl components on the portal and website</a>: how to transfer your frontend Odoo knowledge to the portal/website layer.</li>
+        <li><a href="https://www.odoo.com/documentation/19.0/developer/howtos/website_themes.html">Website themes</a>: how website customization is done in a disciplined manner, not just with ad hoc CSS/XML changes.</li>
+        <li><a href="https://www.odoo.com/documentation/19.0/developer/reference/external_api.html">Web Services</a>: how Odoo communicates externally and how to think about integrations and API boundaries.</li>
+        <li><a href="https://www.odoo.com/documentation/19.0/developer/howtos/scss.html">Write lean easy-to-maintain CSS</a>: how to prevent frontend customization from becoming technical debt after a few iterations.</li>
+        <li><a href="https://github.com/OCA/OpenUpgrade">OpenUpgrade</a>: getting acquainted with the open-source upgrade ecosystem and migration thinking that is important for the pro level.</li>
+        <li><a href="https://github.com/OCA/maintainer-tools">maintainer-tools</a>: insight into maintainer discipline, conventions and the review standard that the community uses for serious Odoo code.</li>
+    </ul>
+
+    <hr>
+
+    <!-- Minimum requirements -->
+    <h2 id="minimum-requirements">Minimum requirements for transitioning between phases</h2>
+    <ul>
+        <li>You do not leave the <code>0 → Junior</code> phase until you have built one small module from scratch;</li>
+    </ul>
+
+    <footer>
+        &copy; KomITi &middot; komiti.eu
+    </footer>
+
+</div>
+</body>
+</html>

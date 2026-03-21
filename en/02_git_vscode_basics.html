@@ -1,0 +1,678 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Git &amp; VS Code Basics — KomITi Academy</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 15px;
+    line-height: 1.75;
+    color: #2c2c2c;
+    background: #f4f6f9;
+}
+.page-wrapper {
+    max-width: 980px;
+    margin: 40px auto;
+    background: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 2px 16px rgba(0,0,0,0.1);
+    padding: 60px 72px;
+}
+.book-meta {
+    text-align: center;
+    border-bottom: 3px solid #875A7B;
+    padding-bottom: 28px;
+    margin-bottom: 40px;
+}
+.book-meta .book-title {
+    font-size: 13px;
+    color: #875A7B;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-bottom: 8px;
+}
+h1 { font-size: 32px; color: #1a1a2e; margin-bottom: 6px; }
+.book-meta .subtitle { font-size: 16px; color: #666; font-style: italic; }
+h2 {
+    font-size: 22px;
+    color: #875A7B;
+    border-left: 5px solid #875A7B;
+    padding-left: 14px;
+    margin: 48px 0 16px 0;
+}
+h3 {
+    font-size: 17px;
+    color: #1a1a2e;
+    margin: 32px 0 10px 0;
+    border-bottom: 1px solid #e8e8e8;
+    padding-bottom: 5px;
+}
+h4 { font-size: 15px; color: #444; margin: 20px 0 8px 0; font-style: italic; }
+p  { margin-bottom: 14px; }
+ul, ol { margin: 10px 0 14px 28px; }
+li { margin-bottom: 6px; }
+code {
+    background: #f0eaf4;
+    color: #875A7B;
+    padding: 2px 6px;
+    border-radius: 3px;
+    font-family: 'Consolas', 'Courier New', monospace;
+    font-size: 13.5px;
+}
+pre {
+    background: #1e1e2e;
+    color: #cdd6f4;
+    padding: 20px 24px;
+    border-radius: 6px;
+    overflow-x: auto;
+    font-family: 'Consolas', 'Courier New', monospace;
+    font-size: 13.5px;
+    line-height: 1.6;
+    margin: 14px 0 20px 0;
+    border-left: 4px solid #875A7B;
+}
+pre .comment { color: #6c7086; }
+pre code {
+    background: none;
+    color: inherit;
+    padding: 0;
+    border-radius: 0;
+    font-size: inherit;
+}
+blockquote {
+    background: #fdf6ff;
+    border-left: 4px solid #875A7B;
+    padding: 14px 18px;
+    margin: 16px 0;
+    border-radius: 0 6px 6px 0;
+    color: #555;
+    font-style: italic;
+}
+blockquote strong { color: #875A7B; font-style: normal; }
+table { width: 100%; border-collapse: collapse; margin: 16px 0 24px 0; font-size: 14px; }
+thead tr { background: #875A7B; color: #fff; }
+th { padding: 10px 14px; text-align: left; font-weight: 600; }
+td { padding: 9px 14px; border-bottom: 1px solid #e8e8e8; vertical-align: top; }
+tbody tr:nth-child(even) { background: #faf7fc; }
+tbody tr:hover { background: #f0eaf4; }
+.toc {
+    background: #faf7fc;
+    border: 1px solid #e0d0e8;
+    border-radius: 8px;
+    padding: 24px 28px;
+    margin-bottom: 40px;
+}
+.toc h3 { border: none; color: #875A7B; margin-top: 0; font-size: 16px; }
+.toc ol { margin-top: 10px; }
+.toc li { margin-bottom: 4px; }
+.toc a { color: #875A7B; text-decoration: none; }
+.toc a:hover { text-decoration: underline; }
+.note {
+    background: #fffbe6; border-left: 4px solid #f0b429;
+    padding: 12px 18px; margin: 14px 0;
+    border-radius: 0 6px 6px 0; font-size: 14px;
+}
+.note strong { color: #b07d00; }
+.tip {
+    background: #e8f5e9; border-left: 4px solid #43a047;
+    padding: 12px 18px; margin: 14px 0;
+    border-radius: 0 6px 6px 0; font-size: 14px;
+}
+.tip strong { color: #2e7d32; }
+hr { border: none; border-top: 2px solid #e0d0e8; margin: 48px 0; }
+a { color: #875A7B; text-decoration: none; }
+a:hover { text-decoration: underline; }
+.ascii-diagram {
+    background: #f8f6fa;
+    border: 1px solid #e0d0e8;
+    border-radius: 6px;
+    padding: 20px 24px;
+    font-family: 'Consolas', 'Courier New', monospace;
+    font-size: 13px;
+    line-height: 1.5;
+    white-space: pre;
+    overflow-x: auto;
+    margin: 14px 0 20px 0;
+}
+footer {
+    text-align: center;
+    margin-top: 48px;
+    padding-top: 24px;
+    border-top: 1px solid #e8e8e8;
+    color: #999;
+    font-size: 13px;
+}
+details { margin: 14px 0; }
+details summary {
+    cursor: pointer;
+    font-weight: 600;
+    color: #875A7B;
+    padding: 8px 0;
+}
+</style>
+</head>
+<body>
+<div class="page-wrapper">
+
+<!-- Header -->
+<div class="book-meta">
+    <div class="book-title">KomITi Academy</div>
+    <h1>Git &amp; VS Code Basics</h1>
+    <div class="subtitle">Version control and editor fundamentals for KomITi workflow</div>
+</div>
+
+<!-- Table of Contents -->
+<div class="toc">
+    <h3>Contents</h3>
+    <ol>
+        <li><a href="#s1">VS Code basics you need to know</a></li>
+        <li><a href="#s2">Git basics you need to know</a></li>
+        <li><a href="#s3">Local and remote branch</a></li>
+        <li><a href="#s4">What the letters in VS Code Explorer mean</a></li>
+        <li><a href="#s5">Explorer is not the same as Source Control panel</a></li>
+        <li><a href="#s5-1">What the bottom-left corner in VS Code means: Git status indicator</a></li>
+        <li><a href="#s6">Save is not the same as commit</a></li>
+        <li><a href="#s7">Basic local workflow</a></li>
+        <li><a href="#s8">Most common beginner mistakes</a></li>
+        <li><a href="#s9">Key concepts and Minimum commands you need to know</a></li>
+        <li><a href="#s10">How this looks in KomITi</a></li>
+        <li><a href="#s11">Self-check</a></li>
+        <li><a href="#s12">What to read next</a></li>
+        <li><a href="#s99">Task on the komiti_academy project for the candidate</a></li>
+    </ol>
+</div>
+
+<!-- ============================================================ -->
+<!-- 1) VS Code basics -->
+<!-- ============================================================ -->
+<h2 id="s1">1) VS Code basics you need to know</h2>
+
+<h3>Explorer</h3>
+<ul>
+    <li><code>Explorer</code> is the left panel in VS Code where you see folders and files.</li>
+    <li>In Explorer you preview a file with a single click (its name will be in italics), and you open a file with a double click.</li>
+    <li>In Explorer you see files, directories, but only one workspace.</li>
+</ul>
+
+<h3>Workspace is the VS Code context you work in; it can contain one folder or multiple folders</h3>
+<ul>
+    <li>If you do <code>Open Folder</code> in VS Code, you will open one folder as your working workspace and automatically one unnamed Workspace.</li>
+    <li>If you do <code>Add Folder to Workspace</code> in an already open workspace, you get a <code>multi-root workspace</code>, i.e. a workspace with multiple top-level root directories.</li>
+    <li><code>workspace</code> is not just a visual concept in VS Code, but a context boundary for search, file reading, terminal and agent work.</li>
+    <li>Can you have multiple workspaces at the same time: Yes, you can, but not in a single VS Code window.</li>
+    <li>Practical rule: if you want clear context separation, fewer mistakes and less confusion about commands, it is often safer to have two windows than one cluttered multi-root workspace.</li>
+</ul>
+
+<h3>Search, Explorer, Source Control and Terminal are the 4 panels you must distinguish</h3>
+<ul>
+    <li><code>Explorer</code> = folder and file structure.</li>
+    <li><code>Search</code> = text search across files.</li>
+    <li><code>Source Control</code> = Git state, staged and unstaged changes.</li>
+    <li><code>Terminal</code> = where you type commands like <code>git</code>, <code>docker compose</code> and <code>rg</code>.</li>
+</ul>
+
+<h3>What a VS Code beginner must adopt immediately</h3>
+<ul>
+    <li>know which workspace you are working in,</li>
+    <li>know which root directory you are currently in,</li>
+    <li>distinguish Explorer from Source Control panel,</li>
+    <li>not create files in the wrong root,</li>
+    <li>know that <code>save</code> in the editor is not the same as <code>commit</code> in Git.</li>
+</ul>
+
+<!-- ============================================================ -->
+<!-- 2) Git basics -->
+<!-- ============================================================ -->
+<h2 id="s2">2) Git basics you need to know</h2>
+<ul>
+    <li><code>Git</code> and <code>GitHub</code> are not the same: <code>Git</code> is a version control system, and <code>GitHub</code> is a platform where the remote repo lives.</li>
+    <li>VS Code Explorer and Source Control mostly show you the Git state of the local workspace.</li>
+    <li>In the KomITi workflow we currently use, the typical flow is: <code>feature</code> → <code>staging</code> → <code>main</code>.</li>
+    <li><code>clone</code> and <code>fork</code> are not the same: <code>clone</code> is a local copy of a repo on your computer, and <code>fork</code> is your personal remote copy of someone else's repo on GitHub.</li>
+    <li><code>fork</code> is most commonly used when you don't have write access to the original repo, so you make changes in your own GitHub fork and then send a <code>Pull Request</code> to the original repo.</li>
+    <li>Practically: if you work in your own or team-accessible repo, you usually need <code>clone</code>; if you work on someone else's GitHub repo without direct write access, then you first need <code>fork</code>, and only then <code>clone</code> that fork.</li>
+    <li><code>DevOps</code> is a broader way of working and collaborating between the development and operations sides, with the goal of delivering and maintaining software faster, more securely and more stably.</li>
+    <li><code>CI/CD</code> is a narrower, practical part of that: a set of automated pipelines and steps that build, test and deliver code.</li>
+    <li><code>DevOps</code> and <code>CI/CD</code> emerged as a response to a slow, manual and separated way of building, testing and releasing software, where development and operations long worked as separate worlds, and they did not originate from a single author but gradually evolved in the software industry through agile, automation and DevOps practices.</li>
+    <li>The difference is that <code>DevOps</code> is more of a culture, operating model and work discipline, while <code>CI/CD</code> is a concrete mechanism and tooling flow that implements that discipline. Practically: <code>DevOps</code> tells you how a team should work and what it wants to achieve, while <code>CI/CD</code> serves to automatically verify and move those changes from commit to deployment.</li>
+</ul>
+
+<!-- ============================================================ -->
+<!-- 3.1) Local and remote branch -->
+<!-- ============================================================ -->
+<h2 id="s3">3.1) Local and remote branch</h2>
+
+<div class="ascii-diagram">REMOTE   [origin/feature]         [origin/staging]             [origin/main]
+              ^                           |                          |
+              | git push                  | git pull                 | git pull
+              |                           v                          v
+LOCAL    [feature] ----git merge----> [staging] ----git merge----> [main]
+              ^                                                        |
+              |                                                        |
+              +------- git checkout -b feature from local main --------+
+                                (local main was previously
+                                 refreshed from origin/main)</div>
+
+<p>Imagine that a Git repo is one folder with multiple papers, and each branch is one separate paper in that folder. The same branch can exist in two places: locally, on your computer and remote, on GitHub.</p>
+
+<ul>
+    <li><strong>Creating a local feature branch</strong> (<code>git checkout -b 2026-03-12-features</code>):
+        In real work you first stand on the main paper with the command <code>git checkout main</code>, refresh it with the command <code>git pull origin main</code>, and then create your working paper with the command <code>git checkout -b 2026-03-12-features</code>.</li>
+    <li><strong>Working in the local feature branch</strong> (<code>git commit -m "Expand Git foundations workflow"</code>):
+        After that you change files in VS Code, check what exactly you did with <code>git status --short</code> and <code>git diff --stat</code>, then locally save your state with the commands <code>git add 02_GIT_VSCODE_ОСНОВЕ_2h.md</code> and <code>git commit -m "Expand Git foundations workflow"</code>.</li>
+    <li><strong>pull and merge of the local feature branch into staging</strong> (<code>git pull origin staging</code> and <code>git merge 2026-03-12-features</code>) and main:
+        When you want others to see your work, you send your local working paper to GitHub with the command <code>git push -u origin 2026-03-12-features</code>, whereby your local <code>2026-03-12-features</code> also gets its remote copy <code>origin/2026-03-12-features</code>.
+        When the change is verified, you switch to <code>staging</code> with <code>git checkout staging</code>, refresh it with <code>git pull origin staging</code>, bring in the content of your working paper with the command <code>git merge 2026-03-12-features</code>, then send the result back to GitHub with <code>git push origin staging</code>; later you repeat the same logic for <code>main</code>, so Git practically serves to know exactly which paper you are working on, what you changed and how that change moves to the main version.</li>
+</ul>
+
+<p>Since this is a very important concept, let's repeat it enumeratively:</p>
+<ul>
+    <li><code>main</code> = the main paper,</li>
+    <li><code>staging</code> = the verification paper,</li>
+    <li><code>2026-03-12-features</code> = your working paper.</li>
+</ul>
+<p>The same branch can exist in two places:</p>
+<ul>
+    <li>locally, on your computer,</li>
+    <li>remote, on GitHub.</li>
+</ul>
+<p>That's why you can have:</p>
+<ul>
+    <li>local <code>staging</code>,</li>
+    <li>remote <code>origin/staging</code>.</li>
+</ul>
+<p>These are not literally the same branch, but a local and remote copy of the same line of work.</p>
+
+<p>In the paper analogy this means:</p>
+<ul>
+    <li><code>checkout</code> = you switch to another paper,</li>
+    <li><code>commit</code> = you save the current state of the paper,</li>
+    <li><code>push</code> = you send your paper to GitHub,</li>
+    <li><code>pull</code> = you get a newer version of the paper from GitHub,</li>
+    <li><code>merge</code> = you transfer content from one paper to another paper.</li>
+</ul>
+
+<p>Practically:</p>
+<ul>
+    <li><code>git checkout staging</code> means you switched to your local <code>staging</code>,</li>
+    <li><code>git pull origin staging</code> means you fetched the new state from remote <code>origin/staging</code>,</li>
+    <li><code>git push origin staging</code> means you sent your local <code>staging</code> to remote <code>origin/staging</code>.</li>
+</ul>
+
+<!-- ============================================================ -->
+<!-- 4) Letters in VS Code Explorer -->
+<!-- ============================================================ -->
+<h2 id="s4">4) What the letters in VS Code Explorer mean</h2>
+<p>The most common labels are:</p>
+
+<table>
+    <thead>
+        <tr><th>Letter</th><th>Meaning</th><th>Details</th></tr>
+    </thead>
+    <tbody>
+        <tr><td><code>M</code></td><td>Modified</td><td>The file has been changed locally.</td></tr>
+        <tr><td><code>U</code></td><td>Untracked</td><td>A new file not yet added to Git; in a merge conflict it can also mean unresolved/unmerged state.</td></tr>
+        <tr><td><code>A</code></td><td>Added</td><td>A new file that has been staged.</td></tr>
+        <tr><td><code>D</code></td><td>Deleted</td><td>The file has been deleted in the local workspace.</td></tr>
+        <tr><td><code>R</code></td><td>Renamed</td><td>The file has been renamed.</td></tr>
+    </tbody>
+</table>
+
+<p>Practically:</p>
+<ul>
+    <li>if you see <code>M</code> next to an <code>.md</code> file, you changed it locally. <code>M</code> typically disappears after a commit or if you revert the file to its original state.</li>
+    <li>if you see <code>U</code>, Git is not yet tracking that new file. <code>U</code> disappears when you add the file to Git with <code>git add</code> and later commit, or if you delete that new file.</li>
+    <li>if you see <code>D</code>, the file has been deleted in the local workspace. <code>D</code> disappears when the deletion enters a commit, or if you restore the deleted file.</li>
+</ul>
+<p>Generally, the letters disappear when Git no longer sees that change as an "unresolved" local change.</p>
+
+<!-- ============================================================ -->
+<!-- 5) Explorer vs Source Control -->
+<!-- ============================================================ -->
+<h2 id="s5">5) Explorer is not the same as Source Control panel</h2>
+<ul>
+    <li>Explorer gives a quick visual signal next to the file,</li>
+    <li>Source Control panel shows you in more detail what is staged, what is unstaged and what goes into a commit.</li>
+</ul>
+<p>Whenever you are unsure, Source Control panel and <code>git status --short</code> are more reliable than guessing by icons.</p>
+
+<!-- ============================================================ -->
+<!-- 5.1) Git status indicator -->
+<!-- ============================================================ -->
+<h2 id="s5-1">5.1) What the bottom-left corner in VS Code means: Git status indicator</h2>
+<p>In the Git status indicator you often see a short Git status for the active repo. Using an example like:</p>
+<ul>
+    <li><code>odoo4komiti</code> = the repo you are currently working in,</li>
+    <li><code>2026-03-11-features</code> = the branch you are currently on,</li>
+    <li><code>*</code> = you have local changes that are not yet committed,</li>
+    <li>the circular arrows icon = Git sync/refresh zone; here VS Code shows or offers fetch/pull/push/sync, and if the icon is spinning, a Git operation is usually in progress.</li>
+</ul>
+<p>That from the screenshot is not some special "Copilot workspace" or separate agent context, but the VS Code status bar showing the Git context of the active repo in the current workspace. Practically, the screenshot tells you three things at once:</p>
+<p>For the agent this is a useful signal, but not a magic guarantee.</p>
+<ul>
+    <li>The Git indicator tells the agent which is the current branch context. In the same clone and the same working tree, the agent cannot work on a different local branch from the one the Git status indicator shows. If the indicator shows <code>2026-03-11-features</code>, then the agent in that context works on <code>2026-03-11-features</code>.</li>
+    <li>If you have multiple agents in the same workspace, they share the same checked-out branch and the same working tree; they cannot work on different local branches.</li>
+    <li>If you see a discrepancy between the indicator and what you expect, check <code>git status</code> and <code>git branch --show-current</code>, because you might be looking at a different repo in a multi-root workspace or a different clone.</li>
+</ul>
+<p>If you have multiple root folders in the same workspace, VS Code usually still shows the relevant Git context for the active file or active repo, so you must pay attention to which file is active and in which root you are actually working.</p>
+<p>In the paper analogy:</p>
+<ul>
+    <li><code>odoo4komiti</code> = the folder where the papers are,</li>
+    <li><code>2026-03-11-features</code> = the paper you are currently writing on,</li>
+    <li><code>*</code> = you changed the paper, but you have not yet saved that version as a commit.</li>
+</ul>
+
+<!-- ============================================================ -->
+<!-- 6) Save ≠ commit -->
+<!-- ============================================================ -->
+<h2 id="s6">6) Save is not the same as commit</h2>
+<p>This is a key beginner distinction:</p>
+<ul>
+    <li><code>save</code> writes the file to disk,</li>
+    <li><code>commit</code> records that change in Git history,</li>
+    <li><code>push</code> sends that commit to GitHub.</li>
+</ul>
+<p>So the order is often:</p>
+<ol>
+    <li>edit the file,</li>
+    <li><code>save</code>,</li>
+    <li>review the diff,</li>
+    <li><code>git add</code>,</li>
+    <li><code>git commit</code>,</li>
+    <li><code>git push</code>.</li>
+</ol>
+
+<!-- ============================================================ -->
+<!-- 7) Basic local workflow -->
+<!-- ============================================================ -->
+<h2 id="s7">7) Basic local workflow</h2>
+<p>This is one whole unit: how Git looks in the actual KomITi workflow, with concrete commands and the order we actually use.</p>
+<p>You will later have to carry out this same Git flow yourself for tasks on <code>komiti_academy</code>, so don't read it as an abstract rule but as a working procedure.</p>
+
+<!-- Step 1 -->
+<h3>Step 1: get the latest <code>main</code></h3>
+<pre><code>git checkout main
+git pull origin main</code></pre>
+<ul>
+    <li><code>git checkout main</code>: switches to the local branch <code>main</code>.</li>
+    <li><code>git pull origin main</code>: pulls the latest changes from the remote <code>origin</code> for the branch <code>main</code> and merges them into the local <code>main</code>.</li>
+    <li><code>origin</code>: argument that specifies which remote you are pulling from.</li>
+    <li><code>main</code>: argument that specifies which branch you are pulling.</li>
+</ul>
+<p>Here you are taking the latest main branch as a starting base.</p>
+<p>This means:</p>
+<ul>
+    <li>you switched to the local <code>main</code>,</li>
+    <li>you pulled the latest state from the remote <code>origin/main</code>,</li>
+    <li>in the paper analogy: you stood on the main paper and checked whether you have its latest version from the shared folder.</li>
+</ul>
+
+<!-- Step 2 -->
+<h3>Step 2: create a new feature branch from <code>main</code></h3>
+<pre><code>git checkout -b 2026-03-12-features</code></pre>
+<ul>
+    <li><code>git checkout -b 2026-03-12-features</code>: creates a new branch from the current position and immediately switches to it.</li>
+    <li><code>-b</code> means: create a new branch and immediately switch to it; it is a short option, i.e. a flag, and is an abbreviation of <code>branch</code>.</li>
+    <li><code>2026-03-12-features</code> is an argument; with it you specify what the new branch will be named.</li>
+</ul>
+<p>If you want the branch to exist on GitHub right away:</p>
+<pre><code>git push -u origin 2026-03-12-features</code></pre>
+<ul>
+    <li><code>git push -u origin 2026-03-12-features</code>: sends the new branch to GitHub and remembers the upstream link.</li>
+    <li><code>-u</code> means <code>--set-upstream</code>; it is an option that tells Git to remember the link between the local branch and the remote branch of the same name.</li>
+    <li><code>origin</code> is an argument and means: to which remote you are sending.</li>
+    <li><code>2026-03-12-features</code> is an argument and means: which branch you are sending.</li>
+</ul>
+<p>Here <code>checkout -b</code> means:</p>
+<ul>
+    <li>create a new paper from the current paper,</li>
+    <li>and immediately stand on that new paper,</li>
+    <li>if you also do <code>push -u</code>, then that new paper immediately gets its copy in the GitHub folder too.</li>
+</ul>
+
+<!-- Step 3 -->
+<h3>Step 3: make local changes</h3>
+<p>You change files in VS Code, then check the state:</p>
+<pre><code>git status --short
+git diff --stat
+git diff -- 02_GIT_VSCODE_ОСНОВЕ_2h.md</code></pre>
+<ul>
+    <li><code>git status --short</code>: shows a short, compact status of the working tree.</li>
+    <li><code>git diff --stat</code>: shows a statistical overview of changes per file.</li>
+    <li><code>git diff -- 02_GIT_VSCODE_ОСНОВЕ_2h.md</code>: shows the exact diff for the specified file only.</li>
+    <li><code>--short</code> is a long option; you are requesting a shorter, more compact display of the Git status.</li>
+    <li><code>--stat</code> is a long option; you are requesting a short statistical overview of changes per file.</li>
+    <li>in the command <code>git diff -- 02_GIT_VSCODE_ОСНОВЕ_2h.md</code>, the <code>--</code> is not a filename but a separator; it tells Git: treat everything after this as a path, not as an option.</li>
+    <li><code>02_GIT_VSCODE_ОСНОВЕ_2h.md</code> is an argument, i.e. the file path for which you are requesting the diff.</li>
+    <li>in the paper analogy: now you are writing on your working paper and then looking at what you actually changed on it compared to the old state.</li>
+</ul>
+
+<!-- Step 4 -->
+<h3>Step 4: stage and commit</h3>
+<pre><code>git add 02_GIT_VSCODE_ОСНОВЕ_2h.md   <span class="comment"># OR: git add --all</span>
+git commit -m "Expand Git foundations workflow"</code></pre>
+<ul>
+    <li><code>git add 02_GIT_VSCODE_ОСНОВЕ_2h.md</code>: stages only that one file.</li>
+    <li>When we say <code>staged</code>, it practically means: <em>you chose for that change to enter the next snapshot</em>, i.e. into the next commit.</li>
+    <li><code>git add --all</code>: stages all detected changes in the working tree, including new, modified and deleted files.</li>
+    <li><code>git commit -m "Expand Git foundations workflow"</code>: creates a commit from staged changes and immediately writes the commit message.</li>
+    <li><code>--all</code>: flag that tells Git you are not picking individual files but all current changes.</li>
+    <li><code>-m</code>: short option for <code>message</code>.</li>
+    <li><code>"Expand Git foundations workflow"</code>: argument of the <code>-m</code> option, i.e. the commit message text.</li>
+</ul>
+<p>After a successful commit Git often prints something like <code>66bee36</code>; that is the short commit ID, i.e. the abbreviated commit hash. That number and letters are not random: it is a short version of the unique identifier of that commit. The full commit hash is much longer, and Git in everyday work often shows only the abbreviated version, sufficient to clearly identify the commit in that repo. Practically, <code>66bee36</code> means: "this exact code snapshot". That's why you can say, for example: <em>look at commit <code>66bee36</code></em> or <em>this change entered <code>66bee36</code></em>.</p>
+
+<div class="note">
+    <strong>Important:</strong> Git technically does not commit "the entire branch" as a single special object, but creates a new snapshot of everything you staged while on that branch, so it is more precise to say: <em>on this branch I committed all current changes</em>, rather than <em>I committed the branch</em>.
+</div>
+
+<p>This means you locally saved the new state of your feature branch.</p>
+<p>This is the part where most beginners first truly see the difference between:</p>
+<ul>
+    <li>save,</li>
+    <li>add,</li>
+    <li>commit.</li>
+</ul>
+<p>Additionally:</p>
+<ul>
+    <li><code>git add</code> means: you marked which part of the paper you want to enter the snapshot,</li>
+    <li><code>git commit</code> means: you made a snapshot of that paper at that moment,</li>
+    <li>in the paper analogy: you don't save absolutely everything you ever scribbled, but only what you consciously decided should enter this version.</li>
+</ul>
+
+<!-- Step 5 -->
+<h3>Step 5: push to GitHub</h3>
+<pre><code>git push origin 2026-03-12-features</code></pre>
+<ul>
+    <li><code>git push origin 2026-03-12-features</code>: sends local commits from that branch to GitHub.</li>
+    <li><code>origin</code>: argument that specifies to which remote you are sending.</li>
+    <li><code>2026-03-12-features</code>: argument that specifies which branch you are sending.</li>
+</ul>
+<p>Now your local feature branch also exists as a remote branch on GitHub.</p>
+<p>This is an important distinction:</p>
+<ul>
+    <li>local <code>2026-03-12-features</code> = on your machine,</li>
+    <li>remote <code>origin/2026-03-12-features</code> = on GitHub,</li>
+    <li>in the paper analogy: you sent your working paper to the shared folder so that others can see that version too.</li>
+</ul>
+
+<!-- Step 6 -->
+<h3>Step 6: promotion to <code>staging</code></h3>
+<p>First you switch to <code>staging</code> and refresh it:</p>
+<pre><code>git checkout staging
+git pull origin staging</code></pre>
+<ul>
+    <li><code>git checkout staging</code>: switches to the local branch <code>staging</code>.</li>
+    <li><code>git pull origin staging</code>: refreshes the local <code>staging</code> with the latest state from the remote <code>origin/staging</code>.</li>
+</ul>
+<p>Then you bring the feature content into <code>staging</code>:</p>
+<pre><code>git merge 2026-03-12-features
+git push origin staging</code></pre>
+<ul>
+    <li><code>git merge 2026-03-12-features</code>: brings the content from the feature branch into the current branch <code>staging</code>.</li>
+    <li><code>git push origin staging</code>: sends the updated <code>staging</code> back to GitHub.</li>
+</ul>
+<p>This means the content from your feature branch has moved into <code>staging</code>.</p>
+<p>Here <code>merge</code> works like this:</p>
+<ul>
+    <li>you stood on <code>staging</code>,</li>
+    <li>you refreshed <code>staging</code> from GitHub,</li>
+    <li>into <code>staging</code> you brought the content from <code>2026-03-12-features</code>,</li>
+    <li>then you sent the new <code>staging</code> back to GitHub,</li>
+    <li>in the paper analogy: you took the verification paper, checked that it's fresh, then transferred the content from your working paper onto it.</li>
+</ul>
+
+<!-- Step 7 -->
+<h3>Step 7: promotion to <code>main</code></h3>
+<p>When <code>staging</code> or the feature change is verified, you go to <code>main</code>:</p>
+<pre><code>git checkout main
+git pull origin main
+git merge 2026-03-12-features
+git push origin main</code></pre>
+<ul>
+    <li><code>git checkout main</code>: switches to the local branch <code>main</code>.</li>
+    <li><code>git pull origin main</code>: refreshes the local <code>main</code> with the remote state from <code>origin/main</code>.</li>
+    <li><code>git merge 2026-03-12-features</code>: brings the content of the verified feature branch into <code>main</code>.</li>
+    <li><code>git push origin main</code>: sends the updated <code>main</code> to GitHub.</li>
+</ul>
+<p>In some flows <code>staging</code> is merged into <code>main</code>, and in some directly the feature branch. The essential logic is the same:</p>
+<ul>
+    <li>first you stand on the branch that receives the change,</li>
+    <li>then you merge the verified branch into it,</li>
+    <li>then you push to the remote,</li>
+    <li>in the paper analogy: now you take the main paper and transfer onto it what has already passed verification.</li>
+</ul>
+
+<!-- Step 8 -->
+<h3>Step 8: return to your feature branch if you continue working</h3>
+<pre><code>git checkout 2026-03-12-features</code></pre>
+<ul>
+    <li><code>git checkout 2026-03-12-features</code>: returns you to the local feature branch to continue working.</li>
+</ul>
+<p>If you understand this, then you practically also understand:</p>
+<ul>
+    <li>in the paper analogy: you returned to your working paper and continue writing on it, not on the <code>staging</code> or <code>main</code> paper,</li>
+    <li>what a local branch is,</li>
+    <li>what a remote branch is,</li>
+    <li>what <code>checkout</code> is,</li>
+    <li>what <code>pull</code> is,</li>
+    <li>what <code>push</code> is,</li>
+    <li>what promotion between branches is.</li>
+</ul>
+
+<!-- ============================================================ -->
+<!-- 8) Common mistakes -->
+<!-- ============================================================ -->
+<h2 id="s8">8) Most common beginner mistakes</h2>
+<ul>
+    <li>confusing <code>save</code> and <code>commit</code>,</li>
+    <li>committing everything without reading the diff,</li>
+    <li>including unrelated files in the same commit,</li>
+    <li>working directly on the wrong branch,</li>
+    <li>seeing <code>U</code> and not understanding it is a new untracked file,</li>
+    <li>thinking that <code>push</code> is the same as <code>deploy</code>.</li>
+</ul>
+
+<!-- ============================================================ -->
+<!-- 9) Key concepts / cheat-sheet -->
+<!-- ============================================================ -->
+<h2 id="s9">9) Key concepts and Minimum commands you need to know</h2>
+<ul>
+    <li><code>working tree</code>: local changes that are not yet committed,</li>
+    <li><code>staged changes</code>: changes prepared for the next commit,</li>
+    <li><code>commit</code>: a snapshot of one logical unit,</li>
+    <li><code>branch</code>: an isolated line of work,</li>
+    <li><code>fork</code>: your personal GitHub copy of someone else's repo, on which you can work without directly modifying the original,</li>
+    <li><code>checkout</code>: switching to another branch or creating a new branch,</li>
+    <li><code>merge</code>: transferring content from one branch to another branch,</li>
+    <li><code>origin</code>: default remote,</li>
+    <li><code>push</code>: sending local commits to the remote,</li>
+    <li><code>pull</code>: fetching remote changes.</li>
+</ul>
+
+<p>These are the same commands from the workflow above, just as a short cheat-sheet list:</p>
+
+<table>
+    <thead>
+        <tr><th>Command</th><th>What it does</th></tr>
+    </thead>
+    <tbody>
+        <tr><td><code>git checkout main</code></td><td>Switch to the existing local <code>main</code> branch.</td></tr>
+        <tr><td><code>git checkout staging</code></td><td>Switch to the existing local <code>staging</code> branch.</td></tr>
+        <tr><td><code>git checkout -b &lt;new-branch&gt;</code></td><td>Create a new branch and switch to it; <code>-b</code> = branch.</td></tr>
+        <tr><td><code>git status --short</code></td><td>Short status of the working tree; <code>--short</code> = compact display.</td></tr>
+        <tr><td><code>git diff --stat</code></td><td>Statistical overview of the diff; <code>--stat</code> = summary per file.</td></tr>
+        <tr><td><code>git diff -- path/to/file</code></td><td>Diff for a single file only; <code>--</code> separates options from the path.</td></tr>
+        <tr><td><code>git add path/to/file</code></td><td>Stage one specific file.</td></tr>
+        <tr><td><code>git commit -m "Short message"</code></td><td>Create a commit; <code>-m</code> = provide the message inline.</td></tr>
+        <tr><td><code>git merge &lt;source-branch&gt;</code></td><td>Bring the content of the source branch into the current branch.</td></tr>
+        <tr><td><code>git pull origin &lt;branch&gt;</code></td><td>Pull the remote state from <code>origin</code> for the given branch and merge locally.</td></tr>
+        <tr><td><code>git push origin &lt;branch&gt;</code></td><td>Send local commits to the remote <code>origin</code> for the given branch.</td></tr>
+    </tbody>
+</table>
+
+<!-- ============================================================ -->
+<!-- 10) KomITi discipline -->
+<!-- ============================================================ -->
+<h2 id="s10">10) How this looks in KomITi</h2>
+<p>In this repo the following discipline applies:</p>
+<ul>
+    <li>one commit = one logical unit,</li>
+    <li>do not commit unrelated changes,</li>
+    <li>first read the <code>eng codex</code>,</li>
+    <li>do not treat <code>main</code> as a playground,</li>
+    <li><code>staging</code> is the integration branch, and <code>main</code> is the production branch,</li>
+    <li>local Git proof is not the same as Odoo runtime proof.</li>
+</ul>
+
+<!-- ============================================================ -->
+<!-- 11) Self-check -->
+<!-- ============================================================ -->
+<h2 id="s11">11) Self-check</h2>
+<p>When you finish this document, you must be able to answer:</p>
+<ul>
+    <li>what <code>M</code> means and what <code>U</code> means in VS Code,</li>
+    <li>what the difference is between save / commit / push,</li>
+    <li>what the difference is between <code>fork</code> and <code>clone</code>,</li>
+    <li>what a branch is,</li>
+    <li>what <code>checkout</code> does and what <code>merge</code> does,</li>
+    <li>what the difference is between local <code>staging</code> and remote <code>origin/staging</code>,</li>
+    <li>why we check <code>git status --short</code> before a commit,</li>
+    <li>why we do not put unrelated files in the same commit.</li>
+</ul>
+
+<!-- ============================================================ -->
+<!-- 12) What to read next -->
+<!-- ============================================================ -->
+<h2 id="s12">12) What to read next</h2>
+<ul>
+    <li><code>03_ИНФРА_TERRAFORM_DOCKER_AWS_ОСНОВЕ_4h.md</code></li>
+    <li><code>04_ODOO_ОСНОВЕ_4h.md</code></li>
+    <li><code>05_БРЗИ_ПОЧЕТАК_РАДА_1h.md</code></li>
+    <li><code>06_АНАТОМИЈА_ДОБРОГ_ODOO_МОДУЛА_2h.md</code></li>
+    <li><code>07_КАКО_СЕ_ЧИТА_ODOO_МОДУЛ_3h.md</code></li>
+</ul>
+
+<!-- ============================================================ -->
+<!-- 99) Candidate task -->
+<!-- ============================================================ -->
+<h2 id="s99">99) Task on the komiti_academy project for the candidate</h2>
+<ol>
+    <li>Open your account on GitHub, create a repo <code>komiti_academy_ime_polaznika</code> and clone it locally, because that is the remote and local repo in which you do your candidate module.<br>
+        <em>Reference: This is explained in chapters <a href="#s2">2) Git basics you need to know</a> and <a href="#s7">7) Basic local workflow</a>.</em></li>
+    <li>Determine what your first Git work for <code>komiti_academy</code> will look like: the feature branch name, the first logical unit for a commit and the rule of what must not go into the same commit.<br>
+        <em>Reference: This is explained in chapters <a href="#s7">7) Basic local workflow</a> and <a href="#s10">10) How this looks in KomITi</a>.</em></li>
+    <li>In your repo practice the full Git workflow on a simple file <code>1.txt</code>: create local and remote branches <code>main</code>, <code>staging</code> and <code>feature</code> (<code>feature</code> should conform to the <code>ENGINEERING_CODEX.md</code> in the company KomITi), then in the <code>feature</code> branch create <code>1.txt</code> with one line <code>prvi red</code>, commit and push that change.<br>
+        <em>Reference: This is explained in chapters <a href="#s3">3.1) Local and remote branch</a>, <a href="#s7">7) Basic local workflow</a> and <a href="#s10">10) How this looks in KomITi</a>.</em></li>
+    <li>After that, promote the same change from <code>feature</code> to <code>staging</code>, then from <code>staging</code> to <code>main</code>, then return to <code>feature</code>, add a second line <code>drugi red</code> to <code>1.txt</code> and repeat the same workflow all the way to <code>main</code>.<br>
+        <em>Reference: This is explained in chapters <a href="#s3">3.1) Local and remote branch</a>, <a href="#s7">7) Basic local workflow</a>, <a href="#s8">8) Most common beginner mistakes</a> and <a href="#s10">10) How this looks in KomITi</a>.</em></li>
+</ol>
+
+<footer>© KomITi · komiti.eu</footer>
+
+</div><!-- /page-wrapper -->
+</body>
+</html>
