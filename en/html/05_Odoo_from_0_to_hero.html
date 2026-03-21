@@ -329,15 +329,15 @@
 └── wizards/               # transient model (wizard) files</pre>
     <div class="tip"><strong>Tip:</strong> The subdirectory structure is a convention, not a technical requirement. Odoo only mandates <code>__manifest__.py</code> and <code>__init__.py</code>. Following the convention makes your module easy for other developers to navigate.</div>
 
-    <h3>The <code>__init__.py</code> Chain</h3>
-    <p>Every directory in an Odoo module that contains Python code must have an <code>__init__.py</code> file. This is a standard Python requirement: it turns the directory into a <strong>Python package</strong> so that its files can be imported with the <code>from . import</code> syntax.</p>
-
     <h4>Minimal valid module</h4>
     <p>The absolute minimum needed for Odoo to find and install a module is just two files:</p>
     <pre>my_module/
 ├── __init__.py        ← can be completely empty
 └── __manifest__.py    ← {"name": "My Module", "depends": ["base"]}</pre>
     <p>This installs silently, adds nothing, but proves the module directory is on the addons path and Odoo can load it. Everything else — models, views, security — is added incrementally.</p>
+
+    <h3>The <code>__init__.py</code> Chain</h3>
+    <p>Every directory in an Odoo module that contains Python code must have an <code>__init__.py</code> file. This is a standard Python requirement: it turns the directory into a <strong>Python package</strong> so that its files can be imported with the <code>from . import</code> syntax.</p>
 
     <h4>How the import chain works</h4>
     <p>When Odoo loads a module it executes its root <code>__init__.py</code>. That file must explicitly import every sub-package that contains Python code. The chain for the library module looks like this:</p>
