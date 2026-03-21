@@ -270,8 +270,12 @@
     <!-- Step 1 -->
     <h2 id="step1"><span class="step-badge">Step 1</span> Creating a New Addon Module</h2>
 
-    <h3>What is an Addon Module?</h3>
-    <p>An addon module is <strong>a directory containing files that implement some Odoo features</strong>. It can add new features or modify existing ones. The addon module directory must contain a manifest file — also called a descriptor file — named <code>__manifest__.py</code>.</p>
+    <h3>What is an Addon Module, Addons Directory and Addons Path?</h3>
+    <ul>
+        <li>An <strong>addon module</strong> is a directory containing an Odoo manifest file providing features, such as a new app or additional features for an existing app.</li>
+        <li>An <strong>addons directory</strong> contains several addon modules.</li>
+        <li>An <strong>addons path</strong> is an Odoo configuration, with a list of directories where the Odoo server will look for available addons.</li>
+    </ul>
     <p>Some addon modules are featured as <strong>apps</strong>. Apps are top-level modules for a feature area in Odoo, shown in the top-level Apps menu (e.g., CRM, Project, HR). A non-app addon is expected to depend on an existing app and extend it. The distinction is: if the module adds major new functionality, it should be an app; if it modifies an existing app, it should be a regular addon module.</p>
     <p>To develop a new module, you:</p>
     <ol>
