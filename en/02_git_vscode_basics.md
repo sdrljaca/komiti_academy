@@ -85,6 +85,32 @@ LOKALNO  [feature] ----git merge----> [staging] ----git merge----> [main]
 ```
 
 Imagine that a Git repo is one folder with multiple papers, and each branch is one separate paper in that folder. The same branch can exist in two places: locally, on your computer and remote, on GitHub.
+
+Important: Git **does not create a separate directory on disk for each branch**. You have one single folder (e.g. `C:\dev\KomITi\komiti_academy`), and Git changes the contents of that same folder when you switch from branch to branch. When you run `git checkout main`, Git replaces the files in that folder with the state of the `main` branch from the local `.git/` database. When you run `git checkout 2026-03-12-features`, Git replaces the files in the same folder with the state of that feature branch. Therefore:
+- `checkout` does not download anything from GitHub — it only overwrites files on disk from the local `.git/` database where Git stores all states of all branches, compressed,
+- files that differ Git **overwrites**, files that exist only on the old branch Git **deletes**, and files that exist only on the new branch Git **creates**,
+- that is why it is so important to know which branch you are on before you delete or change something — because you are working in the only copy of the folder on disk,
+- in the paper analogy: you do not have separate folders for each paper — you have one folder and Git always puts in it the paper you are currently working on; the other papers are "hidden" in `.git/` and waiting for you to call them.
+
+What is the `.git/` database actually? It is not an SQL database nor plain text — it is a folder-based object store, i.e. a structure of folders and compressed files that Git maintains in the hidden `.git/` folder inside your repo. When you run `git init` or `git clone`, Git creates that folder and stores literally everything in it: every commit, every version of every file, every branch. The structure looks roughly like this:
+```text
+.git/
+├── objects/      ← all snapshots (commits, files, trees) — compressed
+├── refs/         ← "pointers" (branches, tags) — text files
+├── HEAD          ← text file that says which branch you are on
+├── config        ← repo settings (remote URL etc.)
+├── index         ← staging area
+└── ...
+```
+- `objects/` = every file, every commit and every directory structure you ever committed exists here as a compressed blob object; Git addresses them via SHA-1 hashes (that long string of letters and numbers),
+- `refs/` = branches and tags; e.g. the file `refs/heads/main` contains only one line — the hash of the commit that `main` currently points to,
+- `HEAD` = a text file that says which branch you are on; open it and you will see something like `ref: refs/heads/main`,
+- `index` = the staging area; this is where Git remembers what you staged for the next commit.
+
+Practical consequence: when you run `git checkout main`, Git looks at `refs/heads/main`, finds the hash of the last commit, extracts the compressed versions of files from `objects/` and overwrites them in your working folder. That is why `checkout` does not download anything from GitHub — everything is already there, on your disk, in the `.git/` folder.
+
+If you want to see the contents of a file from another branch without changing your working folder, there is the command `git show <branch>:<path>`, e.g. `git show main:README.md` — Git will extract that version of the file from `.git/objects/` and display it in the terminal, without overwriting anything on disk.
+
 - Creating a local feature branch (`git checkout -b 2026-03-12-features`):
 	In real work you first stand on the main paper with the command `git checkout main`, refresh it with the command `git pull origin main`, and then create your working paper with the command `git checkout -b 2026-03-12-features`.
 - Working in the local feature branch (`git commit -m "Expand Git foundations workflow"`):
