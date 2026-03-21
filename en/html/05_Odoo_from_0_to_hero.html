@@ -1,0 +1,1928 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>05 — Odoo from 0 to Hero</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-size: 15px;
+            line-height: 1.75;
+            color: #2c2c2c;
+            background: #f4f6f9;
+        }
+        .page-wrapper {
+            max-width: 980px;
+            margin: 40px auto;
+            background: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 2px 16px rgba(0,0,0,0.1);
+            padding: 60px 72px;
+        }
+        .book-meta {
+            text-align: center;
+            border-bottom: 3px solid #875A7B;
+            padding-bottom: 28px;
+            margin-bottom: 40px;
+        }
+        .book-meta .book-title {
+            font-size: 13px;
+            color: #875A7B;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 8px;
+        }
+        h1 { font-size: 32px; color: #1a1a2e; margin-bottom: 6px; }
+        .book-meta .subtitle { font-size: 16px; color: #666; font-style: italic; }
+        h2 {
+            font-size: 22px;
+            color: #875A7B;
+            border-left: 5px solid #875A7B;
+            padding-left: 14px;
+            margin: 48px 0 16px 0;
+        }
+        h3 {
+            font-size: 17px;
+            color: #1a1a2e;
+            margin: 32px 0 10px 0;
+            border-bottom: 1px solid #e8e8e8;
+            padding-bottom: 5px;
+        }
+        h4 { font-size: 15px; color: #444; margin: 20px 0 8px 0; font-style: italic; }
+        p  { margin-bottom: 14px; }
+        ul, ol { margin: 10px 0 14px 28px; }
+        li { margin-bottom: 6px; }
+        code {
+            background: #f0eaf4;
+            color: #875A7B;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: 'Consolas', 'Courier New', monospace;
+            font-size: 13.5px;
+        }
+        pre {
+            background: #1e1e2e;
+            color: #cdd6f4;
+            padding: 20px 24px;
+            border-radius: 6px;
+            overflow-x: auto;
+            font-family: 'Consolas', 'Courier New', monospace;
+            font-size: 13.5px;
+            line-height: 1.6;
+            margin: 14px 0 20px 0;
+            border-left: 4px solid #875A7B;
+        }
+        pre .comment { color: #6c7086; }
+        pre .removed { color: #f38ba8; text-decoration: line-through; opacity: .65; }
+        pre .added   { color: #a6e3a1; }
+        blockquote {
+            background: #fdf6ff;
+            border-left: 4px solid #875A7B;
+            padding: 14px 18px;
+            margin: 16px 0;
+            border-radius: 0 6px 6px 0;
+            color: #555;
+            font-style: italic;
+        }
+        blockquote strong { color: #875A7B; font-style: normal; }
+        table { width: 100%; border-collapse: collapse; margin: 16px 0 24px 0; font-size: 14px; }
+        thead tr { background: #875A7B; color: #fff; }
+        th { padding: 10px 14px; text-align: left; font-weight: 600; }
+        td { padding: 9px 14px; border-bottom: 1px solid #e8e8e8; vertical-align: top; }
+        tbody tr:nth-child(even) { background: #faf7fc; }
+        tbody tr:hover { background: #f0eaf4; }
+        .step-badge {
+            display: inline-block;
+            background: #875A7B;
+            color: #fff;
+            padding: 3px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-right: 8px;
+            vertical-align: middle;
+        }
+        /* version change badges */
+        .badge {
+            display: inline-block;
+            padding: 1px 8px;
+            border-radius: 10px;
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: .7px;
+            vertical-align: middle;
+            margin: 0 3px;
+        }
+        .v-new      { background: #eff6ff; color: #1d4ed8; }
+        .v-changed  { background: #fffbeb; color: #b45309; }
+        .v-removed  { background: #fef2f2; color: #b91c1c; }
+        .toc {
+            background: #faf7fc;
+            border: 1px solid #e0d0e8;
+            border-radius: 8px;
+            padding: 24px 28px;
+            margin-bottom: 40px;
+        }
+        .toc h3 { border: none; color: #875A7B; margin-top: 0; font-size: 16px; }
+        .toc ol  { margin-top: 10px; }
+        .toc li  { margin-bottom: 4px; }
+        .toc a   { color: #875A7B; text-decoration: none; }
+        .toc a:hover { text-decoration: underline; }
+        /* callouts */
+        .note {
+            background: #fffbe6; border-left: 4px solid #f0b429;
+            padding: 12px 18px; margin: 14px 0;
+            border-radius: 0 6px 6px 0; font-size: 14px;
+        }
+        .note strong { color: #b07d00; }
+        .tip {
+            background: #e8f5e9; border-left: 4px solid #43a047;
+            padding: 12px 18px; margin: 14px 0;
+            border-radius: 0 6px 6px 0; font-size: 14px;
+        }
+        .tip strong { color: #2e7d32; }
+        .change {
+            background: #e3f2fd; border-left: 4px solid #1976d2;
+            padding: 12px 18px; margin: 14px 0;
+            border-radius: 0 6px 6px 0; font-size: 14px;
+        }
+        .change strong { color: #1565c0; }
+        .v19-warn {
+            background: #fff0f0; border-left: 4px solid #dc2626;
+            padding: 12px 18px; margin: 14px 0;
+            border-radius: 0 6px 6px 0; font-size: 14px;
+        }
+        .v19-warn strong { color: #991b1b; }
+        .v19-new {
+            background: #eff6ff; border-left: 4px solid #2563eb;
+            padding: 12px 18px; margin: 14px 0;
+            border-radius: 0 6px 6px 0; font-size: 14px;
+        }
+        .v19-new strong { color: #1d4ed8; }
+        hr { border: none; border-top: 2px solid #e0d0e8; margin: 48px 0; }
+        .summary-box {
+            background: #1a1a2e;
+            color: #e0e0e0;
+            border-radius: 8px;
+            padding: 28px 32px;
+            margin-top: 32px;
+        }
+        .summary-box h3 { color: #c9a0dc; border-bottom: 1px solid #333; padding-bottom: 8px; }
+        .summary-box li { color: #cdd6f4; }
+        footer {
+            text-align: center;
+            margin-top: 48px;
+            padding-top: 24px;
+            border-top: 1px solid #e8e8e8;
+            color: #999;
+            font-size: 13px;
+        }
+    </style>
+</head>
+<body>
+<div class="page-wrapper">
+
+    <!-- Header -->
+    <div class="book-meta">
+        <div class="book-title">KomITi Academy</div>
+        <h1>Odoo from 0 to Hero</h1>
+        <div class="subtitle">Your First Odoo 19 Application — Step by Step</div>
+    </div>
+
+    <!-- Table of Contents -->
+    <div class="toc">
+        <h3>Table of Contents</h3>
+        <ol>
+            <li><a href="#intro">Introduction</a></li>
+            <li><a href="#overview">Overview of the Library Project</a></li>
+            <li><a href="#step1">Step 1 — Creating a New Addon Module</a></li>
+            <li><a href="#step2">Step 2 — Creating a New Application</a></li>
+            <li><a href="#step3">Step 3 — Adding Automated Tests</a></li>
+            <li><a href="#step4">Step 4 — Implementing the Model Layer</a></li>
+            <li><a href="#step5">Step 5 — Setting Up Access Security</a></li>
+            <li><a href="#step6">Step 6 — Implementing the Backend View Layer</a></li>
+            <li><a href="#step7">Step 7 — Implementing the Business Logic Layer</a></li>
+            <li><a href="#step8">Step 8 — Implementing the Website UI</a></li>
+            <li><a href="#exercise">Exercise</a></li>
+            <li><a href="#summary">Summary</a></li>
+        </ol>
+    </div>
+
+    <!-- Introduction -->
+    <h2 id="intro">Introduction</h2>
+    <p>Developing in Odoo usually means creating our own modules. In this chapter, the goal is to create a first Odoo application from scratch, learn the steps needed to make it available to Odoo, install it, and iteratively build it up. Odoo follows a <strong>Model-View-Controller (MVC)-like architecture</strong>, and the chapter walks through each of those layers one by one.</p>
+    <p>The topics covered in this chapter are:</p>
+    <ul>
+        <li>Overview of the library project</li>
+        <li>Step 1 — Creating a new addon module</li>
+        <li>Step 2 — Creating a new application</li>
+        <li>Step 3 — Adding automated tests</li>
+        <li>Step 4 — Implementing the model layer</li>
+        <li>Step 5 — Setting up access security</li>
+        <li>Step 6 — Implementing the backend view layer</li>
+        <li>Step 7 — Implementing the business logic layer</li>
+        <li>Step 8 — Implementing the website UI</li>
+    </ul>
+    <div class="change"><strong>Infrastructure requirements for Odoo 19:</strong> Python 3.12 or higher and PostgreSQL 15 or higher are required. Odoo 19 will not start on older versions of either.</div>
+
+    <!-- Overview -->
+    <h2 id="overview">Overview of the Library Project</h2>
+    <p>The learning project for this chapter is a <strong>Library application</strong> — specifically a book catalog. The catalog allows keeping records of books in the library with their relevant details, and makes that catalog available through a public website where available books can be seen.</p>
+    <p>The book data requirements are:</p>
+    <ul>
+        <li>Title</li>
+        <li>Authors</li>
+        <li>Publishing company</li>
+        <li>Date published</li>
+        <li>Cover image</li>
+        <li>ISBN (with check digit validation)</li>
+        <li>Active flag (indicating books publicly visible on the website)</li>
+    </ul>
+    <p>Following the pattern used by standard Odoo base apps, the Library app has two user groups: <strong>Library User</strong> and <strong>Library Manager</strong>. The User level performs all daily operations; the Manager level additionally manages configurations. For the book catalog specifically:</p>
+    <ul>
+        <li>Library Managers can edit books.</li>
+        <li>Library Users and Public website visitors can only view books.</li>
+    </ul>
+
+    <hr>
+
+    <!-- Step 1 -->
+    <h2 id="step1"><span class="step-badge">Step 1</span> Creating a New Addon Module</h2>
+
+    <h3>What is an Addon Module?</h3>
+    <p>An addon module is <strong>a directory containing files that implement some Odoo features</strong>. It can add new features or modify existing ones. The addon module directory must contain a manifest file — also called a descriptor file — named <code>__manifest__.py</code>.</p>
+    <p>Some addon modules are featured as <strong>apps</strong>. Apps are top-level modules for a feature area in Odoo, shown in the top-level Apps menu (e.g., CRM, Project, HR). A non-app addon is expected to depend on an existing app and extend it. The distinction is: if the module adds major new functionality, it should be an app; if it modifies an existing app, it should be a regular addon module.</p>
+    <p>To develop a new module, you:</p>
+    <ol>
+        <li>Ensure the working directory is in the Odoo server <strong>addons path</strong>.</li>
+        <li>Create the module directory containing the manifest file.</li>
+        <li>Choose a license if you intend to distribute it.</li>
+        <li>Add a description.</li>
+        <li>Optionally, add an icon.</li>
+    </ol>
+
+    <h3>Preparing the Addons Path</h3>
+    <p>The <strong>addons path</strong> is an Odoo configuration listing directories where the server looks for available addons. By default it contains Odoo's own bundled apps and base module. You extend it by adding directories for custom or community modules.</p>
+    <p>The <code>odoo scaffold</code> command provides a quick way to create a module skeleton:</p>
+    <pre>python odoo-bin scaffold library ~/work19/library</pre>
+    <div class="change"><span class="badge v-changed">Changed in v16</span> The recommended binary name is <code>odoo-bin</code>. The old <code>odoo</code> command still works but all official Odoo 17+ documentation and the source repository use <code>odoo-bin</code>.</div>
+
+    <h3>Recommended Module Structure in Odoo 19</h3>
+    <p>The scaffold command creates a basic skeleton. The full recommended structure for a production module in Odoo 19 is:</p>
+    <pre>library/
+├── __init__.py
+├── __manifest__.py
+├── controllers/
+│   ├── __init__.py
+│   └── main.py
+├── data/                  # initial data loaded on install
+├── demo/
+│   └── demo.xml
+├── i18n/                  # translation files (.pot / .po)
+├── models/
+│   ├── __init__.py
+│   └── library_book.py
+├── reports/               # PDF report templates
+├── security/
+│   ├── ir.model.access.csv
+│   └── library_security.xml
+├── static/
+│   └── description/
+│       └── icon.png
+│   └── src/
+│       ├── js/            # ES Module JavaScript files
+│       ├── scss/          # SCSS stylesheets
+│       ├── css/
+│       └── xml/           # OWL component templates
+├── tests/
+│   ├── __init__.py
+│   └── test_book.py
+├── views/
+│   ├── book_view.xml
+│   ├── book_list_template.xml
+│   └── library_menu.xml
+└── wizards/               # transient model (wizard) files</pre>
+    <div class="tip"><strong>Tip:</strong> The subdirectory structure is a convention, not a technical requirement. Odoo only mandates <code>__manifest__.py</code> and <code>__init__.py</code>. Following the convention makes your module easy for other developers to navigate.</div>
+
+    <h3>The <code>__init__.py</code> Chain</h3>
+    <p>Every directory in an Odoo module that contains Python code must have an <code>__init__.py</code> file. This is a standard Python requirement: it turns the directory into a <strong>Python package</strong> so that its files can be imported with the <code>from . import</code> syntax.</p>
+
+    <h4>Minimal valid module</h4>
+    <p>The absolute minimum needed for Odoo to find and install a module is just two files:</p>
+    <pre>my_module/
+├── __init__.py        ← can be completely empty
+└── __manifest__.py    ← {"name": "My Module", "depends": ["base"]}</pre>
+    <p>This installs silently, adds nothing, but proves the module directory is on the addons path and Odoo can load it. Everything else — models, views, security — is added incrementally.</p>
+
+    <h4>How the import chain works</h4>
+    <p>When Odoo loads a module it executes its root <code>__init__.py</code>. That file must explicitly import every sub-package that contains Python code. The chain for the library module looks like this:</p>
+    <pre><span class="comment"># odoo/addons/ (Odoo server entry point)
+#   └── loads library/__init__.py</span>
+
+<span class="comment"># library/__init__.py</span>
+from . import models
+from . import controllers   <span class="comment"># only if controllers/ has Python files</span>
+
+<span class="comment"># library/models/__init__.py</span>
+from . import library_book  <span class="comment"># imports library/models/library_book.py</span>
+
+<span class="comment"># library/controllers/__init__.py</span>
+from . import main          <span class="comment"># imports library/controllers/main.py</span></pre>
+    <div class="note"><strong>Common mistake:</strong> Adding a new model file (e.g. <code>models/library_member.py</code>) but forgetting to add <code>from . import library_member</code> to <code>models/__init__.py</code>. The file exists on disk but Odoo never loads it — the model does not appear in the database and no error is shown.</div>
+
+    <h4>What each <code>__init__.py</code> contains</h4>
+    <table>
+        <thead><tr><th>File</th><th>Typical content</th><th>Notes</th></tr></thead>
+        <tbody>
+            <tr>
+                <td><code>library/__init__.py</code></td>
+                <td><code>from . import models, controllers</code></td>
+                <td>Root package — imports all sub-packages that have Python code</td>
+            </tr>
+            <tr>
+                <td><code>library/models/__init__.py</code></td>
+                <td><code>from . import library_book</code></td>
+                <td>One line per model file. Add a line whenever you create a new model.</td>
+            </tr>
+            <tr>
+                <td><code>library/controllers/__init__.py</code></td>
+                <td><code>from . import main</code></td>
+                <td>One line per controller file.</td>
+            </tr>
+            <tr>
+                <td><code>library/tests/__init__.py</code></td>
+                <td><code>from . import test_book</code></td>
+                <td>One line per test file. Odoo's test runner discovers these automatically.</td>
+            </tr>
+        </tbody>
+    </table>
+    <div class="tip"><strong>Tip:</strong> Directories that contain <em>only</em> XML/CSV data files — such as <code>views/</code>, <code>security/</code>, <code>demo/</code> — do <strong>not</strong> need an <code>__init__.py</code>. Those files are loaded by the manifest's <code>data</code> list, not by Python's import system.</div>
+
+    <h3>Creating the Manifest File</h3>
+    <p>The <strong>manifest file</strong> (<code>__manifest__.py</code>) is the identity card of an Odoo module. It is a plain Python file that contains a single dictionary literal — no classes, no functions, just key-value pairs. When Odoo scans an addons directory it opens this file to decide what the module is called, which other modules it depends on, which data files it must load, and whether it should appear in the Apps list. Without a valid manifest Odoo will not recognise the directory as a module at all — the module simply does not exist from Odoo's point of view. You never import this file yourself; the Odoo server reads it automatically at startup and on every install or upgrade.</p>
+    <p>The complete manifest for v19:</p>
+    <pre>{
+    "name": "Library Management",
+    "summary": "Manage library catalog and book lending.",
+    "author": "Daniel Reis",
+    "license": "AGPL-3",
+    "website": "https://github.com/PacktPublishing",
+    "version": "19.0.1.0.0",
+    "category": "Services/Library",
+    "depends": ["base", "website"],
+    "application": True,
+    "data": [
+        "security/library_security.xml",
+        "security/ir.model.access.csv",
+        "views/book_view.xml",
+        "views/library_menu.xml",
+        "views/book_list_template.xml",
+    ],
+    "demo": [
+        "demo/demo.xml",
+    ],
+    # NEW in v16: JS/CSS/SCSS assets declared here, not in XML templates
+    "assets": {
+        "web.assets_backend": [
+            "library_app/static/src/js/*.js",
+            "library_app/static/src/scss/*.scss",
+            "library_app/static/src/xml/*.xml",
+        ],
+        "web.assets_frontend": [
+            "library_app/static/src/css/website.css",
+        ],
+    },
+    # NEW in v17: blocks install if Python packages are missing
+    "external_dependencies": {
+        "python": [],
+    },
+}</pre>
+    <div class="v19-warn"><span class="badge v-removed">Removed in v16</span> <strong>The <code>qweb</code> manifest key is gone.</strong> In v15 you would write <code>"qweb": ["static/src/xml/templates.xml"]</code>. Do not use this key in v19. Move all QWeb/OWL template files into the <code>assets</code> dict under <code>web.assets_backend</code>.</div>
+    <div class="change"><span class="badge v-changed">Changed in v19</span> <strong>The <code>license</code> key must be a recognised value.</strong> Use one of: <code>LGPL-3</code>, <code>AGPL-3</code>, <code>OPL-1</code>, <code>OEEL-1</code>. Unknown strings will raise an error during installation.</div>
+    <div class="v19-new"><span class="badge v-new">New in v17</span> <strong>Additional manifest keys available:</strong>
+        <ul>
+            <li><code>external_dependencies</code> — <code>{"python": ["lxml"]}</code> blocks install if the listed Python libraries are missing.</li>
+            <li><code>pre_init_hook</code>, <code>post_init_hook</code>, <code>uninstall_hook</code> — Python function names called during the module lifecycle.</li>
+            <li><code>price</code>, <code>currency</code>, <code>live_test_url</code>, <code>images</code> — Odoo Apps Store listing metadata.</li>
+        </ul>
+    </div>
+
+    <h3>Understanding <code>depends</code></h3>
+    <p>The <code>depends</code> list tells Odoo which other modules must be installed first. This has two practical consequences beyond mere load order:</p>
+    <ul>
+        <li><strong>Install order guarantee.</strong> On a fresh database Odoo installs dependencies before the current module, so all their models, views, and security records exist by the time your module's data files are processed. If you omit a dependency, the install may succeed on your machine (where the dep is already installed) but fail on a clean server — a classic "works for me" bug.</li>
+        <li><strong>XML ID resolution.</strong> Your data files can only reference XML IDs from modules listed in <code>depends</code>. For example, <code>base.group_user</code> in your ACL CSV is resolvable only because <code>base</code> is in <code>depends</code>. Referencing an ID from an unlisted module raises an error at install time.</li>
+        <li><strong>Transitive dependencies.</strong> If module A depends on B, and B depends on C, then A's code can use models from C at runtime. However, you should still list C explicitly in A's <code>depends</code> if you directly reference its records or models — relying on transitive loading is fragile when B later drops its dependency on C.</li>
+    </ul>
+    <div class="tip"><strong>Tip:</strong> Always start with the smallest possible <code>depends</code> list. Add entries only when you get an "External ID not found" or "unknown model" error. Unnecessary dependencies slow down installation and bloat the module's footprint.</div>
+
+    <h3>Understanding <code>data</code> File Load Order</h3>
+    <p>Files in the <code>data</code> list are loaded <strong>strictly top-to-bottom, one file at a time</strong>. A file can only reference records that were already created by a file earlier in the list (or by a dependency module). Getting this order wrong is one of the most common sources of install-time errors.</p>
+    <p>The most important rule is: <strong>security groups before ACL</strong>. Your <code>ir.model.access.csv</code> references group XML IDs like <code>library.library_group_user</code>. If the CSV is listed before the XML that defines those groups, Odoo raises <em>"External ID not found"</em> at install time. The correct order is always:</p>
+    <pre>"data": [
+    "security/library_security.xml",   # 1. define groups and record rules
+    "security/ir.model.access.csv",    # 2. reference those groups
+    "views/book_view.xml",              # 3. views reference models (already in DB after Python load)
+    "views/library_menu.xml",          # 4. menus reference views
+],</pre>
+    <p>The same principle applies to any cross-file reference: a view that inherits another view must come after it; a record that sets a Many2one field pointing to another record must come after that record's file.</p>
+    <div class="note"><strong>Common mistake:</strong> Putting <code>ir.model.access.csv</code> first, before the security XML. The CSV tries to look up a group that does not exist yet and raises <code>ValueError: External ID not found in the system: library.library_group_user</code>.</div>
+
+    <div class="tip"><strong>Tip — technical name vs display name:</strong> The manifest <code>"name"</code> key is the <em>display name</em> shown in the Apps list and Settings. The <strong>technical name</strong> is always the <em>directory name</em> on disk. The technical name is what you use in the <code>-i</code> / <code>-u</code> CLI flags (<code>-i library</code>), in Python imports (<code>from odoo.addons.library import ...</code>), and as the prefix in XML IDs (<code>library.library_group_user</code>). These two names can differ — calling <code>-i "Library Management"</code> will fail; you must use the directory name <code>library</code>.</div>
+
+    <h3>Manifest Key Reference</h3>
+    <table>
+        <thead><tr><th>Key</th><th>Description</th><th>v19 Notes</th></tr></thead>
+        <tbody>
+            <tr><td><code>name</code></td><td>Module title.</td><td>Unchanged</td></tr>
+            <tr><td><code>summary</code></td><td>One-line description.</td><td>Unchanged</td></tr>
+            <tr><td><code>author</code></td><td>Copyright holders (comma-separated).</td><td>Unchanged</td></tr>
+            <tr><td><code>license</code></td><td>Distribution license.</td><td>Must be a known identifier in v19</td></tr>
+            <tr><td><code>website</code></td><td>URL for docs or issues.</td><td>Unchanged</td></tr>
+            <tr><td><code>version</code></td><td>Semantic version. Prefix with Odoo version: <code>19.0.1.0.0</code>.</td><td>Prefix must match installed Odoo version</td></tr>
+            <tr><td><code>category</code></td><td>Groups module in Settings and App Store.</td><td>Unchanged</td></tr>
+            <tr><td><code>depends</code></td><td>Required addon modules. Must list all dependencies explicitly.</td><td>Unchanged</td></tr>
+            <tr><td><code>application</code></td><td><code>True</code> to show in Apps list.</td><td>Unchanged</td></tr>
+            <tr><td><code>data</code></td><td>Data files (XML, CSV) loaded on install/upgrade.</td><td>Unchanged</td></tr>
+            <tr><td><code>demo</code></td><td>Demo data files.</td><td>Unchanged</td></tr>
+            <tr><td><code>installable</code></td><td>Default <code>True</code>. Set <code>False</code> to hide from Apps.</td><td>Unchanged</td></tr>
+            <tr><td><code>auto_install</code></td><td>Auto-installs when all dependencies are present (glue modules).</td><td>Unchanged</td></tr>
+            <tr><td><code>assets</code></td><td>JS/CSS/SCSS/OWL template assets. Dict of bundle name → file list.</td><td><strong>New in v16</strong> — replaces XML asset templates</td></tr>
+            <tr><td><code>external_dependencies</code></td><td>Python package requirements.</td><td><strong>New/enforced in v17+</strong></td></tr>
+            <tr><td><code>qweb</code></td><td>Old QWeb template paths.</td><td><strong>Removed in v16</strong> — use <code>assets</code></td></tr>
+        </tbody>
+    </table>
+
+    <h3>Setting the Module Category</h3>
+    <p>Categories help organise modules. The category name is set in the manifest and supports hierarchy, e.g. <code>Services/Library</code>. Odoo auto-generates the XML ID from the category path: for <code>Services/Library</code> the XML ID is <code>base.module_category_services_library</code>.</p>
+
+    <h3>Choosing a License</h3>
+    <ul>
+        <li><strong>AGPL-3</strong>: Strong open source. Anyone offering the code as an online service must share their source.</li>
+        <li><strong>LGPL-3</strong>: More permissive. Allows commercial modifications without sharing source.</li>
+        <li><strong>OPL-1</strong>: Odoo's proprietary license. Used for commercial Odoo Apps Store modules.</li>
+    </ul>
+
+    <h3>Adding a Description and Icon</h3>
+    <p>For apps (<code>application: True</code>), the description shown on the App Store comes from <code>static/description/index.html</code> — the <code>description</code> manifest key is ignored for apps. A module icon goes at <code>static/description/icon.png</code>.</p>
+
+    <h3>Installing a Module</h3>
+    <pre>python odoo-bin -c ~/work19/library.conf -d library -i library</pre>
+
+    <h3>Upgrading Modules</h3>
+    <table>
+        <thead><tr><th>Change Type</th><th>Action Required</th></tr></thead>
+        <tbody>
+            <tr><td>Adding or changing model fields</td><td>Upgrade (<code>-u</code>)</td></tr>
+            <tr><td>Changing Python logic / manifest</td><td>Server restart</td></tr>
+            <tr><td>Changing XML or CSV files</td><td>Upgrade (<code>-u</code>)</td></tr>
+            <tr><td>When in doubt</td><td>Restart AND upgrade</td></tr>
+        </tbody>
+    </table>
+    <pre>python odoo-bin -c ~/work19/library.conf -d library -u library</pre>
+    <p>The <code>--dev=all</code> option is available in all versions including v19 and automates this during development: XML/CSV changes are instantly reloaded; Python changes trigger an automatic server restart.</p>
+
+    <hr>
+
+    <!-- Step 2 -->
+    <h2 id="step2"><span class="step-badge">Step 2</span> Creating a New Application</h2>
+    <p>An app is expected to include characteristic elements beyond a plain addon module:</p>
+    <ul>
+        <li>An <strong>icon</strong>, shown in the apps list</li>
+        <li>A <strong>top-level menu item</strong>, under which all app menus are placed</li>
+        <li><strong>Security groups</strong>, so access can be enabled per user</li>
+    </ul>
+
+    <h3>Adding a Top Menu Item</h3>
+    <p>Menu items are stored as <code>ir.ui.menu</code> database records, loaded from XML data files. A top-level menu is defined in <code>views/library_menu.xml</code>:</p>
+    <pre>&lt;odoo&gt;
+    &lt;menuitem id="menu_library" name="Library" /&gt;
+&lt;/odoo&gt;</pre>
+
+    <h4>How Odoo knows this is a top-level menu — the <code>parent</code> attribute rule</h4>
+    <p>The rule is simple: <strong>a <code>&lt;menuitem&gt;</code> with no <code>parent</code> attribute is automatically a top-level entry.</strong> Odoo places it directly in the main navigation bar. You do not need any special flag or setting — the absence of <code>parent</code> is the signal.</p>
+    <p>Every deeper level is created by pointing <code>parent</code> to the XML ID of the menu one level above it. The full three-level chain used in the Library module looks like this:</p>
+    <pre><span class="comment">&lt;!-- Level 1: top menu — no parent attribute --&gt;</span>
+&lt;menuitem id="menu_library"
+          name="Library" /&gt;
+
+<span class="comment">&lt;!-- Level 2: section heading — parent points to the top menu --&gt;</span>
+&lt;menuitem id="menu_library_catalog"
+          name="Catalog"
+          parent="menu_library" /&gt;
+
+<span class="comment">&lt;!-- Level 3: leaf item — opens a view via the action attribute --&gt;</span>
+&lt;menuitem id="menu_library_books"
+          name="Books"
+          parent="menu_library_catalog"
+          action="action_library_book" /&gt;</pre>
+    <p>Odoo builds the full menu tree at runtime by following these <code>parent</code> chains. A menu with no parent is the root; everything else is a descendant. There is no limit to nesting depth, but in practice three levels is the Odoo convention.</p>
+    <div class="note"><strong>Common mistake:</strong> Writing <code>parent="library.menu_library"</code> (with the module prefix) when the parent is defined in the <em>same file</em>. Within a single XML file you can reference local IDs without the module prefix. The module prefix (<code>library.</code>) is only needed when you reference an ID defined in a <em>different</em> file or module.</div>
+
+    <h4>Why are the menus split across multiple XML files?</h4>
+    <p>The Library module defines its top menu in <code>views/library_menu.xml</code> and the child menus (+ their actions) inside <code>views/book_view.xml</code>. This split is a deliberate Odoo convention, not a technical requirement:</p>
+    <ul>
+        <li><strong><code>library_menu.xml</code></strong> holds only the top-level shell — the entry in the navigation bar. This file is intentionally minimal. It can be loaded early, before any model-specific views exist.</li>
+        <li><strong><code>book_view.xml</code></strong> defines the form/list/search views and the leaf menu items that open them. The <code>parent</code> attribute references <code>menu_library</code> (defined in the other file), which works because Odoo resolves XML IDs globally across all already-loaded data files.</li>
+    </ul>
+    <p>The practical benefit: when you add a second model (e.g. <code>library.member</code>), you create a new <code>views/member_view.xml</code> that also sets <code>parent="menu_library"</code>. The top menu file never needs to change. Each model's view file is self-contained and can be added or removed independently.</p>
+    <div class="tip"><strong>Tip:</strong> In the manifest <code>data</code> list, <code>library_menu.xml</code> must come <em>before</em> <code>book_view.xml</code>, because the child menus in <code>book_view.xml</code> reference the parent ID defined in <code>library_menu.xml</code>. If the order is reversed Odoo raises <em>"External ID not found: menu_library"</em> at install time.</div>
+
+    <div class="tip"><strong>Tip:</strong> Menu items are only shown if there are visible submenu items. Lower-level menus that open views are only visible if the user has access rights to the corresponding model.</div>
+    <div class="change"><span class="badge v-changed">Visual change in v17</span> The backend UI was completely redesigned in Odoo 17 with a new rounded, modern theme. On Community Edition, the top menu renders as a compact navigation bar. On Enterprise Edition, it becomes the App Switcher. The XML definition is identical — only the visual rendering changed.</div>
+
+    <!-- ── "How does the action attribute work?" expandable explanation ─────── -->
+    <button class="explain-toggle" onclick="
+        var p = this.nextElementSibling;
+        var open = p.style.display === 'block';
+        p.style.display = open ? 'none' : 'block';
+        this.classList.toggle('open', !open);
+        this.querySelector('.label').textContent = open
+            ? 'How does the action attribute connect a menu to a view?'
+            : 'Hide explanation';
+    ">
+        <span class="arrow">&#9654;</span>
+        <span class="label">How does the action attribute connect a menu to a view?</span>
+    </button>
+
+    <div class="explain-panel">
+
+        <p>A <code>&lt;menuitem&gt;</code> by itself does nothing when clicked — it is just a label in the navigation bar. The <strong><code>action</code> attribute</strong> is what connects a leaf menu item to an actual view. It holds the XML ID of a <strong>window action</strong> (<code>ir.actions.act_window</code> record), which tells Odoo which model to open, in which view modes, and with what default domain or context.</p>
+
+        <h4>Top menu vs leaf menu</h4>
+        <p>Not every <code>&lt;menuitem&gt;</code> has an action. Only the <strong>leaf items</strong> (the ones that actually open something) carry the <code>action</code> attribute. Container items — the top menu and any intermediate section headings — have no action; they exist only to group and nest the leaves beneath them.</p>
+
+        <div class="flow-box">
+<span class="dim">&lt;menuitem id="menu_library"           name="Library"  /&gt;            </span><span class="hl">← no action — container only</span><br>
+<span class="dim">  &lt;menuitem id="menu_library_catalog"  name="Catalog"   parent="menu_library" /&gt;</span>  <span class="hl">← no action — section heading</span><br>
+<span class="dim">    &lt;menuitem id="menu_library_books"  name="Books"</span><br>
+<span class="dim">              parent="menu_library_catalog"</span><br>
+<span class="dim">              </span><span class="hl">action="action_library_book"</span> <span class="dim">/&gt;          </span><span class="hl">← has action — opens a view</span>
+        </div>
+
+        <h4>What an <code>ir.actions.act_window</code> record looks like</h4>
+        <p>The action record is defined in the same view XML file, usually placed just <em>above</em> the <code>&lt;menuitem&gt;</code> that references it:</p>
+        <div class="flow-box">
+&lt;record id="<span class="hl">action_library_book</span>" model="ir.actions.act_window"&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;field name="name"&gt;Books&lt;/field&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;field name="res_model"&gt;<span class="hl">library.book</span>&lt;/field&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;field name="view_mode"&gt;<span class="hl">list,form</span>&lt;/field&gt;<br>
+&lt;/record&gt;<br>
+<br>
+&lt;menuitem id="menu_library_books" name="Books"<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;parent="menu_library_catalog"<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;action="<span class="hl">action_library_book</span>" /&gt;
+        </div>
+
+        <h4>Key fields of <code>ir.actions.act_window</code></h4>
+        <table class="layer-table">
+            <thead><tr><th>Field</th><th>What it controls</th></tr></thead>
+            <tbody>
+                <tr><td><code>res_model</code></td><td>The technical name of the model to open (e.g. <code>library.book</code>). <strong>Required.</strong></td></tr>
+                <tr><td><code>view_mode</code></td><td>Comma-separated list of view types available: <code>list,form</code>, <code>kanban,form</code>, etc. The first one is the default.</td></tr>
+                <tr><td><code>domain</code></td><td>Optional filter applied to every record load. E.g. <code>[('active','=',True)]</code>.</td></tr>
+                <tr><td><code>context</code></td><td>Dict passed to the view. Can set default field values: <code>{'default_state': 'draft'}</code>.</td></tr>
+                <tr><td><code>name</code></td><td>Label shown in the breadcrumb and window title bar.</td></tr>
+            </tbody>
+        </table>
+
+        <h4>Why the action is defined separately from the menu</h4>
+        <p>Actions are reusable. The same <code>action_library_book</code> can be referenced by multiple menu items, by a button on another form, or called programmatically. Keeping the action separate from the menu item lets you define <em>what to open</em> independently of <em>where to navigate from</em>.</p>
+
+        <h4>Summary — what happens when a user clicks a leaf menu</h4>
+        <div class="flow-box">
+User clicks <span class="hl">Books</span> in the navigation bar<br>
+&nbsp;&nbsp;│<br>
+&nbsp;&nbsp;▼<br>
+Odoo reads <code>action</code> attribute → <span class="hl">action_library_book</span><br>
+&nbsp;&nbsp;│<br>
+&nbsp;&nbsp;▼<br>
+Loads <code>ir.actions.act_window</code> record → res_model=<span class="hl">library.book</span>, view_mode=<span class="hl">list,form</span><br>
+&nbsp;&nbsp;│<br>
+&nbsp;&nbsp;▼<br>
+Renders the <span class="hl">list view</span> of <code>library.book</code> (first mode in the list)<br>
+&nbsp;&nbsp;│<br>
+&nbsp;&nbsp;▼<br>
+User can switch to <span class="hl">form view</span> by clicking a row
+        </div>
+
+    </div>
+    <!-- ── end expandable explanation ─────────────────────────────────────── -->
+
+    <h3>Adding Security Groups</h3>
+    <p>Before features can be used by regular users, access must be granted through <strong>security groups</strong>. Security definitions are kept in <code>security/library_security.xml</code>.</p>
+
+    <!-- ── "Why is this necessary?" expandable explanation ─────────────────── -->
+    <style>
+        .explain-toggle {
+            display: inline-flex; align-items: center; gap: 8px;
+            background: none; border: 2px solid #875A7B;
+            color: #875A7B; border-radius: 6px;
+            padding: 7px 16px; font-size: 14px; font-weight: 600;
+            cursor: pointer; margin: 4px 0 10px; transition: all .2s;
+        }
+        .explain-toggle:hover { background: #875A7B; color: #fff; }
+        .explain-toggle .arrow {
+            display: inline-block; transition: transform .25s;
+            font-size: 11px;
+        }
+        .explain-toggle.open .arrow { transform: rotate(90deg); }
+        .explain-panel {
+            display: none;
+            background: #fdf8ff;
+            border: 1px solid #e0d0e8;
+            border-radius: 8px;
+            padding: 28px 32px;
+            margin: 0 0 24px;
+            font-size: 14.5px;
+        }
+        .explain-panel h4 {
+            font-size: 16px; color: #875A7B; font-style: normal;
+            margin: 24px 0 8px; border-bottom: 1px solid #e0d0e8; padding-bottom: 4px;
+        }
+        .explain-panel h4:first-child { margin-top: 0; }
+        .explain-panel .layer-table { width: 100%; border-collapse: collapse; font-size: 13.5px; margin: 14px 0; }
+        .explain-panel .layer-table thead tr { background: #875A7B; color: #fff; }
+        .explain-panel .layer-table th,
+        .explain-panel .layer-table td { padding: 8px 13px; border-bottom: 1px solid #e8e8e8; }
+        .explain-panel .layer-table tbody tr:nth-child(even) { background: #f5f0f9; }
+        .explain-panel .flow-box {
+            background: #1e1e2e; color: #cdd6f4;
+            border-radius: 6px; padding: 16px 22px;
+            font-family: 'Consolas','Courier New',monospace;
+            font-size: 13px; line-height: 1.8;
+            border-left: 4px solid #875A7B;
+            margin: 12px 0 16px;
+        }
+        .explain-panel .flow-box .hl { color: #a6e3a1; font-weight: bold; }
+        .explain-panel .flow-box .dim { color: #6c7086; }
+        .explain-panel blockquote {
+            background: #fff3e0; border-left: 4px solid #d97706;
+            padding: 10px 16px; border-radius: 0 6px 6px 0;
+            font-style: italic; color: #555; margin: 10px 0;
+        }
+    </style>
+
+    <button class="explain-toggle" onclick="
+        var p = this.nextElementSibling;
+        var open = p.style.display === 'block';
+        p.style.display = open ? 'none' : 'block';
+        this.classList.toggle('open', !open);
+        this.querySelector('.label').textContent = open
+            ? 'Why is access security necessary?'
+            : 'Hide explanation';
+    ">
+        <span class="arrow">&#9654;</span>
+        <span class="label">Why is access security necessary?</span>
+    </button>
+
+    <div class="explain-panel">
+
+        <p>Odoo is a <strong>multi-user business application</strong>. Every installation has users with different roles — accountants, salespeople, warehouse staff, managers, public website visitors. Without access control, any logged-in user could read, edit, or delete any data — including other companies' records, payroll data, or configuration tables.</p>
+        <p>Access security answers three questions:</p>
+        <ol>
+            <li><strong>Who</strong> is allowed to use this feature at all?</li>
+            <li><strong>What</strong> operations can they perform (read / write / create / delete)?</li>
+            <li><strong>Which specific rows</strong> in the database can they see?</li>
+        </ol>
+        <p>Odoo has one mechanism for each question.</p>
+
+        <h4>Layer 1 — Security Groups (<code>res.groups</code>) → "Who?"</h4>
+        <p>A <strong>group</strong> is a label attached to users. Groups control UI visibility: menu items, buttons, and fields can be made visible only to certain groups. If a user is not in the right group the menu simply does not appear — they do not even know the feature exists.</p>
+        <p><code>implied_ids</code> is the inheritance mechanism. The library module defines three tiers:</p>
+        <div class="flow-box">
+<span class="dim">All internal users  ──in──►</span>  <span class="hl">base.group_user</span>        <span class="dim">→ can see menu, create/edit books (no delete)</span><br>
+<span class="dim">                              ▲</span><br>
+<span class="dim">Library User        ──implies──►</span>  <span class="hl">library_group_user</span>  <span class="dim">→ same perms + record rule (active books only)</span><br>
+<span class="dim">                              ▲</span><br>
+<span class="dim">Library Manager     ──implies──►</span>  <span class="hl">library_group_manager</span>  <span class="dim">→ full access, can delete</span>
+        </div>
+        <p>Note that <code>library_group_user</code> itself implies <code>base.group_user</code>, and <code>library_group_manager</code> implies <code>library_group_user</code>. This means a manager inherits all user rights automatically — you only define the extra rights at each level.</p>
+
+        <h4>Layer 2 — Access Control Lists (<code>ir.model.access</code>) → "What operations?"</h4>
+        <p>Even if a user can see a menu, Odoo will <strong>refuse the database operation</strong> unless an ACL entry explicitly grants it. The four permission columns are <code>perm_read</code>, <code>perm_write</code>, <code>perm_create</code>, <code>perm_unlink</code>.</p>
+        <p>The library module defines three ACL rows:</p>
+        <ul>
+            <li><strong><code>base.group_user</code></strong> — all internal users get read/write/create. This is the critical row: without it the top-level menu is <strong>hidden for everyone</strong>, including admin, because Odoo hides a menu if the user has no <code>perm_read</code> on the model.</li>
+            <li><strong><code>library_group_user</code></strong> — Library Users also get read/write/create (no delete). Same perms as base.group_user here, but this group is needed for the record rule to target.</li>
+            <li><strong><code>library_group_manager</code></strong> — Library Managers get full access including <code>perm_unlink=1</code> (delete).</li>
+        </ul>
+        <blockquote>If you define ACL rows <em>only</em> for your custom groups and no user is yet assigned to them, the menu will be invisible to everyone — even to admin. Always include a <code>base.group_user</code> row with at least <code>perm_read=1</code>.</blockquote>
+
+        <h4>Layer 3 — Record Rules (<code>ir.rule</code>) → "Which rows?"</h4>
+        <p>ACLs work at the <strong>table level</strong> — "you can read the <code>library_book</code> table". Record rules work at the <strong>row level</strong> — "you can only read rows where <code>active = True</code>".</p>
+        <p>The module defines one record rule targeting <code>library_group_user</code>:</p>
+        <ul>
+            <li>The rule applies to every user who is a member of <code>library_group_user</code> — including via <code>implied_ids</code>. Because <code>library_group_manager</code> implies <code>library_group_user</code>, <strong>managers also get this rule</strong> and see only active books by default.</li>
+            <li>A plain internal user who has <em>not</em> been assigned to <code>library_group_user</code> (only in <code>base.group_user</code>) has <strong>no record rule</strong> applied — they can see all books including inactive ones.</li>
+        </ul>
+        <p>If a user in <code>library_group_user</code> calls <code>Book.search([])</code>, Odoo silently rewrites it to <code>Book.search([('active','=',True)])</code> before hitting the database. Inactive books are invisible — even through direct API calls.</p>
+
+        <h4>Why <code>noupdate="1"</code> on Record Rules?</h4>
+        <p>Record rules are often customised by a system administrator after installation (e.g., restrict users to their own branch's books). Without <code>noupdate="1"</code>, every module upgrade would overwrite those customisations. With it, the rule is created once on first install and then left alone.</p>
+
+        <h4>How the Three Layers Work Together</h4>
+        <div class="flow-box">
+HTTP request from Maria (in library_group_user)<br>
+    │<br>
+    ▼<br>
+<span class="hl">1. Menu visibility check</span>  — base.group_user has perm_read=1  → menu shown ✓<br>
+    │<br>
+    ▼<br>
+<span class="hl">2. ir.model.access check</span>  — library_group_user has perm_read=1 → query allowed ✓<br>
+    │<br>
+    ▼<br>
+<span class="hl">3. ir.rule applied</span>        — book_user_rule: domain [('active','=',True)] appended<br>
+    │<br>
+    ▼<br>
+Maria sees <span class="hl">only active books</span>. <span class="dim">Inactive books invisible to her.</span><br>
+<br>
+<span class="dim">If Maria tries to delete → perm_unlink=0 for library_group_user → blocked at step 2.</span>
+        </div>
+        <p>A plain internal user (only <code>base.group_user</code>, not assigned to <code>library_group_user</code>) passes steps 1 and 2 but has <strong>no record rule</strong> applied at step 3 — they can see all books including inactive ones.</p>
+
+        <h4>Why Not Just Use Admin for Everything?</h4>
+        <p>The Administrator bypasses most security checks. Developers often test only as admin and then deploy — then real users get access errors on every page.</p>
+        <blockquote>Always test your module logged in as a <strong>regular user</strong> belonging to the correct group, not as admin.</blockquote>
+        <p>The test file reflects this: one test case explicitly calls <code>unlink()</code> as a plain user to verify they correctly cannot delete a book.</p>
+
+        <h4>Summary — Three Layers at a Glance</h4>
+        <table class="layer-table">
+            <thead><tr><th>Mechanism</th><th>File</th><th>Controls</th><th>Applied when</th></tr></thead>
+            <tbody>
+                <tr><td><code>res.groups</code></td><td><code>library_security.xml</code></td><td>Who can see menus / buttons / fields</td><td>UI rendering</td></tr>
+                <tr><td><code>ir.model.access</code></td><td><code>ir.model.access.csv</code></td><td>Which CRUD operations are allowed per group</td><td>Every ORM call</td></tr>
+                <tr><td><code>ir.rule</code></td><td><code>library_security.xml</code></td><td>Which rows are visible (silently appended to every query)</td><td>Every ORM query</td></tr>
+            </tbody>
+        </table>
+        <p><strong>ACL rows in this module:</strong></p>
+        <table class="layer-table">
+            <thead><tr><th>Group</th><th>Read</th><th>Write</th><th>Create</th><th>Delete</th><th>Record Rule</th></tr></thead>
+            <tbody>
+                <tr><td><code>base.group_user</code> (all internal)</td><td>✓</td><td>✓</td><td>✓</td><td>✗</td><td>none — sees all books</td></tr>
+                <tr><td><code>library_group_user</code></td><td>✓</td><td>✓</td><td>✓</td><td>✗</td><td><code>active=True</code> filter applied</td></tr>
+                <tr><td><code>library_group_manager</code></td><td>✓</td><td>✓</td><td>✓</td><td>✓</td><td><code>active=True</code> filter (via implied user group)</td></tr>
+            </tbody>
+        </table>
+
+    </div>
+    <!-- ── end expandable explanation ─────────────────────────────────────── -->
+
+    <div class="v19-warn"><span class="badge v-removed">Removed in v17+ — <code>category_id</code>, <code>users</code> on <code>res.groups</code> and <code>groups_id</code> on <code>res.users</code> in data XML.</span> Do <strong>not</strong> set any of these in module data XML — all three raise <code>ValueError: Invalid field '...'</code> at install time. The category in Settings comes from the manifest's <code>category</code> key. User-to-group assignment must be done via <em>Settings → Users</em> after installation. The admin user has superuser bypass and does not need explicit group assignment.</div>
+    <pre>&lt;odoo&gt;
+  &lt;data&gt;
+    &lt;!-- Library User Group --&gt;
+    &lt;record id="library_group_user" model="res.groups"&gt;
+        &lt;field name="name"&gt;User&lt;/field&gt;
+        &lt;field name="implied_ids"
+               eval="[(4, ref('base.group_user'))]"/&gt;
+    &lt;/record&gt;
+
+    &lt;!-- Library Manager Group --&gt;
+    &lt;record id="library_group_manager" model="res.groups"&gt;
+        &lt;field name="name"&gt;Manager&lt;/field&gt;
+        &lt;field name="implied_ids"
+               eval="[(4, ref('library_group_user'))]"/&gt;
+    &lt;/record&gt;
+
+  &lt;/data&gt;
+&lt;/odoo&gt;</pre>
+    <p>This file defines two new rows in the <code>res.groups</code> database table — one for Library Users and one for Library Managers. Each <code>&lt;record&gt;</code> tag creates one group. The <code>id</code> attribute gives it an XML ID so other files can reference it. The <code>name</code> field is the display label visible in <em>Settings → Users &amp; Companies → Groups</em>.</p>
+
+    <!-- ── "implied_ids / eval / inheritance chain" expandable explanation ──── -->
+    <button class="explain-toggle" onclick="
+        var p = this.nextElementSibling;
+        var open = p.style.display === 'block';
+        p.style.display = open ? 'none' : 'block';
+        this.classList.toggle('open', !open);
+        this.querySelector('.label').textContent = open
+            ? 'Understanding implied_ids, eval, and the inheritance chain'
+            : 'Hide explanation';
+    ">
+        <span class="arrow">&#9654;</span>
+        <span class="label">Understanding implied_ids, eval, and the inheritance chain</span>
+    </button>
+
+    <div class="explain-panel">
+
+        <h4>Understanding <code>implied_ids</code> and the <code>eval</code> syntax</h4>
+        <p><code>implied_ids</code> is the group inheritance field. Setting it on a group means: <em>"anyone assigned to this group automatically also belongs to the listed groups"</em>. You never need to assign a user to both groups manually.</p>
+        <p>The value uses <code>eval</code> because it is Python code, not a plain string. The list <code>[(4, ref('base.group_user'))]</code> breaks down as:</p>
+        <ul>
+            <li><code>4</code> — ORM command meaning <em>"add a link to an existing record"</em> (without removing existing links).</li>
+            <li><code>ref('base.group_user')</code> — an XML helper that resolves the XML ID <code>base.group_user</code> to its actual database integer ID at install time.</li>
+        </ul>
+        <p>So the full line says: <em>"link this group to the existing Internal User group"</em>.</p>
+
+        <h4>The full inheritance chain</h4>
+        <p>Because <code>library_group_manager</code> implies <code>library_group_user</code>, which in turn implies <code>base.group_user</code>, a single group assignment cascades all the way down:</p>
+        <div class="flow-box">
+Assign user to  <span class="hl">library_group_manager</span><br>
+&nbsp;&nbsp;│  automatically also member of<br>
+&nbsp;&nbsp;▼<br>
+<span class="hl">library_group_user</span>  <span class="dim">(Library User — can read/write/create, sees only active books)</span><br>
+&nbsp;&nbsp;│  automatically also member of<br>
+&nbsp;&nbsp;▼<br>
+<span class="hl">base.group_user</span>  <span class="dim">(Internal User — can log in to the backend)</span>
+        </div>
+        <p>You only define the <em>extra</em> permissions at each level. A Manager inherits everything a User can do, plus the ability to delete records.</p>
+
+    </div>
+    <!-- ── end expandable explanation ─────────────────────────────────────── -->
+
+    <p>Key fields for a group record:</p>
+    <ul>
+        <li><strong>name</strong>: Group title (simple string).</li>
+        <li><strong>implied_ids</strong>: Groups whose privileges are inherited. <code>(4, ref('...'))</code> adds a link to an existing record.</li>
+        <li><strong>users</strong> <em>(removed in v17)</em>: Do not use — raises <code>ValueError: Invalid field 'users' in 'res.groups'</code>. Assign users via Settings UI after installation.</li>
+    </ul>
+    <div class="note"><strong>Note:</strong> The <code>library_security.xml</code> file must come <em>before</em> menu and view files in the manifest <code>data</code> list. Menus and views reference security groups, and those references must already be defined.</div>
+    <div class="v19-new"><span class="badge v-new">New in v17</span> <strong>Become Superuser:</strong> Developer mode now includes a "Become Superuser" option (<em>Settings → Developer Tools → Become Superuser</em>). This bypasses all access checks globally and is useful for testing views before security is fully set up.</div>
+
+    <hr>
+
+    <!-- Step 3 -->
+    <h2 id="step3"><span class="step-badge">Step 3</span> Adding Automated Tests</h2>
+    <p>Programming best practices include having automated tests. This is especially important for Python, where there is no compilation step and syntax errors only surface at runtime. This chapter follows a <strong>test-driven development (TDD)</strong> approach: write tests first, confirm they fail, then develop the code to make them pass.</p>
+
+    <h3>Requirements for Tests</h3>
+    <ol>
+        <li>Tests go in a <code>tests/</code> subdirectory. The test runner discovers this automatically.</li>
+        <li>Test files must be named starting with <code>test_</code> and imported from <code>tests/__init__.py</code>. Test classes derive from <code>TransactionCase</code> or another Odoo test base, imported from <code>odoo.tests.common</code>.</li>
+        <li>Each test method must start with <code>test_</code>. All changes made in a <code>TransactionCase</code> test are rolled back after each test.</li>
+    </ol>
+    <div class="tip"><strong>Tip:</strong> Do not use demo data in tests. If all test data is prepared in <code>setUpClass()</code>, the tests can run in any database, including empty databases or production database copies.</div>
+
+    <h3>Adding Test Cases</h3>
+    <p>The test file defines four tests inside the <code>TestBook</code> class:</p>
+    <ul>
+        <li><strong><code>test_book_create</code></strong> — checks that a new book record has <code>active = True</code> by default.</li>
+        <li><strong><code>test_book_name_required</code></strong> — checks that creating a book without a name raises an error.</li>
+        <li><strong><code>test_check_isbn_valid</code></strong> — checks that <code>_check_isbn()</code> returns <code>True</code> for a properly formatted ISBN.</li>
+        <li><strong><code>test_check_isbn_invalid</code></strong> — checks that <code>_check_isbn()</code> returns <code>False</code> for a malformed ISBN.</li>
+    </ul>
+    <p>The <code>tests/__init__.py</code> imports the test module:</p>
+    <pre>from . import test_book</pre>
+    <p>The test file <code>tests/test_book.py</code> — updated for Odoo 19 best practices:</p>
+    <pre>from odoo.tests.common import TransactionCase
+from odoo.tests import tagged
+
+<span class="added">@tagged('library', 'post_install', '-at_install')</span>
+class TestBook(TransactionCase):
+
+    <span class="added">@classmethod
+    def setUpClass(cls):</span>
+        <span class="added">super().setUpClass()
+        cls.Book = cls.env["library.book"]
+        cls.book1 = cls.Book.create({
+            "name": "Odoo Development Essentials",
+            "isbn": "879-1-78439-279-6"
+        })</span>
+
+    def test_book_create(self):
+        "New Books are active by default"
+        self.assertEqual(self.book1.active, True)
+
+    def test_book_name_required(self):
+        "Creating a book without a name should raise an error"
+        with self.assertRaises(Exception):
+            self.Book.create({"name": False})
+
+    def test_check_isbn_valid(self):
+        "Check valid ISBN"
+        self.assertTrue(self.book1._check_isbn())
+
+    def test_check_isbn_invalid(self):
+        "Check invalid ISBN"
+        self.book1.isbn = "0000000000000"
+        self.assertFalse(self.book1._check_isbn())</pre>
+    <p>What this code does:</p>
+    <ul>
+        <li><strong><code>TransactionCase</code></strong> — the Odoo test base class. Every test method runs inside a database transaction that is automatically rolled back when the method finishes, so tests never leave data behind.</li>
+        <li><strong><code>@tagged(...)</code></strong> — marks which phase the test runs in. <code>post_install</code> means after the module is fully installed; <code>-at_install</code> means skip the install-time run. The custom tag <code>'library'</code> lets you run only these tests with <code>--test-tags=library</code>.</li>
+        <li><strong><code>setUpClass()</code></strong> — runs once before all test methods in the class. It creates one book record (<em>Odoo Development Essentials</em>) that all tests in this class can reuse via <code>self.book1</code>.</li>
+        <li><strong><code>super().setUpClass()</code></strong> — must be called first inside <code>setUpClass</code>. The Odoo framework initialises <code>cls.env</code>, the cursor, and the registry in this call. Omitting it causes the test environment to be uninitialised and the test will crash before reaching any assertion.</li>
+        <li><strong><code>cls.Book = cls.env["library.book"]</code></strong> — stores the model proxy in a class variable so every test method can access it via <code>self.Book</code> without repeating <code>self.env["library.book"]</code>. <code>cls.env</code> is used (not <code>self.env</code>) because this runs in a classmethod, where <code>self</code> does not exist.</li>
+        <li><strong><code>test_book_create</code></strong> — verifies that a newly created book has <code>active = True</code> (the default). If the <code>active</code> field default ever changes, this test will catch it.</li>
+        <li><strong><code>test_book_name_required</code></strong> — verifies that creating a book without a name raises an error, confirming the <code>required=True</code> constraint on the field. The <strong>failing case</strong> is: if you removed <code>required=True</code> from the <code>name</code> field, <code>Book.create({"name": False})</code> would succeed silently, no exception would be raised inside the <code>with</code> block, and <code>assertRaises</code> would itself raise <code>AssertionError: Exception not raised</code> — marking the test as failed.</li>
+        <li><strong><code>with self.assertRaises(Exception):</code></strong> — a context manager that passes the test only if the code inside the block raises the specified exception. If no exception is raised, or a different exception type is raised, the test fails. Using the broad <code>Exception</code> type here catches both <code>ValidationError</code> and ORM-level integrity errors.</li>
+        <li><strong><code>{"name": False}</code></strong> — <code>False</code> is used rather than <code>""</code> or <code>None</code> because the Odoo ORM treats <code>False</code> as the canonical empty value for <code>Char</code> fields. Passing an empty string may slip past some required-field checks in certain contexts; <code>False</code> reliably triggers the constraint.</li>
+        <li><strong><code>test_check_isbn_valid</code></strong> — calls the model's <code>_check_isbn()</code> validation method and asserts it returns <code>True</code> for a valid ISBN string.</li>
+        <li><strong><code>test_check_isbn_invalid</code></strong> — directly assigns a 13-digit all-zero ISBN to <code>book1</code>. The string has the correct length so the algorithm runs, but the computed check digit does not match the final <code>0</code>, causing <code>_check_isbn()</code> to return <code>False</code>.</li>
+    </ul>
+    <div class="change"><span class="badge v-changed">Recommended change since v17</span> <strong>Use <code>setUpClass()</code> instead of <code>setUp()</code>.</strong> The <code>setUp()</code> method runs before every individual test method, which is slow for large test suites involving database writes. The <code>setUpClass()</code> classmethod runs once per class and is significantly faster. Note: use <code>cls.</code> (not <code>self.</code>) inside <code>setUpClass</code>.</div>
+    <div class="v19-new"><span class="badge v-new">New in v17 — <code>@tagged()</code> decorator.</span> Tags allow fine-grained test selection at runtime with the <code>--test-tags</code> flag. The built-in tag <code>post_install</code> runs the tests after the module is installed. The <code>-at_install</code> prefix (minus sign) means "do not run during install" — only run in the post-install phase.</div>
+
+    <h3>Testing Access Security</h3>
+    <p>By default, tests run with the internal <code>__system__</code> user which bypasses access security. To test security properly, switch to a non-admin user in <code>setUpClass()</code>:</p>
+    <pre>@classmethod
+def setUpClass(cls):
+    super().setUpClass()
+    user_demo = cls.env.ref("base.user_demo")
+    cls.env = cls.env(user=user_demo)
+    cls.Book = cls.env["library.book"]</pre>
+
+    <h3>Running Tests</h3>
+    <pre># Run all tests for the module (v15 style — still works)
+python odoo-bin -c ~/work19/library.conf -u library --test-enable
+
+# Run only tests tagged 'library' (new in v17)
+python odoo-bin -c ~/work19/library.conf -u library --test-enable --test-tags=library
+
+# Run a specific test class
+python odoo-bin -c ~/work19/library.conf -u library --test-enable --test-tags=library.TestBook
+
+# Run a single test method
+python odoo-bin -c ~/work19/library.conf -u library --test-enable --test-tags=library.TestBook.test_book_name_required</pre>
+    <p>The <code>--test-tags</code> selector follows the pattern <code>tag.ClassName.method_name</code>. Each part is optional — you can stop at just the tag or the class. The example above runs only <code>test_book_name_required</code> inside <code>TestBook</code>, which is useful when debugging a failing constraint test without waiting for the full suite to complete.</p>
+
+    <hr>
+
+    <!-- Step 4 -->
+    <h2 id="step4"><span class="step-badge">Step 4</span> Implementing the Model Layer</h2>
+    <p><strong>Models describe and store business object data.</strong> A model describes a list of fields and can have specific business logic attached to it. Model classes derive from Odoo base classes; a model maps to a database table, and the Odoo <strong>ORM</strong> handles all database interactions automatically.</p>
+
+    <h3>Creating a Data Model</h3>
+    <p>Python files for models go inside a <code>models/</code> subdirectory. The <code>models/library_book.py</code> file:</p>
+    <pre>from odoo import api, fields, models
+
+class Book(models.Model):
+    _name = "library.book"
+    _description = "Book"
+
+    name = fields.Char("Title", required=True)
+    isbn = fields.Char("ISBN")
+    active = fields.Boolean("Active?", default=True)
+    date_published = fields.Date()
+    image = fields.Binary("Cover")
+    publisher_id = fields.Many2one("res.partner", string="Publisher")
+    author_ids = fields.Many2many("res.partner", string="Authors")
+
+    <span class="added"># Automatically called to recompute the display name when name or isbn change.
+    @api.depends("name", "isbn")
+    def _compute_display_name(self):
+        for book in self:
+            book.display_name = (
+                f"[{book.isbn}] {book.name}" if book.isbn else book.name
+            )</span></pre>
+
+    <p><code>_compute_display_name</code> controls the label Odoo shows wherever it references a book — breadcrumbs, Many2one dropdowns, linked records. With this override a book with an ISBN appears as <code>[879-1-78439-279-6] Odoo Development Essentials</code>; without one it falls back to just the title.</p>
+    <p>Notice there is no <code>display_name = fields.Char(...)</code> declaration in the class. That field is already declared on every Odoo model by the base <code>BaseModel</code> class in the framework. You only override the compute method — adding the field declaration again would be redundant. This is specific to <code>display_name</code> and a few other built-in framework fields. For any field you invent yourself you always declare the field first.</p>
+
+    <p>Key model attributes:</p>
+    <ul>
+        <li><strong>_name</strong>: Internal model identifier (dot notation → database table name with underscores).</li>
+        <li><strong>_description</strong>: Human-readable title for the model.</li>
+    </ul>
+    <div class="tip"><strong>Tip — <code>_name</code> and the database table name:</strong> Odoo converts the dot to an underscore for the actual PostgreSQL table name: <code>library.book</code> → table <code>library_book</code>. The convention is always <code>&lt;module_name&gt;.&lt;object_name&gt;</code>. The same string is used everywhere you reference this model — in <code>Many2one("library.book")</code>, in the ACL CSV as <code>model_library_book</code>, and in record rules. Omitting <code>_name</code> entirely causes the class to be treated as an abstract mixin — no database table is created.</div>
+
+    <h4>What <code>models.Model</code> gives you</h4>
+    <p>Writing <code>class Book(models.Model)</code> tells the Odoo framework to treat this class as a persistent data model. You write no SQL — Odoo handles everything automatically:</p>
+    <ul>
+        <li><strong>Database table</strong> — On install/upgrade, Odoo reads all field definitions and creates or alters the PostgreSQL table to match. Adding a field to the class and running <code>-u library</code> adds the column automatically.</li>
+        <li><strong>ORM methods</strong> — Every model inherits <code>search()</code>, <code>create()</code>, <code>write()</code>, <code>unlink()</code>, <code>browse()</code>, and many more. You can call <code>self.env["library.book"].search([...])</code> from anywhere in Odoo without writing a single SQL query.</li>
+        <li><strong>Field change tracking</strong> — The ORM knows which fields changed and automatically triggers computed field recalculation, constraint checks, and onchange events.</li>
+        <li><strong>Automatic system fields</strong> — Odoo silently adds <code>id</code> (primary key), <code>create_date</code>, <code>write_date</code>, <code>create_uid</code>, and <code>write_uid</code> to every model. You never need to declare them.</li>
+    </ul>
+
+    <h3>Field Types Reference</h3>
+    <table>
+        <thead><tr><th>Field Type</th><th>Description</th><th>v19 Notes</th></tr></thead>
+        <tbody>
+            <tr><td><code>Char</code></td><td>Short text strings</td><td>Unchanged</td></tr>
+            <tr><td><code>Boolean</code></td><td>True/False values</td><td>Unchanged</td></tr>
+            <tr><td><code>Date</code></td><td>Date values</td><td>Unchanged</td></tr>
+            <tr><td><code>Binary</code></td><td>Binary data such as images</td><td>Unchanged</td></tr>
+            <tr><td><code>Many2one</code></td><td>Many-to-one relation (foreign key)</td><td>Unchanged</td></tr>
+            <tr><td><code>Many2many</code></td><td>Many-to-many relation (junction table)</td><td>Unchanged</td></tr>
+            <tr><td><code>One2many</code></td><td>One-to-many relation (inverse of Many2one)</td><td>Unchanged</td></tr>
+            <tr><td><code>Text</code></td><td>Multi-line text</td><td>Unchanged</td></tr>
+            <tr><td><code>Html</code></td><td>Rich-text HTML content</td><td>Unchanged</td></tr>
+            <tr><td><code>Integer</code></td><td>Integer numbers</td><td>Unchanged</td></tr>
+            <tr><td><code>Float</code></td><td>Floating point numbers</td><td>Unchanged</td></tr>
+            <tr><td><code>Monetary</code></td><td>Currency amounts</td><td>Unchanged</td></tr>
+            <tr><td><code>Selection</code></td><td>Dropdown list of choices</td><td>Unchanged</td></tr>
+            <tr><td><code>Json</code></td><td>Native JSON data (PostgreSQL jsonb)</td><td><strong>New in v18</strong></td></tr>
+        </tbody>
+    </table>
+    <div class="note"><strong>Relational fields</strong> (<code>Many2one</code>, <code>Many2many</code>, <code>One2many</code>) do not store a value directly — they store a reference (a foreign key) that points to a record in <em>another</em> table. For example, <code>publisher_id = fields.Many2one("res.partner")</code> stores the ID of a row in the <code>res_partner</code> table. <code>res.partner</code> is Odoo's built-in model for all contacts — companies, individuals, customers, and suppliers. By pointing publisher and authors to it, your module reuses the existing contact database instead of duplicating names and addresses.</div>
+
+    <h3>Common Field Attributes</h3>
+    <p>Every field type accepts keyword arguments that control its behaviour. These are the most commonly used ones:</p>
+    <table>
+        <thead><tr><th>Attribute</th><th>What it does</th><th>Example</th></tr></thead>
+        <tbody>
+            <tr><td><code>string</code></td><td>Label shown in the UI. If omitted, Odoo derives the label from the field name.</td><td><code>string="Title"</code></td></tr>
+            <tr><td><code>required</code></td><td>Cannot be left empty. Enforced at ORM level — raises a validation error on save.</td><td><code>required=True</code></td></tr>
+            <tr><td><code>default</code></td><td>Value set when a new record is created. Can be a fixed value or a callable.</td><td><code>default=True</code> &nbsp;/&nbsp; <code>default=lambda self: self.env.user</code></td></tr>
+            <tr><td><code>readonly</code></td><td>Field is shown but cannot be edited in the UI. Does not prevent programmatic writes.</td><td><code>readonly=True</code></td></tr>
+            <tr><td><code>help</code></td><td>Tooltip text shown when the user hovers over the field label in a form view.</td><td><code>help="International Standard Book Number"</code></td></tr>
+            <tr><td><code>index</code></td><td>Creates a database index on the column, speeding up searches on this field.</td><td><code>index=True</code></td></tr>
+            <tr><td><code>copy</code></td><td>Whether the value is copied when the record is duplicated. Default <code>True</code> for most fields, <code>False</code> for One2many.</td><td><code>copy=False</code></td></tr>
+            <tr><td><code>tracking</code></td><td>Logs changes to this field in the chatter (requires <code>mail.thread</code> in <code>depends</code>).</td><td><code>tracking=True</code></td></tr>
+        </tbody>
+    </table>
+
+    <h3>Custom Search Logic</h3>
+    <p><strong>When is it called?</strong> When the user types in the Books search bar <em>without</em> selecting a specific filter first. In that case Odoo searches by <code>display_name</code> and goes through this method. Without the override, typing an ISBN number in the general search bar would return no results. This override makes Odoo also check the <code>isbn</code> column so the book is found either way.</p>
+    <p>Note: when the user clicks a specific filter — e.g. <em>Search by: ISBN</em> — Odoo queries the <code>isbn</code> column directly and this method is <em>not</em> involved.</p>
+    <pre>def _search_display_name(self, operator, value):
+    # Only intercept text-based searches (ilike = contains, = exact match)
+    if operator in ("ilike", "=") and value:
+        # Search the isbn field with whatever the user typed
+        isbn_matches = self.search([("isbn", operator, value)])
+        if isbn_matches:
+            # ISBN match found — return those records immediately
+            return [("id", "in", isbn_matches.ids)]
+    # No ISBN match — fall back to the default title search
+    return super()._search_display_name(operator, value)</pre>
+    <p>The method receives the <code>operator</code> (<code>ilike</code> for a contains-search, <code>=</code> for exact match) and the <code>value</code> the user typed. It first tries to match against <code>isbn</code>. If that finds something it returns those record IDs immediately — Odoo stops there and shows them in the results. If nothing matched by ISBN, <code>super()</code> runs the default logic which searches by title.</p>
+    <p><strong>Practical result:</strong> Typing <code>879-1-784</code> in the search bar finds the book by ISBN; typing <code>Odoo</code> falls through to the title search.</p>
+
+    <h3>Registering the Model File</h3>
+    <p>The <code>models/__init__.py</code> must import the new file:</p>
+    <pre>from . import library_book</pre>
+    <p>And the top-level <code>__init__.py</code> must import <code>models</code>:</p>
+    <pre>from . import models</pre>
+
+    <hr>
+
+    <!-- Step 5 -->
+    <h2 id="step5"><span class="step-badge">Step 5</span> Setting Up Access Security</h2>
+    <p>Before the Library app features can be used by regular users, access rules must be defined. Odoo uses <strong>Access Control Lists (ACLs)</strong> to grant permissions on models to security groups.</p>
+
+    <h3>Adding Access Control Rules</h3>
+    <p>ACL data is stored in the <code>ir.model.access</code> model. The most convenient way to provide it is through a CSV file: <code>security/ir.model.access.csv</code>:</p>
+    <pre>id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_book_internal,BookInternal,model_library_book,base.group_user,1,1,1,0
+access_book_user,BookUser,model_library_book,library.library_group_user,1,1,1,0
+access_book_manager,BookManager,model_library_book,library.library_group_manager,1,1,1,1</pre>
+
+    <p>Field explanations:</p>
+    <ul>
+        <li><strong>id</strong>: External/XML ID, unique within the module.</li>
+        <li><strong>name</strong>: Descriptive title, recommended to be unique.</li>
+        <li><strong>model_id</strong>: Auto-generated XML ID for the model. For <code>library.book</code> it is <code>model_library_book</code>.</li>
+        <li><strong>group_id</strong>: The security group to grant permissions to. Must use the full <code>module.xml_id</code> format for groups defined in another module (e.g. <code>base.group_user</code>). For groups in the same module use the module prefix: <code>library.library_group_user</code>.</li>
+        <li><strong>perm_read / perm_write / perm_create / perm_unlink</strong>: <code>1</code> = allowed, <code>0</code> = denied.</li>
+    </ul>
+    <p>The first line gives all internal users (<code>base.group_user</code>) read/write/create access — this ensures the menu and New button are visible without requiring manual group assignment after install. Library-specific groups add no extra permissions here but can be used for finer-grained record rules. Library managers get full access including delete.</p>
+    <div class="v19-warn"><span class="badge v-removed">Important — menu visibility in Odoo 17+</span> A top-level menu is <strong>hidden</strong> if the user has no read access to the model the action opens. If you only define ACL rows for custom groups (and no user is assigned to those groups), the menu will be invisible to everyone including the admin. Always include a <code>base.group_user</code> row with at least <code>perm_read=1</code> so the menu appears for all internal users.</div>
+    <div class="note"><strong>Important:</strong> The admin user also follows access security rules. Always test with a regular user account as well — testing only with admin can hide missing permissions.</div>
+
+    <h3>Row-Level Access Rules (Record Rules)</h3>
+    <p><strong>Record Rules</strong> (<code>ir.rule</code>) provide row-level filtering — limiting which individual records a group can see. A record rule is placed inside a <code>&lt;data noupdate="1"&gt;</code> block so it is created on install but never overwritten on upgrades:</p>
+    <pre>&lt;data noupdate="1"&gt;
+  &lt;record id="book_user_rule" model="ir.rule"&gt;
+    &lt;field name="name"&gt;Library Book User Access&lt;/field&gt;
+    &lt;field name="model_id" ref="model_library_book"/&gt;
+    &lt;field name="domain_force"&gt;[('active', '=', True)]&lt;/field&gt;
+    &lt;field name="groups" eval="[(4, ref('library_group_user'))]"/&gt;
+  &lt;/record&gt;
+&lt;/data&gt;</pre>
+    <p>The <code>domain_force</code> field uses Odoo's domain filter syntax. Here, library users can only see active books.</p>
+    <div class="v19-new"><span class="badge v-new">New in v17 — automatic company rules.</span> For multi-company setups, add <code>_check_company_auto = True</code> and a <code>company_id</code> field to the model. Odoo will automatically generate the required record rules:
+    </div>
+    <pre>class Book(models.Model):
+    _name = "library.book"
+    _description = "Book"
+    _check_company_auto = True     # auto-generates company record rules
+
+    company_id = fields.Many2one(
+        "res.company",
+        default=lambda self: self.env.company
+    )</pre>
+
+    <h3>Security Quick Reference</h3>
+
+    <h4>Internal System Models</h4>
+    <table>
+        <thead><tr><th>Model</th><th>Purpose</th><th>Key Fields</th></tr></thead>
+        <tbody>
+            <tr><td><code>res.groups</code></td><td>Security groups</td><td><code>name</code>, <code>implied_ids</code>, <code>users</code></td></tr>
+            <tr><td><code>res.users</code></td><td>Users</td><td><code>name</code>, <code>groups_id</code></td></tr>
+            <tr><td><code>ir.model.access</code></td><td>Access control (ACL)</td><td><code>name</code>, <code>model_id</code>, <code>group_id</code>, <code>perm_read</code>, <code>perm_write</code>, <code>perm_create</code>, <code>perm_unlink</code></td></tr>
+            <tr><td><code>ir.rule</code></td><td>Record rules (row-level)</td><td><code>name</code>, <code>model_id</code>, <code>groups</code>, <code>domain_force</code></td></tr>
+            <tr><td><code>ir.module.category</code></td><td>Module categories for groups</td><td><code>name</code>, <code>sequence</code></td></tr>
+        </tbody>
+    </table>
+
+    <h4>Key XML IDs for Security Groups</h4>
+    <table>
+        <thead><tr><th>XML ID</th><th>Description</th></tr></thead>
+        <tbody>
+            <tr><td><code>base.group_user</code></td><td>Internal user — any backend user</td></tr>
+            <tr><td><code>base.group_system</code></td><td>Settings — the Administrator belongs here</td></tr>
+            <tr><td><code>base.group_no_one</code></td><td>Technical feature, hides items from users</td></tr>
+            <tr><td><code>base.group_public</code></td><td>Public — anonymous website visitors</td></tr>
+        </tbody>
+    </table>
+
+    <h4>Key XML IDs for Default Users</h4>
+    <table>
+        <thead><tr><th>XML ID</th><th>Description</th></tr></thead>
+        <tbody>
+            <tr><td><code>base.user_root</code></td><td>Root system superuser (OdooBot)</td></tr>
+            <tr><td><code>base.user_admin</code></td><td>Default administrator</td></tr>
+            <tr><td><code>base.default_user</code></td><td>Template for new backend users</td></tr>
+            <tr><td><code>base.default_public_user</code></td><td>Template for new portal/public users</td></tr>
+        </tbody>
+    </table>
+
+    <hr>
+
+    <!-- Step 6 -->
+    <h2 id="step6"><span class="step-badge">Step 6</span> Implementing the Backend View Layer</h2>
+    <p><strong>The view layer describes the UI.</strong> Views are defined in XML, used by the web client to generate data-aware HTML. The three most commonly used view types are: <strong>List</strong>, <strong>Form</strong>, and <strong>Search</strong>.</p>
+
+    <h3>Creating a Form View</h3>
+    <p>A <strong>form view</strong> is the single-record editing screen — the page that opens when a user clicks on one row in a list. It displays all the fields of one record and lets the user read or edit them. Every field shown in the form is directly bound to a column in the database table: reading the form reads from the database, saving the form writes back to it. There is no intermediate mapping step — Odoo's ORM handles the translation automatically.</p>
+    <p>Views are data records stored in <code>ir.ui.view</code>. The file <code>views/book_view.xml</code> defines the form view using Odoo's business document style with <code>&lt;header&gt;</code> and <code>&lt;sheet&gt;</code> sections:</p>
+    <pre>&lt;odoo&gt;
+  &lt;record id="view_form_book" model="ir.ui.view"&gt;
+    &lt;field name="name"&gt;Book Form&lt;/field&gt;
+    &lt;field name="model"&gt;library.book&lt;/field&gt;
+    &lt;field name="arch" type="xml"&gt;
+      &lt;form string="Book"&gt;
+        &lt;header&gt;
+          &lt;!-- invisible attribute uses direct Python expression (v19) --&gt;
+          &lt;button name="button_check_isbn" type="object"
+                  string="Check ISBN"
+                  invisible="not isbn"/&gt;
+        &lt;/header&gt;
+        &lt;sheet&gt;
+          &lt;group name="group_top"&gt;
+            &lt;group name="group_left"&gt;
+              &lt;field name="name"/&gt;
+              &lt;field name="author_ids" widget="many2many_tags"/&gt;
+              &lt;field name="publisher_id"/&gt;
+              &lt;field name="date_published"/&gt;
+            &lt;/group&gt;
+            &lt;group name="group_right"&gt;
+              &lt;!-- required attribute uses direct expression (v19) --&gt;
+              &lt;field name="isbn" required="active"/&gt;
+              &lt;field name="active"/&gt;
+              &lt;field name="image" widget="image"/&gt;
+            &lt;/group&gt;
+          &lt;/group&gt;
+        &lt;/sheet&gt;
+      &lt;/form&gt;
+    &lt;/field&gt;
+  &lt;/record&gt;
+&lt;/odoo&gt;</pre>
+
+    <h3>Form Structure — <code>&lt;header&gt;</code> and <code>&lt;sheet&gt;</code></h3>
+    <p>Every Odoo business document form is divided into two structural sections:</p>
+    <ul>
+        <li><strong><code>&lt;header&gt;</code></strong> — the top bar rendered with a grey background. It holds action buttons (like <em>Check ISBN</em>) and status bar widgets. It sits above the data area and is always visible when scrolling.</li>
+        <li><strong><code>&lt;sheet&gt;</code></strong> — the white content area below the header. All field inputs, groups, and notebooks go here. The name comes from the paper-sheet visual metaphor used in Odoo's UI.</li>
+    </ul>
+    <p>Both are optional, but using them is the standard convention for any form that represents a business document (invoices, orders, records). Forms that are pure configuration dialogs sometimes omit them.</p>
+
+    <h3>Two-Column Layout with Nested <code>&lt;group&gt;</code></h3>
+    <p>A single <code>&lt;group&gt;</code> inside a <code>&lt;sheet&gt;</code> renders all its fields as one column. To get the standard Odoo two-column layout, nest two <code>&lt;group&gt;</code> elements side by side inside a parent <code>&lt;group&gt;</code>:</p>
+    <pre>&lt;group name="group_top"&gt;          &lt;!-- outer: splits into two columns --&gt;
+  &lt;group name="group_left"&gt;        &lt;!-- left column --&gt;
+    &lt;field name="name"/&gt;
+    &lt;field name="author_ids"/&gt;
+  &lt;/group&gt;
+  &lt;group name="group_right"&gt;       &lt;!-- right column --&gt;
+    &lt;field name="isbn"/&gt;
+    &lt;field name="active"/&gt;
+  &lt;/group&gt;
+&lt;/group&gt;</pre>
+    <p>The <code>name</code> attribute on a group is optional for rendering, but strongly recommended: it is the anchor point for other modules to inject fields into your form via view inheritance without breaking the layout.</p>
+
+    <h3>Conditional Attributes — <code>attrs</code> Removed in v19</h3>
+    <div class="v19-warn"><span class="badge v-removed">REMOVED in v19 — <code>attrs</code> dictionary conditionals.</span> This is the most impactful view change. Every <code>attrs="{'invisible': [...], 'readonly': [...], 'required': [...]}"</code> must be rewritten using direct Python expression syntax.</div>
+
+    <button class="explain-toggle" onclick="
+        var p = this.nextElementSibling;
+        var open = p.style.display === 'block';
+        p.style.display = open ? 'none' : 'block';
+        this.classList.toggle('open', !open);
+        this.querySelector('.label').textContent = open
+            ? 'Conditional Attributes — v15 vs v19 syntax'
+            : 'Hide explanation';
+    ">
+        <span class="arrow">&#9654;</span>
+        <span class="label">Conditional Attributes — v15 vs v19 syntax</span>
+    </button>
+
+    <div class="explain-panel">
+        <table>
+            <thead><tr><th>Property</th><th>v15 syntax (removed)</th><th>v19 syntax (required)</th></tr></thead>
+            <tbody>
+                <tr>
+                    <td>Invisible</td>
+                    <td><code>attrs="{'invisible': [('active','=',False)]}"</code></td>
+                    <td><code>invisible="not active"</code></td>
+                </tr>
+                <tr>
+                    <td>Readonly</td>
+                    <td><code>attrs="{'readonly': [('state','=','done')]}"</code></td>
+                    <td><code>readonly="state == 'done'"</code></td>
+                </tr>
+                <tr>
+                    <td>Required</td>
+                    <td><code>attrs="{'required': [('active','=',True)]}"</code></td>
+                    <td><code>required="active"</code></td>
+                </tr>
+                <tr>
+                    <td>Multiple conditions</td>
+                    <td><code>attrs="{'invisible': [('a','=',1),('b','=',2)]}"</code></td>
+                    <td><code>invisible="a == 1 and b == 2"</code></td>
+                </tr>
+                <tr>
+                    <td>OR condition</td>
+                    <td><code>attrs="{'invisible': ['|',('a','=',1),('b','=',2)]}"</code></td>
+                    <td><code>invisible="a == 1 or b == 2"</code></td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="tip"><strong>Expression syntax rule:</strong> The value is a plain Python boolean expression where field names resolve to their current record values. No brackets, no tuples — just Python conditions.</div>
+    </div>
+
+    <h3>Adding a List View</h3>
+    <p>A <strong>list view</strong> is the multi-record overview screen — the table that appears when a user opens a menu item or navigates back from a form. Each row is one database record and each column maps directly to a field. The list view is always the first screen the user sees, which makes column selection important: show what helps the user identify and compare records at a glance, hide the rest behind <code>optional</code>.</p>
+    <div class="change"><span class="badge v-changed">Changed in v17</span> The list view tag is now <code>&lt;list&gt;</code> instead of <code>&lt;tree&gt;</code>. Also, the <code>optional</code> attribute lets users toggle column visibility.</div>
+    <pre>&lt;record id="view_list_book" model="ir.ui.view"&gt;
+  &lt;field name="name"&gt;Book List&lt;/field&gt;
+  &lt;field name="model"&gt;library.book&lt;/field&gt;
+  &lt;field name="arch" type="xml"&gt;
+    &lt;list&gt;
+      &lt;field name="name"/&gt;
+      &lt;field name="author_ids" widget="many2many_tags" optional="show"/&gt;
+      &lt;field name="publisher_id" optional="show"/&gt;
+      &lt;field name="date_published" optional="hide"/&gt;
+      &lt;field name="isbn" optional="hide"/&gt;
+    &lt;/list&gt;
+  &lt;/field&gt;
+&lt;/record&gt;</pre>
+    <p>The <code>optional="show"</code> attribute makes the column visible by default but allows users to hide it. <code>optional="hide"</code> hides the column by default.</p>
+    <p><strong>Default view:</strong> When a window action lists <code>view_mode="list,form"</code>, Odoo opens the <em>list</em> view first because it appears first in the comma-separated value. If no explicit view record exists for a model, Odoo generates a minimal default one automatically — every field in declaration order, no <code>optional</code>, no widgets. Defining your own view record overrides this default completely for that view type.</p>
+
+    <h3>Adding a Search View</h3>
+    <p>A <strong>search view</strong> is the invisible third view type — it has no rows, no columns, and never displays records directly. Instead it controls the search bar at the top of the list view: which fields the user can search by, which quick-filter buttons are available, and which Group By options appear. Every list or kanban view silently pairs with a search view in the background.</p>
+    <p>What makes the search view unique is that it operates entirely on the <em>query</em>, not the <em>result</em>. A <code>&lt;field&gt;</code> element adds a searchable field to the dropdown. A <code>&lt;filter&gt;</code> with a <code>domain</code> pre-applies a WHERE clause. A <code>&lt;filter&gt;</code> with a <code>context={'group_by': ...}</code> groups the result set. None of these affect the record data — they only change what the ORM fetches. If no search view is defined for a model, Odoo generates a minimal default that searches only the <code>name</code> field.</p>
+    <p>Search views define which fields are searched when the user types, and provide predefined filter options:</p>
+    <pre>&lt;record id="view_search_book" model="ir.ui.view"&gt;
+  &lt;field name="name"&gt;Book Filters&lt;/field&gt;
+  &lt;field name="model"&gt;library.book&lt;/field&gt;
+  &lt;field name="arch" type="xml"&gt;
+    &lt;search&gt;
+      &lt;field name="name"/&gt;
+      &lt;field name="isbn"/&gt;
+      &lt;field name="publisher_id"/&gt;
+      &lt;filter name="filter_active" string="Active"
+              domain="[('active','=',True)]"/&gt;
+      &lt;filter name="filter_inactive" string="Inactive"
+              domain="[('active','=',False)]"
+              context="{'active_test': False}"/&gt;
+      &lt;separator/&gt;
+      &lt;filter name="group_publisher" string="Publisher"
+              context="{&apos;group_by&apos;: &apos;publisher_id&apos;}"/&gt;
+    &lt;/search&gt;
+  &lt;/field&gt;
+&lt;/record&gt;</pre>
+    <p>Every <code>&lt;filter&gt;</code> element must have a unique <code>name</code> attribute — this has been required since Odoo 12 and remains true in v19.</p>
+    <div class="tip"><strong>Tip — domain syntax:</strong> A <code>domain</code> is a list of conditions written as Python-style tuples: <code>[('field', 'operator', value)]</code>. Each tuple is <code>(field_name, comparison_operator, value)</code>. Multiple conditions are ANDed by default. Common operators: <code>=</code>, <code>!=</code>, <code>&gt;</code>, <code>&lt;</code>, <code>&gt;=</code>, <code>&lt;=</code>, <code>in</code>, <code>not in</code>, <code>like</code>, <code>ilike</code> (case-insensitive contains). Use a prefix <code>'|'</code> before two conditions for OR, or <code>'&amp;'</code> for explicit AND: <code>['|', ('active','=',True), ('isbn','!=',False)]</code>. An empty list <code>[]</code> means no restriction — all records match.</div>
+    <div class="v19-warn"><span class="badge v-removed">Removed in v17 — <code>&lt;group&gt;</code> wrapper inside <code>&lt;search&gt;</code></span> In Odoo 15/16 you would wrap Group By filters in <code>&lt;group expand="0" string="Group By"&gt;</code>. This wrapper was removed in Odoo 17 — it raises <em>Invalid view definition</em> at install. The UI now automatically separates Filter and Group By items based on whether the filter uses <code>domain</code> or <code>context={'group_by': ...}</code>. Use <code>&lt;separator/&gt;</code> to add a visual divider between sections.</div>
+    <div class="note"><strong>active_test context:</strong> Models with an <code>active</code> field have an implicit <code>active=True</code> filter applied by the ORM on every query. Without <code>context="{'active_test': False}"</code> on the Inactive filter, the filter appears to do nothing — the ORM overrides the domain before it reaches the database.</div>
+
+    <h3>The <code>context</code> Attribute on Filters</h3>
+    <p>Filters can do one of two things: restrict the records shown (<code>domain</code>), or change how the ORM queries and displays data (<code>context</code>). The <code>context</code> attribute injects key-value pairs into the query context when the filter is active:</p>
+    <table>
+        <thead><tr><th>Context key</th><th>Effect</th></tr></thead>
+        <tbody>
+            <tr>
+                <td><code>{'group_by': 'publisher_id'}</code></td>
+                <td>Groups results by the given field — turns the filter into a Group By option in the search dropdown</td>
+            </tr>
+            <tr>
+                <td><code>{'active_test': False}</code></td>
+                <td>Disables the ORM's implicit <code>active=True</code> filter so archived records are included in results</td>
+            </tr>
+            <tr>
+                <td><code>{'default_publisher_id': 1}</code></td>
+                <td>Pre-fills the <code>publisher_id</code> field when creating a new record from this filtered view</td>
+            </tr>
+        </tbody>
+    </table>
+    <p>A filter can have both <code>domain</code> and <code>context</code> at the same time. Odoo's UI automatically places filters that use only <code>context={'group_by': ...}</code> in the "Group By" section of the search dropdown — no extra markup needed.</p>
+
+    <h3>How <code>&lt;field&gt;</code> Behaves Differently in a Search View</h3>
+    <p>A <code>&lt;field&gt;</code> element means something completely different depending on which view type it appears in:</p>
+    <table>
+        <thead><tr><th>View type</th><th>What <code>&lt;field name="name"/&gt;</code> does</th></tr></thead>
+        <tbody>
+            <tr>
+                <td><strong>Form view</strong></td>
+                <td>Renders an editable input widget for that field on the screen</td>
+            </tr>
+            <tr>
+                <td><strong>List view</strong></td>
+                <td>Renders a column in the table for that field</td>
+            </tr>
+            <tr>
+                <td><strong>Search view</strong></td>
+                <td>Adds a <em>"Search by Title"</em> option in the search bar dropdown — no input is shown until the user selects it. When selected, the typed text is applied as a filter on that field.</td>
+            </tr>
+        </tbody>
+    </table>
+    <p>In a search view, omitting a field doesn't hide it — it just means the user cannot search by that field from the dropdown. The list of <code>&lt;field&gt;</code> elements in a search view defines the searchable fields menu, not the visible columns.</p>
+
+    <h3>Adding Menu Items and Window Actions</h3>
+    <p>At this point the library module already has the <strong>top-level "Library" entry</strong> in the navigation bar — that was defined in <a href="#step2">Step 2</a> as a bare <code>&lt;menuitem id="menu_library" name="Library"/&gt;</code> with no <code>parent</code> attribute. What is missing is the child item that actually opens the book records. The menu hierarchy for the library module is:</p>
+    <pre><span class="comment">&lt;!-- Level 1 — already created in Step 2 --&gt;</span>
+Library   (menu_library)
+  └── <span class="comment">&lt;!-- Level 2 — added here --&gt;</span>
+      Books   (menu_library_book)  →  opens the Book list/form</pre>
+    <p>A leaf menu item cannot open a view on its own — it must point to a <strong>window action</strong> (<code>ir.actions.act_window</code>) that tells Odoo which model to open and in which view modes. The action is defined first, then the menu item references it via the <code>action</code> attribute. Edit <code>views/library_menu.xml</code>:</p>
+    <pre>&lt;!-- Action to open the Book list --&gt;
+&lt;record id="action_library_book" model="ir.actions.act_window"&gt;
+  &lt;field name="name"&gt;Library Books&lt;/field&gt;
+  &lt;field name="res_model"&gt;library.book&lt;/field&gt;
+  &lt;field name="view_mode"&gt;list,form&lt;/field&gt;
+&lt;/record&gt;
+
+&lt;!-- Menu item to open the Book list --&gt;
+&lt;menuitem id="menu_library_book"
+  name="Books"
+  parent="menu_library"
+  action="action_library_book"
+/&gt;</pre>
+    <p>Each field in the window action record has a specific purpose:</p>
+    <table>
+        <thead><tr><th>Field</th><th>Value</th><th>Meaning</th></tr></thead>
+        <tbody>
+            <tr>
+                <td><code>name</code></td>
+                <td><code>Library Books</code></td>
+                <td>The label shown in the breadcrumb bar when the view is open</td>
+            </tr>
+            <tr>
+                <td><code>res_model</code></td>
+                <td><code>library.book</code></td>
+                <td>The model whose records this action opens — must match <code>_name</code> on the Python class</td>
+            </tr>
+            <tr>
+                <td><code>view_mode</code></td>
+                <td><code>list,form</code></td>
+                <td>Comma-separated list of allowed view types in display order. The first entry is the one opened initially. Switching between them uses the view-type icons in the top-right corner.</td>
+            </tr>
+        </tbody>
+    </table>
+    <div class="change"><span class="badge v-changed">Changed in v17</span> Use <code>view_mode="list,form"</code> instead of <code>tree,form</code>. The tree keyword still works for backward compatibility but <code>list</code> is the current standard name.</div>
+    <div class="tip"><strong>Tip — <code>res_model</code> vs <code>model</code>:</strong> The window action uses <code>&lt;field name="res_model"&gt;</code> while view records use <code>&lt;field name="model"&gt;</code>. Both point to the same thing — the technical name of the model — but each record type uses its own field name. <code>res_model</code> is the field on <code>ir.actions.act_window</code>; <code>model</code> is the field on <code>ir.ui.view</code>.</div>
+
+    <h3>Button Styling</h3>
+    <div class="change"><span class="badge v-changed">Changed in v17</span> The old <code>class="oe_highlight"</code> CSS class for primary buttons is replaced by Bootstrap-compatible <code>class="btn-primary"</code>:</div>
+    <pre>&lt;button name="button_check_isbn" type="object"
+        string="Check ISBN"
+        class="btn-primary"
+        invisible="not isbn"/&gt;</pre>
+    <div class="tip"><strong>Tip — button <code>type</code> values:</strong> The <code>type</code> attribute controls what <code>name</code> refers to. Use <code>type="object"</code> to call a Python method on the model (most common). Use <code>type="action"</code> to trigger a window or client action by its XML ID. Use <code>type="url"</code> to open an external URL in the browser. Using the wrong type is a common mistake — if a button does nothing when clicked, check <code>type</code> first.</div>
+
+    <hr>
+
+    <!-- Step 7 -->
+    <h2 id="step7"><span class="step-badge">Step 7</span> Implementing the Business Logic Layer</h2>
+    <p>The business logic layer supports business rules such as validations and automation. Python methods added to the model class implement this behavior.</p>
+
+    <h3>Adding Business Logic — ISBN Validation</h3>
+    <p>Modern ISBNs have 13 digits; the last is a check digit computed from the first 12. The <code>_check_isbn()</code> method on the <code>Book</code> class validates this:</p>
+    <pre>def _check_isbn(self):
+    self.ensure_one()
+    digits = [int(x) for x in self.isbn if x.isdigit()]
+    if len(digits) == 13:
+        ponderations = [1, 3] * 6
+        terms = [a * b for a, b in zip(digits[:12], ponderations)]
+        remain = sum(terms) % 10
+        check = 10 - remain if remain != 0 else 0
+        return digits[-1] == check
+    return False</pre>
+    <p>Line by line:</p>
+    <button class="explain-toggle" onclick="
+        var p = this.nextElementSibling;
+        var open = p.style.display === 'block';
+        p.style.display = open ? 'none' : 'block';
+        this.classList.toggle('open', !open);
+        this.querySelector('.label').textContent = open
+            ? 'Line by line — ISBN algorithm explained'
+            : 'Hide explanation';
+    ">
+        <span class="arrow">&#9654;</span>
+        <span class="label">Line by line — ISBN algorithm explained</span>
+    </button>
+
+    <div class="explain-panel">
+        <ul>
+            <li><code>self.ensure_one()</code> — Guards against accidental multi-record calls. Raises a <code>ValueError</code> immediately if <code>self</code> contains zero or more than one record, instead of silently computing a wrong result.</li>
+            <li><code>digits = [int(x) for x in self.isbn if x.isdigit()]</code> — Strips hyphens, spaces, or other formatting characters from the raw ISBN string and converts each remaining digit character to an integer. Result: a plain list of integers, e.g. <code>[9, 7, 8, 0, 2, 0, 1, 5, 3, 0, 6, 3, 6]</code>.</li>
+            <li><code>if len(digits) == 13</code> — The method only validates ISBN-13. If fewer or more digits are found it returns <code>None</code> (implicitly falsy), so the caller treats a short or garbled value as invalid.</li>
+            <li><code>ponderations = [1, 3] * 6</code> — The ISBN-13 standard assigns alternating weights 1 and 3 to the first 12 positions. <code>[1, 3] * 6</code> is a concise way to produce <code>[1, 3, 1, 3, 1, 3, 1, 3, 1, 3, 1, 3]</code>.</li>
+            <li><code>terms = [a * b for a, b in zip(digits[:12], ponderations)]</code> — Multiplies each of the first 12 digits by its corresponding weight, producing a list of 12 products.</li>
+            <li><code>remain = sum(terms) % 10</code> — Sums all weighted products and takes the remainder when divided by 10.</li>
+            <li><code>check = 10 - remain if remain != 0 else 0</code> — Computes the expected check digit. If the remainder is 0 the check digit is 0; otherwise it is <code>10 − remainder</code>.</li>
+            <li><code>return digits[-1] == check</code> — Compares the actual 13th digit against the computed check digit. Returns <code>True</code> if valid, <code>False</code> if not.</li>
+        </ul>
+    </div>
+
+    <h3>Connecting Logic to a Form Button</h3>
+    <p>The <strong>Check ISBN</strong> button defined in the form view (see <a href="#step6">Step 6 — Creating a Form View</a>) uses <code>type="object"</code> and <code>name="button_check_isbn"</code>. When the user clicks it, Odoo calls the Python method with that exact name on the current record. The method's job is to be the user-facing entry point: it iterates over the recordset, delegates the actual math to <code>_check_isbn()</code>, and raises a <code>ValidationError</code> with a human-readable message if something is wrong. Unlike the constraint, this method runs only on demand — it gives the user immediate feedback while they are still editing, before a save occurs.</p>
+    <pre>from odoo.exceptions import ValidationError
+
+def button_check_isbn(self):
+    for book in self:
+        if not book.isbn:
+            raise ValidationError(
+                f"Please provide an ISBN for {book.name}")
+        if not book._check_isbn():
+            raise ValidationError(
+                f"{book.isbn} is not a valid ISBN-13")
+    return True</pre>
+    <p>Key points:</p>
+    <ul>
+        <li><code>self</code> in Odoo methods is a <strong>recordset</strong>. Using a <code>for</code> loop handles both single and multi-record cases.</li>
+        <li>Always <code>return True</code> from button methods. Some XML-RPC client implementations don't support <code>None/Null</code> return values.</li>
+        <li><code>ValidationError</code> is imported from <code>odoo.exceptions</code>.</li>
+    </ul>
+
+    <h3>Why Three Methods for One Rule?</h3>
+    <p>The ISBN validation is split across three methods on purpose — each one has a different trigger and a different role:</p>
+    <table>
+        <thead><tr><th>Method</th><th>Triggered by</th><th>Returns</th></tr></thead>
+        <tbody>
+            <tr>
+                <td><code>_check_isbn()</code></td>
+                <td>Other methods — not called directly by Odoo</td>
+                <td><code>True</code> / <code>False</code> (pure computation)</td>
+            </tr>
+            <tr>
+                <td><code>button_check_isbn()</code></td>
+                <td>User clicking the button on the form</td>
+                <td><code>True</code>, or raises <code>ValidationError</code></td>
+            </tr>
+            <tr>
+                <td><code>_check_isbn_constraint()</code></td>
+                <td>Odoo automatically on every <code>create</code> / <code>write</code></td>
+                <td><code>None</code>, or raises <code>ValidationError</code></td>
+            </tr>
+        </tbody>
+    </table>
+    <p>This separation keeps each method focused: <code>_check_isbn()</code> is a reusable helper that knows only the math; the button and the constraint each call it and decide what to do with the result.</p>
+
+    <h3>Constraints (<code>@api.constrains</code>)</h3>
+    <p>Model-level constraints using the <code>@api.constrains</code> decorator are unchanged in v19:</p>
+    <pre>@api.constrains("isbn")
+def _check_isbn_constraint(self):
+    for book in self:
+        if book.isbn and not book._check_isbn():
+            raise ValidationError(
+                f"The ISBN {book.isbn} is not valid."
+            )</pre>
+    <p><strong>Constraints run automatically on every save</strong> (both <code>create</code> and <code>write</code>). The button, by contrast, only runs when the user explicitly clicks it. That is why both exist: the constraint prevents invalid data from ever entering the database, while the button gives immediate on-demand feedback while the user is still filling in the form.</p>
+    <div class="tip"><strong>Tip — common Odoo method decorators:</strong> A decorator is placed directly above a function definition and <em>modifies its behavior</em> without changing the function's own code. In Odoo, <code>api</code> decorators tell the framework <strong>when</strong> to call a method automatically and <strong>how</strong> to treat <code>self</code> inside it — you write the logic once and the decorator decides the trigger. For example, a method decorated with <code>@api.constrains('isbn')</code> will be called automatically every time a record is saved and the <code>isbn</code> field was part of the write; a method decorated with <code>@api.depends('name', 'isbn')</code> will be scheduled for recomputation every time either of those fields changes.
+        <table>
+            <thead><tr><th>Decorator</th><th>When it fires</th><th>Typical use</th></tr></thead>
+            <tbody>
+                <tr><td><code>@api.constrains('field')</code></td><td>Every <code>create</code> and <code>write</code> that touches the listed fields</td><td>Validate field values; raise <code>ValidationError</code> on bad data</td></tr>
+                <tr><td><code>@api.depends('field')</code></td><td>When any of the listed fields change</td><td>Mark a computed field for recomputation</td></tr>
+                <tr><td><code>@api.onchange('field')</code></td><td>When the user edits the field in a form (client-side, before save)</td><td>Update related fields live in the UI; show warnings</td></tr>
+                <tr><td><code>@api.model</code></td><td>Not record-specific — <code>self</code> is the model class, not a recordset</td><td>Override <code>create()</code>, implement class-level helpers</td></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <hr>
+
+    <!-- Step 8 -->
+    <h2 id="step8"><span class="step-badge">Step 8</span> Implementing the Website UI</h2>
+    <p>Odoo provides a web development framework for building website features closely integrated with backend apps. This step creates a web page displaying a list of active books at the <code>/library/books</code> URL.</p>
+
+    <h3>Web Controllers</h3>
+    <p><strong>Web controllers</strong> are Python methods in an <code>http.Controller</code>-derived class, bound to URL endpoints using the <code>@http.route</code> decorator.</p>
+
+    <h4>Why not use the backend list view?</h4>
+    <p>The library module already has a list view defined in Step 6 — so why does Step 8 need a controller and a separate template for the same data? Because they are two completely different rendering systems that serve different audiences:</p>
+    <table>
+        <thead><tr><th></th><th>Backend views (Step 6)</th><th>Web controller + QWeb (Step 8)</th></tr></thead>
+        <tbody>
+            <tr><td><strong>Rendered by</strong></td><td>Odoo JavaScript client running in the browser</td><td>Python on the server — returns plain HTML</td></tr>
+            <tr><td><strong>Requires login</strong></td><td>Yes — user must be authenticated</td><td>No — works with <code>auth='public'</code></td></tr>
+            <tr><td><strong>URL pattern</strong></td><td><code>/odoo/...</code> backend routes</td><td>Any URL you define in <code>@http.route</code></td></tr>
+            <tr><td><strong>Typical audience</strong></td><td>Internal staff using the backend</td><td>Public website visitors</td></tr>
+        </tbody>
+    </table>
+    <p>When a browser requests <code>/library/books</code>, Odoo's web server looks up the registered route, calls the controller method, which queries the database, passes the data to a QWeb template, and returns the rendered HTML page. The backend list view is never involved — it only works inside the Odoo JS app shell, typically at <code>/odoo/library-books</code>, and requires a logged-in session. Both can coexist for the same model: an admin uses the backend list view; a public visitor uses the website page at <code>/library/books</code>.</p>
+
+    <h4>How a controller works</h4>
+    <p>Think of a controller as the bridge between a browser request and the database. When a visitor opens <code>/library/books</code> in their browser, Odoo's web server receives the HTTP request, looks up which method is registered for that URL, calls it, and sends the returned HTML page back to the browser. The controller method is where you query the database, prepare data, and choose which template to render — exactly the same job a view function does in Flask or Django.</p>
+    <p>First, add <code>controllers</code> to the top-level imports in <code>library/__init__.py</code>:</p>
+    <pre>from . import models
+from . import controllers</pre>
+    <p>Then create <code>controllers/__init__.py</code>:</p>
+    <pre>from . import main</pre>
+    <p>The controller in <code>controllers/main.py</code>:</p>
+    <pre>from odoo import http
+
+class Books(http.Controller):
+
+    @http.route("/library/books", auth="public", website=True)
+    def list(self, **kwargs):
+        Book = http.request.env["library.book"]
+        books = Book.sudo().search([])
+        return http.request.render(
+            "library.book_list_template",
+            {"books": books}
+        )
+
+    @http.route("/library/book/&lt;int:book_id&gt;", auth="public", website=True)
+    def detail(self, book_id, **kwargs):
+        book = http.request.env["library.book"].sudo().browse(book_id)
+        if not book.exists() or not book.active:
+            return http.request.not_found()
+        return http.request.render(
+            "library.book_detail_template",
+            {"book": book}
+        )</pre>
+    <p>The <code>Books</code> controller registers <strong>two publicly accessible routes</strong>:</p>
+    <ul>
+        <li><code>/library/books</code> — the <strong>list page</strong>: fetches all active book records and renders them as an HTML page using the <code>book_list_template</code> QWeb template.</li>
+        <li><code>/library/book/&lt;int:book_id&gt;</code> — the <strong>detail page</strong>: fetches a single book by its database ID extracted from the URL and renders it with <code>book_detail_template</code>. Returns a 404 if the book does not exist or is archived.</li>
+    </ul>
+    <p>Both routes use <code>auth="public"</code>, making them accessible without login — intentional for a public catalogue.</p>
+    <button class="explain-toggle" onclick="
+        var p = this.nextElementSibling;
+        var open = p.style.display === 'block';
+        p.style.display = open ? 'none' : 'block';
+        this.classList.toggle('open', !open);
+        this.querySelector('.label').textContent = open
+            ? 'Code explanation'
+            : 'Hide explanation';
+    ">
+        <span class="arrow">&#9654;</span>
+        <span class="label">Code explanation</span>
+    </button>
+    <div class="explain-panel">
+        <ul>
+            <li><code>class Books(http.Controller)</code> — Declares a controller class. Odoo discovers it automatically at startup by scanning all imported modules for <code>http.Controller</code> subclasses. The class name is arbitrary.</li>
+            <li><code>@http.route("/library/books", auth="public", website=True)</code> — Registers the URL <code>/library/books</code>. The decorator is what makes the following method a route handler — without it the method is just a plain Python function that Odoo never calls from the web.</li>
+            <li><code>http.request.env["library.book"]</code> — Gets the <code>library.book</code> model from the current request's ORM environment. This is the same <code>env</code> object used in backend model methods, just accessed via <code>http.request</code> instead of <code>self.env</code>.</li>
+            <li><code>Book.sudo().search([])</code> — <code>sudo()</code> elevates the query to superuser rights, bypassing the public user's access restrictions. <code>search([])</code> with an empty domain returns all active records.</li>
+            <li><code>http.request.render("library.book_list_template", {"books": books})</code> — Renders the QWeb template identified by the XML ID <code>library.book_list_template</code> and passes the <code>books</code> recordset to it as a template variable. Returns an HTTP response with the rendered HTML.</li>
+            <li><code>/library/book/&lt;int:book_id&gt;</code> — The <code>&lt;int:book_id&gt;</code> part is a URL parameter. Odoo extracts the integer from the URL and passes it as the <code>book_id</code> argument to the method. Visiting <code>/library/book/42</code> calls <code>detail(book_id=42)</code>.</li>
+            <li><code>http.request.not_found()</code> — Returns an HTTP 404 response if the book does not exist or is archived.</li>
+        </ul>
+    </div>
+    <p>Both routes explicitly pass <code>auth="public"</code> — this is required since v16. The <code>auth</code> parameter is the key decision point for every route you write, because it controls who can reach the URL and whether the ORM environment carries identity:</p>
+    <div class="v19-warn"><span class="badge v-changed">Required since v16</span> <strong>You must explicitly set the <code>auth</code> parameter.</strong> In v15, omitting <code>auth</code> used permissive defaults. In v16+ this is enforced. Use <code>auth='public'</code> for pages accessible without login, <code>auth='user'</code> for pages that require a logged-in user.</div>
+    <table>
+        <thead><tr><th>Parameter</th><th>Description</th></tr></thead>
+        <tbody>
+            <tr><td><code>auth='public'</code></td><td>Accessible to anyone (logged in or anonymous). The ORM environment runs as the built-in public user who has no access rights by default — always use <code>.sudo()</code> for ORM calls.</td></tr>
+            <tr><td><code>auth='user'</code></td><td>Requires login. Redirects to <code>/web/login</code> if not authenticated. The ORM env carries the logged-in user's identity and access rights, so no <code>.sudo()</code> bypass is normally needed. The route still renders a <strong>website QWeb template</strong> — not a backend form or list view. Backend views are a separate system that only activates through the Odoo JSON-RPC interface (<code>/web#action=…</code>), not through HTTP route controllers.</td></tr>
+            <tr><td><code>auth='none'</code></td><td>No authentication check. Use only for completely open endpoints.</td></tr>
+            <tr><td><code>website=True</code></td><td>Wraps the response in the website layout (header, footer, theme).</td></tr>
+        </tbody>
+    </table>
+
+    <h3>Adding a QWeb Template</h3>
+    <p>QWeb is Odoo's XML-based templating engine for rendering HTML pages. Unlike Jinja2 or Django templates that use <code>{{ variable }}</code> syntax, QWeb embeds logic through XML attributes — <code>t-foreach</code>, <code>t-if</code>, <code>t-out</code> — on standard HTML tags, keeping templates valid HTML throughout.</p>
+    <p>Add <code>views/book_list_template.xml</code>:</p>
+    <pre>&lt;odoo&gt;
+  &lt;template id="book_list_template" name="Book List"&gt;
+    &lt;t t-call="website.layout"&gt;
+    &lt;div id="wrap" class="container mt-4"&gt;
+      &lt;h1 class="mb-4"&gt;Library Books&lt;/h1&gt;
+      &lt;t t-if="not books"&gt;
+        &lt;p class="text-muted"&gt;No books are currently available.&lt;/p&gt;
+      &lt;/t&gt;
+      &lt;t t-foreach="books" t-as="book"&gt;
+        &lt;div class="row border-bottom py-2"&gt;
+          &lt;div class="col-md-5"&gt;&lt;strong&gt;&lt;span t-field="book.name"/&gt;&lt;/strong&gt;&lt;/div&gt;
+          &lt;div class="col-md-3"&gt;&lt;span t-field="book.publisher_id"/&gt;&lt;/div&gt;
+          &lt;div class="col-md-2"&gt;&lt;span t-field="book.date_published"/&gt;&lt;/div&gt;
+          &lt;div class="col-md-2"&gt;&lt;span t-out="book.isbn or ''"/&gt;&lt;/div&gt;
+        &lt;/div&gt;
+      &lt;/t&gt;
+    &lt;/div&gt;
+    &lt;/t&gt;
+  &lt;/template&gt;
+&lt;/odoo&gt;</pre>
+    <div class="tip"><strong><code>&lt;template&gt;</code> vs <code>&lt;record model="ir.ui.view"&gt;</code>:</strong> In Step 6, backend views were declared with the verbose <code>&lt;record model="ir.ui.view"&gt;</code> syntax. Website QWeb templates use the shorthand <code>&lt;template&gt;</code> element — Odoo expands it into the same <code>ir.ui.view</code> record automatically. The <code>id</code> attribute becomes the XML ID passed to <code>http.request.render()</code> as <code>"module_name.template_id"</code>.</div>
+    <div class="v19-warn"><span class="badge v-removed">REMOVED in v19 — <code>t-esc</code> and <code>t-raw</code>.</span> These attributes are completely removed. Replace <code>t-esc</code> with <code>t-out</code>. Replace <code>t-raw</code> with <code>t-out</code> plus a widget option.</div>
+    <table>
+        <thead><tr><th>v15 attribute</th><th>v19 replacement</th><th>Notes</th></tr></thead>
+        <tbody>
+            <tr>
+                <td><code>t-esc="value"</code></td>
+                <td><code>t-out="value"</code></td>
+                <td><code>t-out</code> auto-escapes HTML — same safety as <code>t-esc</code></td>
+            </tr>
+            <tr>
+                <td><code>t-raw="value"</code></td>
+                <td><code>t-out="value" t-options="{'widget': 'html'}"</code></td>
+                <td>Use the <code>html</code> widget to render unescaped HTML content</td>
+            </tr>
+            <tr>
+                <td><code>t-field="record.field"</code></td>
+                <td><code>t-field="record.field"</code></td>
+                <td>Unchanged — still the preferred way to render Odoo record fields</td>
+            </tr>
+        </tbody>
+    </table>
+    <div class="tip"><strong>Rule of thumb for v19 templates:</strong> Use <code>t-field</code> for Odoo record fields (handles formatting, widgets, localization). Use <code>t-out</code> for Python expressions. Never use <code>t-esc</code> or <code>t-raw</code>.</div>
+
+    <button class="explain-toggle" onclick="
+        var p = this.nextElementSibling;
+        var open = p.style.display === 'block';
+        p.style.display = open ? 'none' : 'block';
+        this.classList.toggle('open', !open);
+        this.querySelector('.label').textContent = open
+            ? 'Code explanation'
+            : 'Hide explanation';
+    ">
+        <span class="arrow">&#9654;</span>
+        <span class="label">Code explanation</span>
+    </button>
+    <div class="explain-panel">
+        <ul>
+            <li><code>t-foreach="books" t-as="book"</code> — Loops over the <code>books</code> variable passed in from the controller's <code>render()</code> call. <code>t-as</code> sets the name of the loop variable (<code>book</code>) used inside the loop body.</li>
+            <li><code>id="wrap"</code> — The outer div ID that the Odoo website layout looks for when injecting the header, footer, and theme wrapper. Without it, <code>website=True</code> routes still work but the page may not integrate cleanly with the site layout.</li>
+            <li><code>t-field="book.name"</code> — Renders an Odoo record field with proper formatting, localization, and widget support (e.g. currency symbols, date formats, many2one display names). Prefer <code>t-field</code> over <code>t-out</code> whenever you are rendering a field directly from an Odoo record.</li>
+            <li><code>t-out="book.isbn or 'N/A'"</code> — Evaluates the Python expression and outputs the result as HTML-escaped text. The <code>or 'N/A'</code> fallback is plain Python: if <code>book.isbn</code> is falsy (empty string or <code>False</code>) the literal <code>'N/A'</code> is shown instead. Use <code>t-out</code> for Python expressions that are not direct field references.</li>
+        </ul>
+    </div>
+
+    <h4>The detail template — <code>views/book_detail_template.xml</code></h4>
+    <p>The controller's <code>detail</code> route extracts <code>book_id</code> from the URL (<code>/library/book/&lt;int:book_id&gt;</code>), fetches the matching record, and then calls <code>http.request.render("library.book_detail_template", {"book": book})</code> — this is the template it expects. Create <code>views/book_detail_template.xml</code>:</p>
+    <pre>&lt;odoo&gt;
+  &lt;template id="book_detail_template" name="Book Detail"&gt;
+    &lt;t t-call="website.layout"&gt;
+    &lt;div id="wrap" class="container"&gt;
+      &lt;h1 t-field="book.name"/&gt;
+      &lt;dl&gt;
+        &lt;dt&gt;ISBN&lt;/dt&gt;       &lt;dd&gt;&lt;span t-out="book.isbn or 'N/A'"/&gt;&lt;/dd&gt;
+        &lt;dt&gt;Published&lt;/dt&gt; &lt;dd&gt;&lt;span t-field="book.date_published"/&gt;&lt;/dd&gt;
+        &lt;dt&gt;Publisher&lt;/dt&gt; &lt;dd&gt;&lt;span t-field="book.publisher_id"/&gt;&lt;/dd&gt;
+      &lt;/dl&gt;
+      &lt;a href="/library/books"&gt;Back to list&lt;/a&gt;
+    &lt;/div&gt;
+    &lt;/t&gt;
+  &lt;/template&gt;
+&lt;/odoo&gt;</pre>
+    <div class="tip"><strong>What is <code>website.layout</code>?</strong> It is a QWeb template defined by the <code>website</code> module that wraps your content in the full site chrome — the navigation bar, footer, SEO meta tags, and any theme styles. Calling it with <code>&lt;t t-call="website.layout"&gt;</code> is the equivalent of a Django <code>{% extends "base.html" %}</code>: everything inside the <code>&lt;t&gt;</code> tag becomes the page body, and <code>website.layout</code> injects the surrounding structure. Without this call the route still works but returns a bare HTML fragment with no header or footer.</div>
+    <p>Once both templates are written, register them in the manifest so Odoo loads them at startup — also ensure <code>website</code> is listed in <code>depends</code>:</p>
+    <pre>"depends": ["base", "website"],
+"data": [
+    "security/library_security.xml",
+    "security/ir.model.access.csv",
+    "views/book_view.xml",
+    "views/library_menu.xml",
+    "views/book_list_template.xml",
+    "views/book_detail_template.xml",
+],</pre>
+
+    <h3>JavaScript Frontend — OWL Components</h3>
+    <div class="change"><span class="badge v-changed">Major change since v16</span> The legacy Widget system is replaced by <strong>OWL (Odoo Web Library)</strong>, a reactive component framework similar to Vue.js. Any custom JavaScript widget must be rewritten as an OWL component using ES Modules.</div>
+    <div class="tip"><strong>This code is not in the module.</strong> The library module built in this chapter has no <code>static/</code> directory and no JavaScript files. The example below shows how you <em>would</em> add a live ISBN field widget if you wanted to extend the module — it is illustrative, not part of the running codebase.</div>
+
+    <p>A useful extension would be a custom OWL field widget for the <strong>ISBN field</strong>. The constraint added in Step 7 validates the ISBN on save — but it only fires when the user clicks Save. A custom field widget adds <strong>live feedback</strong> inside the form field as the user types: it shows a green checkmark while the ISBN is valid and a red indicator while it is not, before any save happens. This is purely a UI enhancement; the server-side constraint remains the authoritative check.</p>
+
+    <p>Create <code>static/src/js/isbn_widget.js</code>:</p>
+    <pre>// library/static/src/js/isbn_widget.js
+import { Component, useState } from "@odoo/owl";
+import { registry }            from "@web/core/registry";
+import { standardFieldProps }  from "@web/views/fields/standard_field_props";
+
+class IsbnWidget extends Component {
+    static template = "library.IsbnWidget";
+    static props    = { ...standardFieldProps };
+
+    setup() {
+        this.state = useState({ value: this.props.value || "" });
+    }
+
+    get isValid() {
+        const v = this.state.value.replace(/-/g, "");
+        return v.length === 13 &amp;&amp; /^\d+$/.test(v);
+    }
+
+    onInput(ev) {
+        this.state.value = ev.target.value;
+        this.props.update(ev.target.value);
+    }
+}
+
+registry.category("fields").add("isbn_widget", { component: IsbnWidget });</pre>
+
+    <button class="explain-toggle" onclick="
+        var p = this.nextElementSibling;
+        var open = p.style.display === 'block';
+        p.style.display = open ? 'none' : 'block';
+        this.classList.toggle('open', !open);
+        this.querySelector('.label').textContent = open
+            ? 'Code explanation'
+            : 'Hide explanation';
+    ">
+        <span class="arrow">&#9654;</span>
+        <span class="label">Code explanation</span>
+    </button>
+    <div class="explain-panel">
+        <ul>
+            <li><code>import { Component, useState } from "@odoo/owl"</code> — <code>Component</code> is the OWL base class (equivalent to <code>React.Component</code>). <code>useState</code> is OWL's reactive state hook: any change to a <code>useState</code> object automatically re-renders the template.</li>
+            <li><code>import { registry } from "@web/core/registry"</code> — The global Odoo registry. It maps string keys to implementations for fields, services, actions, and more. Registering here is the JavaScript equivalent of adding a record to <code>ir.ui.view</code> — it makes the widget known to the framework.</li>
+            <li><code>import { standardFieldProps } from "@web/views/fields/standard_field_props"</code> — A pre-defined set of props that all field widgets receive from the form view: <code>value</code>, <code>update</code>, <code>readonly</code>, <code>required</code>, etc. Spreading them into <code>static props</code> tells OWL to accept and validate all of them.</li>
+            <li><code>static template = "library.IsbnWidget"</code> — The XML ID of the OWL template that renders this component's HTML. Format is <code>module_name.TemplateName</code>. The template lives in a separate XML file (see below).</li>
+            <li><code>static props = { ...standardFieldProps }</code> — Declares the component's prop contract. OWL validates props at runtime in dev mode; missing or wrong-typed props raise a warning.</li>
+            <li><code>get isValid()</code> — A JavaScript getter that strips hyphens from the current value and checks if the result is exactly 13 digits. Same logic as the Python constraint in Step 7, mirrored in the browser for live feedback.</li>
+            <li><code>this.props.update(ev.target.value)</code> — The form view passes an <code>update</code> callback as a prop. Calling it notifies the form that the field value has changed, keeping the ORM environment in sync with what the user typed.</li>
+            <li><code>registry.category("fields").add("isbn_widget", { component: IsbnWidget })</code> — Registers the widget under the key <code>"isbn_widget"</code>. This name is used in the form view XML as <code>widget="isbn_widget"</code> to attach the component to a specific field.</li>
+        </ul>
+    </div>
+
+    <p>Every OWL component needs a companion XML template. Create <code>static/src/xml/isbn_widget.xml</code>:</p>
+    <pre>&lt;?xml version="1.0" encoding="utf-8"?&gt;
+&lt;templates&gt;
+  &lt;t t-name="library.IsbnWidget" owl="1"&gt;
+    &lt;div class="o_field_widget d-flex align-items-center"&gt;
+      &lt;input t-att-value="state.value" t-on-input="onInput" class="o_input"/&gt;
+      &lt;span t-if="isValid"  class="text-success ms-2"&gt;&amp;#10003; Valid&lt;/span&gt;
+      &lt;span t-elif="state.value" class="text-danger ms-2"&gt;&amp;#10007; Invalid&lt;/span&gt;
+    &lt;/div&gt;
+  &lt;/t&gt;
+&lt;/templates&gt;</pre>
+    <div class="tip"><strong>OWL template files are not Odoo view XML.</strong> They live under <code>static/src/xml/</code> and use <code>&lt;templates&gt;</code> as the root element with <code>owl="1"</code> on each <code>t-name</code>. Odoo view XML (forms, lists, searches) uses <code>&lt;odoo&gt;</code> as root and is loaded server-side. OWL templates are loaded client-side as JavaScript assets.</div>
+
+    <p>To use the widget, add <code>widget="isbn_widget"</code> to the ISBN field in the form view XML (<code>views/book_view.xml</code>):</p>
+    <pre>&lt;field name="isbn" widget="isbn_widget"/&gt;</pre>
+    <p>The form view renderer looks up <code>"isbn_widget"</code> in <code>registry.category("fields")</code> at render time and mounts the OWL component in place of the default text input.</p>
+
+    <p>Both files must be declared in the manifest <code>assets</code> key — not in the <code>data</code> key, which is for XML view records only:</p>
+    <pre>"assets": {
+    "web.assets_backend": [
+        "library/static/src/js/isbn_widget.js",
+        "library/static/src/xml/isbn_widget.xml",
+    ],
+},</pre>
+
+    <hr>
+
+    <!-- Exercise -->
+    <h2 id="exercise">Exercise — Add a "Number of Pages" Field</h2>
+    <p>Practice everything covered in this chapter by extending the module yourself. The goal is to add a <strong>Number of pages</strong> field to the <code>library.book</code> model and wire it through every layer: model, view, website template, and a basic validation rule.</p>
+
+    <h3>Tasks</h3>
+    <ol>
+        <li>
+            <strong>Model layer</strong> — Add an <code>Integer</code> field <code>num_pages</code> to <code>models/library_book.py</code>.<br>
+            Hint: <code>fields.Integer(string="Number of Pages", default=0)</code>
+        </li>
+        <li>
+            <strong>Form view</strong> — Add the field to <code>views/book_view.xml</code> inside the existing <code>&lt;group&gt;</code> that contains <code>date_published</code>.
+        </li>
+        <li>
+            <strong>List view</strong> — Add <code>num_pages</code> as an optional column in the list view (<code>&lt;field name="num_pages" optional="show"/&gt;</code>).
+        </li>
+        <li>
+            <strong>Business logic</strong> — Add an <code>@api.constrains</code> method that raises a <code>ValidationError</code> if <code>num_pages</code> is negative.
+        </li>
+        <li>
+            <strong>Website template</strong> — Add a row for pages to <code>views/book_detail_template.xml</code>.
+        </li>
+        <li>
+            <strong>Test</strong> — Add a test case in <code>tests/test_book.py</code> that verifies saving a book with <code>num_pages=-1</code> raises <code>ValidationError</code>.
+        </li>
+    </ol>
+
+    <h3>Solution</h3>
+    <button class="explain-toggle" onclick="
+        var p = this.nextElementSibling;
+        var open = p.style.display === 'block';
+        p.style.display = open ? 'none' : 'block';
+        this.classList.toggle('open', !open);
+        this.querySelector('.label').textContent = open
+            ? 'Show solution'
+            : 'Hide solution';
+    ">
+        <span class="arrow">&#9654;</span>
+        <span class="label">Show solution</span>
+    </button>
+    <div class="explain-panel">
+
+        <h4>1. Model field — <code>models/library_book.py</code></h4>
+        <pre>num_pages = fields.Integer(string="Number of Pages", default=0)</pre>
+
+        <h4>2 &amp; 3. Form and list view — <code>views/book_view.xml</code></h4>
+        <pre>&lt;!-- inside the group that has date_published --&gt;
+&lt;field name="num_pages"/&gt;
+
+&lt;!-- inside the list view --&gt;
+&lt;field name="num_pages" optional="show"/&gt;</pre>
+
+        <h4>4. Constraint — <code>models/library_book.py</code></h4>
+        <pre>@api.constrains("num_pages")
+def _check_num_pages(self):
+    for book in self:
+        if book.num_pages &lt; 0:
+            raise ValidationError("Number of pages cannot be negative.")</pre>
+        <p>Ensure <code>ValidationError</code> is imported: <code>from odoo.exceptions import ValidationError</code></p>
+
+        <h4>5. Website detail template — <code>views/book_detail_template.xml</code></h4>
+        <pre>&lt;dt&gt;Pages&lt;/dt&gt;
+&lt;dd&gt;&lt;span t-out="book.num_pages or 'Unknown'"/&gt;&lt;/dd&gt;</pre>
+
+        <h4>6. Test — <code>tests/test_book.py</code></h4>
+        <pre>def test_negative_pages(self):
+    with self.assertRaises(ValidationError):
+        self.env["library.book"].create({
+            "name": "Bad Book",
+            "num_pages": -1,
+        })</pre>
+
+    </div>
+
+    <hr>
+
+    <!-- Summary -->
+    <h2 id="summary">Summary</h2>
+    <div class="summary-box">
+        <h3>What We Built — Updated for Odoo 19</h3>
+        <p style="color:#aaa; margin: 10px 0 16px 0;">A Library book catalog application from scratch, covering all essential components of an Odoo module in v19.</p>
+        <ul>
+            <li><strong style="color:#c9a0dc;">Models</strong> — Python classes with <code>_compute_display_name()</code> (not <code>name_get()</code>) and <code>@api.model_create_multi</code> for <code>create()</code>.</li>
+            <li><strong style="color:#c9a0dc;">Manifest</strong> — <code>assets</code> dict replaces XML asset templates; <code>qweb</code> key removed; <code>external_dependencies</code> validated.</li>
+            <li><strong style="color:#c9a0dc;">Access security</strong> — ACL rules and record rules; explicit <code>ir.module.category</code> records recommended.</li>
+            <li><strong style="color:#c9a0dc;">Menus and actions</strong> — XML records linking navigation to views. <code>view_mode="list,form"</code>.</li>
+            <li><strong style="color:#c9a0dc;">Views</strong> — <code>&lt;list&gt;</code> replaces <code>&lt;tree&gt;</code>; <code>attrs</code> removed — use direct expressions (<code>invisible="not active"</code>).</li>
+            <li><strong style="color:#c9a0dc;">Business logic</strong> — Model methods enforcing domain rules. <code>self.env.company</code> for current company.</li>
+            <li><strong style="color:#c9a0dc;">Web UI</strong> — Controllers with explicit <code>auth='public'</code>; QWeb templates use <code>t-out</code> / <code>t-field</code> (not <code>t-esc</code>).</li>
+            <li><strong style="color:#c9a0dc;">Tests</strong> — <code>setUpClass()</code> + <code>@tagged()</code> for efficient, filterable test suites.</li>
+        </ul>
+    </div>
+
+    <h3 style="margin-top: 32px;">5 Most Critical v15 → v19 Breaking Changes</h3>
+    <table>
+        <thead><tr><th>#</th><th>What</th><th>v15</th><th>v19</th></tr></thead>
+        <tbody>
+            <tr>
+                <td>1</td>
+                <td><strong>View conditionals</strong></td>
+                <td><code>attrs="{'invisible': [...]}"</code></td>
+                <td><code>invisible="expression"</code></td>
+            </tr>
+            <tr>
+                <td>2</td>
+                <td><strong>Display name</strong></td>
+                <td><code>def name_get(self)</code></td>
+                <td><code>def _compute_display_name(self)</code></td>
+            </tr>
+            <tr>
+                <td>3</td>
+                <td><strong>Template output</strong></td>
+                <td><code>t-esc="..."</code></td>
+                <td><code>t-out="..."</code></td>
+            </tr>
+            <tr>
+                <td>4</td>
+                <td><strong>Record creation</strong></td>
+                <td><code>@api.model def create(self, vals)</code></td>
+                <td><code>@api.model_create_multi def create(self, vals_list)</code></td>
+            </tr>
+            <tr>
+                <td>5</td>
+                <td><strong>Frontend assets</strong></td>
+                <td>XML template inheritance</td>
+                <td><code>assets</code> key in manifest + OWL ES Modules</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h3 style="margin-top: 32px;">Module Upgrade / Restart Rules — Always Remember</h3>
+    <table>
+        <thead><tr><th>Change Type</th><th>Action Required</th></tr></thead>
+        <tbody>
+            <tr><td>Adding / changing model fields</td><td>Upgrade (<code>-u module_name</code>)</td></tr>
+            <tr><td>Changing Python logic (including manifest)</td><td>Server restart</td></tr>
+            <tr><td>Changing XML or CSV files</td><td>Upgrade (<code>-u module_name</code>)</td></tr>
+            <tr><td>When in doubt</td><td><strong>Restart AND upgrade</strong></td></tr>
+        </tbody>
+    </table>
+
+    <p style="margin-top: 20px;">The Library application built in this chapter is used as the base for all subsequent chapters, where each iteration adds another layer of features through extension and inheritance.</p>
+
+    <footer>
+        <p>Based on: <em>Odoo 15 Development Essentials 5th Edition, Chapter 3</em> &amp; <em>Odoo 17 Development Cookbook 5th Edition, Chapter 3</em></p>
+        <p>Updated to Odoo 19 standards — March 20, 2026</p>
+    </footer>
+
+</div>
+</body>
+</html>
