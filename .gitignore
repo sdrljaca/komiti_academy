@@ -1,0 +1,10 @@
+# Binary / large files
+*.pdf
+*.dump
+*.pgdump
+
+# OS / editor
+.DS_Store
+Thumbs.db
+*.swp
+*~
