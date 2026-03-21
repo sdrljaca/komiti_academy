@@ -9,17 +9,17 @@
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     font-size: 15px;
-    line-height: 1.75;
+  line-height: 1.225;
     color: #2c2c2c;
     background: #f4f6f9;
 }
 .page-wrapper {
     max-width: 980px;
-    margin: 40px auto;
+  margin: 20px auto;
     background: #ffffff;
     border-radius: 8px;
     box-shadow: 0 2px 16px rgba(0,0,0,0.1);
-    padding: 60px 72px;
+  padding: 30px 36px;
 }
 .book-meta {
     text-align: center;
@@ -54,6 +54,7 @@ h4 { font-size: 15px; color: #444; margin: 20px 0 8px 0; font-style: italic; }
 p  { margin-bottom: 14px; }
 ul, ol { margin: 10px 0 14px 28px; }
 li { margin-bottom: 6px; }
+p, li, td, blockquote { line-height: 1.225; }
 code {
     background: #f0eaf4;
     color: #875A7B;
@@ -61,6 +62,8 @@ code {
     border-radius: 3px;
     font-family: 'Consolas', 'Courier New', monospace;
     font-size: 13.5px;
+  line-height: 1.225;
+  vertical-align: baseline;
 }
 pre {
     background: #1e1e2e;
@@ -74,6 +77,14 @@ pre {
     margin: 14px 0 20px 0;
     border-left: 4px solid #875A7B;
 }
+  pre code {
+    background: none;
+    color: inherit;
+    padding: 0;
+    border-radius: 0;
+    font-size: inherit;
+    line-height: inherit;
+  }
 blockquote {
     background: #fdf6ff;
     border-left: 4px solid #875A7B;
@@ -111,6 +122,11 @@ tbody tr:hover { background: #f0eaf4; }
 hr { border: none; border-top: 2px solid #e0d0e8; margin: 48px 0; }
 a { color: #875A7B; text-decoration: none; }
 a:hover { text-decoration: underline; }
+@media (max-width: 991.98px) {
+  .page-wrapper {
+    padding: 24px 18px;
+  }
+}
 footer {
     text-align: center;
     margin-top: 48px;
