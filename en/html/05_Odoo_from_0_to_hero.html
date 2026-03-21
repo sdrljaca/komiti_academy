@@ -290,7 +290,7 @@
     <p>The <strong>addons path</strong> is an Odoo configuration listing directories where the server looks for available addons. By default it contains Odoo's own bundled apps and base module. You extend it by adding directories for custom or community modules.</p>
     <p>The <code>odoo scaffold</code> command provides a quick way to create a module skeleton:</p>
     <pre>python odoo-bin scaffold library ~/work19/library</pre>
-    <div class="change"><span class="badge v-changed">Changed in v16</span> The recommended binary name is <code>odoo-bin</code>. The old <code>odoo</code> command still works but all official Odoo 17+ documentation and the source repository use <code>odoo-bin</code>.</div>
+        <div class="note"><strong>Prerequisites:</strong> run this command from an Odoo source checkout where <code>odoo-bin</code> exists, use a Python environment with the project dependencies installed, and pass an existing addons directory as the destination path so Odoo can later load the generated module through its <code>addons_path</code> configuration.</div>
 
     <h3>Recommended Module Structure in Odoo 19</h3>
     <p>The scaffold command creates a basic skeleton. The full recommended structure for a production module in Odoo 19 is:</p>
