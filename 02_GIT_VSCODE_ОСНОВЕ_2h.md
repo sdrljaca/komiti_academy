@@ -1,4 +1,4 @@
-# Git And VS Code Foundations
+# Git и VS Code основе
 Овај документ уводи кандидата у VS Code и Git основе које су потребне за сигуран рад у KomITi репоу.
 Циљ није да кандидат постане Git или VS Code експерт за 2 сата, него да не прави почетничке грешке и да разумије шта тачно ради кад отвара workspace, проналази фајлове, мијења код, снима, commit-ује и шаље код.
 
@@ -36,7 +36,7 @@
 ### Explorer
 - `Explorer` је лијеви панел у VS Code-у у ком видиш фолдере и фајлове.
 - Кроз Explorer прегледаш фајл једним кликом (биће му назив италиц), а отвараш фајл са 2 клика.
-- У Explorer-у видиш Фајлове, директоријуме, али само један workspace.
+- У Explorer-у видиш фајлове и директоријуме активног workspace-а; ако је workspace `multi-root`, у истом панелу видиш више top-level root фолдера.
 
 ### Workspace је VS Code контекст у ком радиш; он може садржати један фолдер или више фолдера
 - Ако у VS Code-у урадиш `Open Folder`, отворићеш један фолдер као свој радни workspace и аутоматски један неименован Workspace
@@ -73,9 +73,9 @@
 ## 3.1) Локална и remote грана
 ```text
 REMOTE   [origin/feature]         [origin/staging]             [origin/main]
-			  ^                           |                          |
-			  | git push                  | git pull                 | git pull
-			  |                           v                          v
+			  ^                           ^                          ^
+			  | git push                  | git push                 | git push
+			  |                           |                          |
 LOKALNO  [feature] ----git merge----> [staging] ----git merge----> [main]
 			  ^                                                        |
 			  |                                                        |
@@ -92,7 +92,7 @@ LOKALNO  [feature] ----git merge----> [staging] ----git merge----> [main]
 - зато је тако важно знати на којој си грани прије него нешто обришеш или промијениш — јер радиш у једином примјерку фолдера на диску,
 - у причи са папиром: немаш одвојене фасцикле за сваки папир — имаш једну фасциклу и Git ти у њу увијек стави онај папир на коме тренутно радиш; остали папири су "сакривени" у `.git/` и чекају да их позовеш.
 
-Шта је заправо `.git/` база? То није SQL база ни обичан текст — то је фолдер-base object store, тј. структура фолдера и компримованих фајлова коју Git одржава у скривеном фолдеру `.git/` унутар твог репоа. Кад урадиш `git init` или `git clone`, Git креира тај фолдер и у њему чува буквално све: сваки commit, сваку верзију сваког фајла, сваку грану. Структура изгледа отприлике овако:
+Шта је заправо `.git/` база? То није SQL база ни обичан текст — то је `folder-based object store`, тј. структура фолдера и компримованих фајлова коју Git одржава у скривеном фолдеру `.git/` унутар твог репоа. Кад урадиш `git init` или `git clone`, Git креира тај фолдер и у њему чува буквално све: сваки commit, сваку верзију сваког фајла, сваку грану. Структура изгледа отприлике овако:
 ```text
 .git/
 ├── objects/      ← ту су сви снимци (commit-ови, фајлови, стабла) — компримовани
@@ -115,9 +115,9 @@ LOKALNO  [feature] ----git merge----> [staging] ----git merge----> [main]
 	У стварном раду прво станеш на главни папир командом `git checkout main`, освјежиш га командом `git pull origin main`, па онда направиш свој радни папир командом `git checkout -b 2026-03-12-features`.
 - Рад у локалној feature грани (`git commit -m "Expand Git foundations workflow"`):
 	Послије тога мијењаш фајлове у VS Code-у, провјериш шта си тачно урадио са `git status --short` и `git diff --stat`, па локално снимаш своје стање командама `git add 02_GIT_VSCODE_ОСНОВЕ_2h.md` и `git commit -m "Expand Git foundations workflow"`.
-- pull и merge локалне feature гране у staging (`git pull origin staging` и `git merge 2026-03-12-features`) и main:
+- pull и merge локалне feature гране у `staging`, па `staging` у `main`:
 	Кад хоћеш да и други виде твој рад, пошаљеш свој локални радни папир на GitHub командом `git push -u origin 2026-03-12-features`, чиме твој локални `2026-03-12-features` добије и своју remote копију `origin/2026-03-12-features`.
-	Кад је промјена провјерена, пређеш на `staging` са `git checkout staging`, освјежиш га са `git pull origin staging`, унесеш садржај свог радног папира командом `git merge 2026-03-12-features`, па резултат пошаљеш назад на GitHub са `git push origin staging`; касније исту логику поновиш и за `main`, тако да Git практично служи да тачно знаш на ком папиру радиш, шта си мијењао и како се та промјена креће до главне верзије.
+	Кад је промјена провјерена, пређеш на `staging` са `git checkout staging`, освјежиш га са `git pull origin staging`, унесеш садржај свог радног папира командом `git merge 2026-03-12-features`, па резултат пошаљеш назад на GitHub са `git push origin staging`. Послије тога пређеш на `main`, освјежиш га, унесеш провјерени садржај из `staging` и пошаљеш резултат на GitHub, тако да Git практично служи да тачно знаш на ком папиру радиш, шта си мијењао и како се та промјена креће до главне верзије.
 
 Обзиром да је ово јако важан концепт, ајде да га поновимо таксативно:
 - `main` = главни папир,
@@ -310,18 +310,18 @@ git push origin staging
 - у причи са папиром: узео си папир за провјеру, провјерио да је свеж, па на њега пренио садржај са свог радног папира.
 
 ### Корак 7: промоција у `main`
-Кад је `staging` или feature промјена провјерена, идеш на `main`:
+Кад је промјена провјерена на `staging`, идеш на `main`:
 ```powershell
 git checkout main
 git pull origin main
-git merge 2026-03-12-features
+git merge staging
 git push origin main
 ```
 - `git checkout main`: пређе на локалну грану `main`.
 - `git pull origin main`: освјежи локални `main` remote стањем са `origin/main`.
-- `git merge 2026-03-12-features`: у `main` уноси садржај провјерене feature гране.
+- `git merge staging`: у `main` уноси садржај провјерене `staging` гране.
 - `git push origin main`: шаље ажурирани `main` на GitHub.
-У неким токовима се у `main` merge-ује `staging`, а у неким директно feature branch. Битна логика је иста:
+У workflow-у који овај документ објашњава, у `main` merge-ујеш `staging`, не директно feature грану. Битна логика је иста:
 - прво станеш на branch који прима промјену,
 - онда у њега merge-ујеш провјерени branch,
 - па push-ујеш remote,
@@ -390,7 +390,7 @@ git push origin <branch>
 У овом репоу важи дисциплина:
 - један commit = једна логичка цјелина,
 - не комитуј неповезане измјене,
-- прво прочитај `eng codex`,
+- прво прочитај `ENGINEERING_CODEX.md`,
 - не третирај `main` као playground,
 - `staging` је integration грана, а `main` production грана,
 - локални Git proof није исто што и Odoo runtime proof.
